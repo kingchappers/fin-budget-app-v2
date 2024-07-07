@@ -8,6 +8,12 @@ export default defineNuxtConfig({
             autoprefixer: {},
         }
     },
+    nitro: {
+        plugins: ["~/server/plugins/mongodb.ts"],
+    },
+    runtimeConfig: {
+        mongodbUri:'',
+    },
 
     modules: ["@nuxt/ui", "@nuxt/image"]
 })
