@@ -49,11 +49,11 @@ const links = [
     }, {
         label: 'Help',
         icon: 'i-heroicons-question-mark-circle',
-        to: '/help'
+        to: '/help',
     }]
 ]
 </script>
 
 <template>
-    <UHorizontalNavigation :links="links" class="border-b border-gray-200 dark:border-gray-800" />
+    <UHorizontalNavigation :links="links" class=" border-b border-gray-200 dark:border-gray-800" />
 </template>
