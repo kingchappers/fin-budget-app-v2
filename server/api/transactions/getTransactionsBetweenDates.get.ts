@@ -4,6 +4,10 @@ import { transactionFilterZodObject } from "~/types/transactionFilter";
 export default defineEventHandler(async (event) => {
     const params = await getValidatedQuery(event, data => transactionFilterZodObject.safeParse(data))
 
+    if (!params.success) {
+        throw params.error.issues
+    }
+
     const transactions = await Transaction.find({ transactionDate: { $gte: params.data?.startDate, $lte: params.data?.endDate } }).sort({ transactionDate: -1 }).lean().exec();
 
     const results = transactions.length;

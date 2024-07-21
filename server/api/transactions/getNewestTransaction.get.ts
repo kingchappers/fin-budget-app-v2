@@ -4,7 +4,11 @@ import { transactionFilterZodObject } from "~/types/transactionFilter";
 export default defineEventHandler(async (event) => {
     const params = await getValidatedQuery(event, data => transactionFilterZodObject.safeParse(data))
 
-    var transaction = await Transaction.findOne().sort({ transactionDate: 1 }).lean().exec();
+    if (!params.success) {
+        throw params.error.issues
+    }
+
+    const transaction = await Transaction.findOne().sort({ transactionDate: -1 }).lean().exec();
 
     var transactionFound = false;
 

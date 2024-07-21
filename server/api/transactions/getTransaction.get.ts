@@ -9,6 +9,10 @@ const id = z.object({
 export default defineEventHandler(async (event) => {
     const params = await getValidatedQuery(event, data => id.safeParse(data))
 
+    if (!params.success) {
+        throw params.error.issues
+    }
+
     if (params && params.data) {
         const parsedId = stringToObjectId(params.data.id);
 
