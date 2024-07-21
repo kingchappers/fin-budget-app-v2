@@ -1,7 +1,5 @@
 import { Transaction } from "~/server/models/transaction.model";
-import { startOfMonth, endOfMonth } from "date-fns"
 import { transactionFilterZodObject } from "~/types/transactionFilter";
-// import { defineEventHandler } from 'h3'
 
 export default defineEventHandler(async (event) => {
     const params = await getValidatedQuery(event, data => transactionFilterZodObject.safeParse(data))
