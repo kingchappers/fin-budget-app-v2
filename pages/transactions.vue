@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import type { transactionFilter } from '~/types/transactionFilter';
-
-
 const transactionFilter: transactionFilter = {
     limit: 5,
     page: 0,
@@ -24,9 +22,31 @@ const { data: transactions, status, error } = await useFetch('/api/transactions/
                 <p>Getting Transactions...</p>
             </div>
             <div v-else-if="status === 'success'">
-                <div v-if="transactions">
-                    <p>transactions: {{ transactions.transactions }}</p>
-                </div>
+                <table className="divide-y-2 table-fixed">
+                    <thead>
+                        <tr className="text-left">
+                            <th className="px-3 lg:px-5 w-5 lg:w-20">Date</th>
+                            <th className="px-3 lg:px-5 w-24 lg:w-44">Vendor</th>
+                            <th className="px-3 lg:px-5 w-20">Value</th>
+                            <th className="px-3 lg:px-5 lg:w-48">Category</th>
+                            <th className="px-3 lg:px-5 lg:w-48">Items</th>
+                            <th className="px-3 lg:px-5 lg:w-80">Notes</th>
+                            <!-- <th className="px-3 lg:px-5 lg:w-5"></th> -->
+                        </tr>
+                    </thead>
+                    <div v-if="transactions?.transactions">
+                        <!-- <td colSpan={7} className="text-center">transactions: {{ transactions.transactions }}</td> -->
+                        <tr>
+                            <TransactionsTable v-for="transaction in transactions.transactions" :key="transaction.id"
+                                :transaction="transaction" />
+                        </tr>
+                    </div>
+                    <div v-else>
+                        <tbody>
+                            <td colSpan={7} className="text-center">No Transactions Found</td>
+                        </tbody>
+                    </div>
+                </table>
             </div>
             <div v-else-if="status === 'error'">
                 <p>{{ error }}</p>

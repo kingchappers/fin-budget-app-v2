@@ -1,7 +1,7 @@
 import { endOfMonth, startOfMonth } from "date-fns";
 import { z } from "zod";
 
-export interface transactionFilter{
+export interface transactionFilter {
     page?: number;
     limit?: number;
     userId: string;
