@@ -1,10 +1,20 @@
 import { Transaction } from "~/server/models/transaction.model";
+import { startOfMonth, endOfMonth } from "date-fns"
+import { transactionFilterZodObject } from "~/types/transactionFilter";
 // import { defineEventHandler } from 'h3'
 
 export default defineEventHandler(async (event) => {
-    const transactions = await Transaction.find();
-    const { startDate, endDate } = await readBody(event)
-    return transactions;
+    const params = await getValidatedQuery(event, data => transactionFilterZodObject.safeParse(data))
+
+    const transactions = await Transaction.find({ transactionDate: { $gte: params.data?.startDate, $lte: params.data?.endDate } }).sort({ transactionDate: -1 }).lean().exec();
+
+    const results = transactions.length;
+
+    return {
+        transactions,
+        results
+    };
+
 });
 
 // ____________________________________________________________________
