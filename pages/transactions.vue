@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import type { transactionFilter } from '~/types/transactionFilter';
 
-const transactionFilter = {
+
+const transactionFilter: transactionFilter = {
     limit: 5,
-    page: 0
+    page: 0,
+    userId: ''
 }
 
 const { data: transactions } = await useFetch('/api/transactions/getTransactions', {
