@@ -1,20 +1,64 @@
-<script setup>
-import TransactionType from "~/types/transactionType"
+<script setup lang="ts">
+import type { transactionFilter } from '~/types/transactionFilter';
+const transactionFilter: transactionFilter = {
+    limit: 5,
+    page: 0,
+    userId: ''
+}
 
-const props = defineProps({
-    transaction: TransactionType
+const { data: transactions, status, error } = await useFetch('/api/transactions/getTransactions', {
+    method: 'get',
+    params: {
+        transactionFilter
+    },
 })
+
+const columns = [{
+    key: 'transactionDate',
+    label: 'Date',
+    sortable: true
+},
+{
+    key: 'vendor',
+    label: 'Vendor'
+}, {
+    key: 'value',
+    label: 'Value'
+}, {
+    key: 'category',
+    label: 'Category'
+}, {
+    key: 'items',
+    label: 'Items'
+}, {
+    key: 'notes',
+    label: 'Notes'
+}]
+
+const selected = ref([])
 </script>
 
 <template>
-        <td className="px-3 lg:px-5">{{transaction.transactionDate}}</td>
-        <td className="px-3 lg:px-5">{{transaction.vendor}}</td>
-        <td className="px-3 lg:px-5">£{{transaction.value.toFixed(2)}}</td>
-        <td className="px-3 lg:px-5">{{transaction.category}}</td>
-        <td className="px-3 lg:px-5">{{transaction.items}}</td>
-        <td className="px-3 lg:px-5">{{transaction.notes}}</td>
-        <!-- <td>
-            <TransactionItemMenu transaction={transaction} isEditingTransaction={isEditingTransaction}
-                setIsEditingTransaction={setIsEditingTransaction} />
-        </td> -->
+    <div v-if="status === 'pending'">
+        <p>Getting Transactions...</p>
+    </div>
+    <div v-else-if="status === 'success'">
+        <div v-if="transactions">
+            <UTable :empty-state="{ icon: 'i-heroicons-circle-stack-20-solid', label: 'No items.' }" v-model="selected"
+                :columns="columns" :rows="transactions.transactions">
+                <template #value-data="{ row }">
+                    <p>£{{ row.value }}</p>
+                </template>
+                <!-- Implement a menu here for editing? Would not work with current versions of nuxtui -->
+            </UTable>
+        </div>
+        <div v-else>
+            <tbody>
+                <td colSpan={7} class="text-center">No Transactions Found</td>
+            </tbody>
+        </div>
+    </div>
+    <div v-else-if="status === 'error'">
+        <p>{{ error }}</p>
+    </div>
 </template>
