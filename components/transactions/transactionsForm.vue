@@ -8,7 +8,7 @@ const schema = transactionZodObject
 const date = ref(new Date())
 type Schema = z.output<typeof schema>
 const state = reactive({
-    transactionDate: undefined,
+    transactionDate: ref(new Date()),
     vendor: undefined,
     value: undefined,
     category: undefined,
@@ -26,10 +26,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 <template>
 
     <UForm :schema="schema" :state="state" class="flex flex-row space-x-4" @submit="onSubmit">
-        <UFormGroup label="Date" name="date">
+        <UFormGroup label="Date" name="transactionDate">
 
             <UPopover :popper="{ placement: 'bottom-start' }">
-                <UButton icon="i-heroicons-calendar-days-20-solid" :label="format(date, 'd MMM, yyy')"
+                <UButton icon="i-heroicons-calendar-days-20-solid" :label="format(state.transactionDate, 'd MMM, yyy')"
                     class="bg-white text-black hover:bg-slate-300" />
                 <template #panel="{ close }">
                     <ButtonsDatePicker v-model="state.transactionDate" is-required @close="close" />
