@@ -30,38 +30,44 @@ const date = ref(new Date())
 </script>
 
 <template>
-    <UForm :schema="transactionZodObject" :state="state" class="space-y-4" @submit="onSubmit">
+    <UForm :schema="transactionZodObject" :state="state" class="flex flex-row space-x-4" @submit="onSubmit">
         <UFormGroup label="Date" name="date">
             <!-- <UInput v-model="state.transactionDate" /> -->
             <UPopover :popper="{ placement: 'bottom-start' }">
-                <UButton icon="i-heroicons-calendar-days-20-solid" :label="format(date, 'd MMM, yyy')" />
+                <UButton icon="i-heroicons-calendar-days-20-solid" :label="format(date, 'd MMM, yyy')"
+                    class="bg-white text-black hover:bg-slate-300" />
 
                 <!-- <template #panel="{ close }">
                     <DatePicker v-model="date" is-required @close="close" />
                 </template> -->
                 <template #panel="{ close }">
-                <ButtonsDatePicker v-model="date" is-required @close="close" />
-            </template>
+                    <ButtonsDatePicker v-model="date" is-required @close="close" />
+                </template>
             </UPopover>
         </UFormGroup>
 
-        <UFormGroup label="Password" name="password">
-            <UInput v-model="state.vendor" type="string" />
+        <UFormGroup label="Vendor" name="vendor">
+            <UInput v-model="state.vendor" type="text" />
         </UFormGroup>
 
-        <UButton type="submit">
+        <UFormGroup label="Value" name="value">
+            <UInput v-model="state.value" type="number" />
+        </UFormGroup>
+
+        <UFormGroup label="Category" name="category">
+            <UInput v-model="state.category" type="text" />
+        </UFormGroup>
+
+        <UFormGroup label="Items" name="items" >
+            <UInput v-model="state.items" type="text" />
+        </UFormGroup>
+
+        <UFormGroup label="Notes" name="notes">
+            <UInput v-model="state.notes" type="text" />
+        </UFormGroup>
+
+        <UButton type="submit" class="h-8 m-6">
             Submit
         </UButton>
     </UForm>
 </template>
-
-
-
-<!-- <input aria-label="Date" type="date" name="pickedDate" pattern="dd/mm/yyyy" defaultValue={defaultDate}
-    className="border rounded px-1 py-1 w-24 lg:w-32" /> {/*defaultValue={dateToStringInputFormat(new Date)} */}
-<input type="text" name="vendor" placeholder="Vendor" className="border rounded px-1 py-1 w-24 lg:w-40" />
-<input type="number" step="any" name="value" placeholder="Value" className="border rounded px-1 py-1 w-16 lg:w-20" />
-<CategoryComboBox categories={categories} />
-<input type="text" name="items" placeholder="Items" className="border rounded px-1 py-1 w-24 lg:w-44" />
-<input type="text" name="notes" placeholder="Notes" className="border rounded px-1 py-1 w-24 lg:w-80" />
-<FormAddButton /> -->

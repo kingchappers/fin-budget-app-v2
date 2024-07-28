@@ -5,7 +5,7 @@ export const transactionZodObject = z.object({
     vendor: z.string(),
     value: z.number(),
     category: z.string(),
-    items: z.string(),
-    notes: z.string(),
+    items: z.string().optional(),
+    notes: z.string().optional(),
     userId: z.string(),
 })
