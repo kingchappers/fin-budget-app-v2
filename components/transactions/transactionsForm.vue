@@ -3,14 +3,10 @@ import { z } from 'zod'
 import type { FormSubmitEvent } from '#ui/types'
 import { transactionZodObject } from '~/types/transactionZodObject';
 import { format } from 'date-fns';
-// import { DatePicker as VCalendarDatePicker } from 'v-calendar'
-// import 'v-calendar/dist/style.css'
-// import type { DatePickerDate, DatePickerRangeObject } from 'v-calendar/dist/types/src/use/datePicker.js';
 
-// const test = transactionZodObject
-
-type Schema = z.output<typeof transactionZodObject>
-
+const schema = transactionZodObject
+const date = ref(new Date())
+type Schema = z.output<typeof schema>
 const state = reactive({
     transactionDate: undefined,
     vendor: undefined,
@@ -22,32 +18,27 @@ const state = reactive({
 })
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-    //Need to do submit api call
+    // Do something with data
     console.log(event.data)
 }
-
-const date = ref(new Date())
 </script>
 
 <template>
-    <UForm :schema="transactionZodObject" :state="state" class="flex flex-row space-x-4" @submit="onSubmit">
+
+    <UForm :schema="schema" :state="state" class="flex flex-row space-x-4" @submit="onSubmit">
         <UFormGroup label="Date" name="date">
-            <!-- <UInput v-model="state.transactionDate" /> -->
+
             <UPopover :popper="{ placement: 'bottom-start' }">
                 <UButton icon="i-heroicons-calendar-days-20-solid" :label="format(date, 'd MMM, yyy')"
                     class="bg-white text-black hover:bg-slate-300" />
-
-                <!-- <template #panel="{ close }">
-                    <DatePicker v-model="date" is-required @close="close" />
-                </template> -->
                 <template #panel="{ close }">
-                    <ButtonsDatePicker v-model="date" is-required @close="close" />
+                    <ButtonsDatePicker v-model="state.transactionDate" is-required @close="close" />
                 </template>
             </UPopover>
         </UFormGroup>
 
         <UFormGroup label="Vendor" name="vendor">
-            <UInput v-model="state.vendor" type="text" />
+            <UInput v-model="state.vendor" />
         </UFormGroup>
 
         <UFormGroup label="Value" name="value">
@@ -55,15 +46,19 @@ const date = ref(new Date())
         </UFormGroup>
 
         <UFormGroup label="Category" name="category">
-            <UInput v-model="state.category" type="text" />
+            <UInput v-model="state.category" />
         </UFormGroup>
 
-        <UFormGroup label="Items" name="items" >
-            <UInput v-model="state.items" type="text" />
+        <UFormGroup label="Items" name="items">
+            <UInput v-model="state.items" />
         </UFormGroup>
 
         <UFormGroup label="Notes" name="notes">
-            <UInput v-model="state.notes" type="text" />
+            <UInput v-model="state.notes" />
+        </UFormGroup>
+
+        <UFormGroup label="User ID" name="userId">
+            <UInput v-model="state.userId" />
         </UFormGroup>
 
         <UButton type="submit" class="h-8 m-6">
