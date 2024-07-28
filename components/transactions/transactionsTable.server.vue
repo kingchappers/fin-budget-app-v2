@@ -45,7 +45,7 @@ const selected = ref([])
     <div v-else-if="status === 'success'">
         <div v-if="transactions">
             <UTable :empty-state="{ icon: 'i-heroicons-circle-stack-20-solid', label: 'No items.' }" v-model="selected"
-                :columns="columns" :rows="transactions.transactions">
+                :columns="columns" :rows="transactions.transactions" >
                 <template #value-data="{ row }">
                     <p>£{{ row.value }}</p>
                 </template>
