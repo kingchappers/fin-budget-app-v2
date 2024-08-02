@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { transactionFilter } from '~/types/transactionFilter';
+import { format } from 'date-fns';
+
 const transactionFilter: transactionFilter = {
     limit: 5,
     page: 0,
@@ -48,6 +50,9 @@ const selected = ref([])
                 :columns="columns" :rows="transactions.transactions" >
                 <template #value-data="{ row }">
                     <p>£{{ row.value }}</p>
+                </template>
+                <template #transactionDate-data="{ row }">
+                    <p>{{ format(row.transactionDate, 'dd/MM/yyy') }}</p>
                 </template>
                 <!-- Implement a menu here for editing? Would not work with current versions of nuxtui -->
             </UTable>
