@@ -19,7 +19,26 @@ const state = reactive({
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     // Do something with data
-    console.log(event.data)
+    const transactionDate = event.data.transactionDate;
+    const vendor = event.data.vendor;
+    const value = event.data.value;
+    const category = event.data.category;
+    const items = event.data.items;
+    const notes = event.data.notes;
+    const userId = event.data.userId;
+
+    const { error, data: transaction } = await useFetch('/api/transactions/createTransaction', {
+        method: 'POST',
+        body: {
+            transactionDate,
+            vendor,
+            value,
+            category,
+            items,
+            notes,
+            userId,
+        }
+    })
 }
 </script>
 
