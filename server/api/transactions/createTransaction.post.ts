@@ -2,8 +2,7 @@ import { Transaction } from "~/server/models/transaction.model";
 import { transactionZodObject } from "~/types/transactionZodObject";
 
 export default defineEventHandler(async (event) => {
-    const params = await getValidatedQuery(event, data => transactionZodObject.safeParse(data))
-
+    const params = await readValidatedBody(event, data => transactionZodObject.safeParse(data))
     if (!params.success) {
         throw params.error.issues
     }
@@ -19,5 +18,6 @@ export default defineEventHandler(async (event) => {
     const transaction = await Transaction.create({ transactionDate, vendor, value, category, items, notes, userId });
 
     return { transaction };
+    // return {params, event }
 
 });

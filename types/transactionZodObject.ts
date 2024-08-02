@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const transactionZodObject = z.object({
-    transactionDate: z.date(),
+    transactionDate: z.coerce.date(),
     vendor: z.string(),
     value: z.number(),
     category: z.string(),
