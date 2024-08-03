@@ -18,6 +18,6 @@ export default defineNuxtConfig({
       mongodbUri:'',
   },
 
-  modules: ["@nuxt/ui", "@nuxt/image"],
+  modules: ["@nuxt/ui", "@nuxt/image", "@pinia/nuxt"],
   compatibilityDate: "2024-07-27"
 })

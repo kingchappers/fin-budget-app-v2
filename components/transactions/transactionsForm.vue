@@ -16,6 +16,7 @@ const state = reactive({
     notes: undefined,
     userId: undefined
 })
+const refreshing = ref(false)
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     // Do something with data
@@ -39,12 +40,14 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             userId,
         }
     })
+
+    // reloadNuxtApp()
 }
 </script>
 
 <template>
 
-    <UForm :schema="schema" :state="state" class="flex flex-row space-x-4" @submit="onSubmit">
+    <UForm :schema="schema" :state="state" class="flex flex-row space-x-4" :disabled="refreshing" @submit="onSubmit">
         <UFormGroup label="Date" name="transactionDate">
 
             <UPopover :popper="{ placement: 'bottom-start' }">
