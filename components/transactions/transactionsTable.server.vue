@@ -28,32 +28,20 @@ const columns = [{
     key: 'notes',
     label: 'Notes'
 }]
-
 const selected = ref([])
-
 </script>
 
 <template>
-    <div v-if="transactionsArray.status === 'pending'">
-        <p>Getting Transactions...</p>
-    </div>
-    <div v-else-if="transactionsArray.status === 'success'">
-        <div v-if="transactionsArray.transactionsList">
-            <UTable :empty-state="{ icon: 'i-heroicons-circle-stack-20-solid', label: 'No items.' }" v-model="selected"
-                :columns="columns" :rows="transactionsList.transactions">
-                <template #value-data="{ row }">
-                    <p>£{{ row.value }}</p>
-                </template>
-                <template #transactionDate-data="{ row }">
-                    <p>{{ format(row.transactionDate, 'dd/MM/yyy') }}</p>
-                </template>
-                <!-- Implement a menu here for editing? Would not work with current versions of nuxtui -->
-            </UTable>
-        </div>
-    </div>
-    <div v-else>
-        <tbody>
-            <td colSpan={7} class="text-center">No Transactions Found</td>
-        </tbody>
+    <div v-if="transactionsList">
+        <UTable :empty-state="{ icon: 'i-heroicons-circle-stack-20-solid', label: 'No items.' }" v-model="selected"
+            :columns="columns" :rows="transactionsList.transactions">
+            <template #value-data="{ row }">
+                <p>£{{ row.value }}</p>
+            </template>
+            <template #transactionDate-data="{ row }">
+                <p>{{ format(row.transactionDate, 'dd/MM/yyy') }}</p>
+            </template>
+            <!-- Implement a menu here for editing? Would not work with current versions of nuxtui -->
+        </UTable>
     </div>
 </template>

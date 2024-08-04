@@ -1,4 +1,3 @@
-import { useFetch } from "nuxt/app";
 import { defineStore } from "pinia";
 import type { transactionFilter } from '~/types/transactionFilter';
 import type { transactionType } from "~/types/transactionType";
@@ -18,16 +17,15 @@ export const useTransactionStore = defineStore('transactionStore', {
     },
     actions: {
         async fetch() {
-            const { data: transactionsData, status, error } = await useFetch('/api/transactions/getTransactions', {
+            const transactionList = await $fetch('/api/transactions/getTransactions', {
                 method: 'get',
                 params: {
                     transactionFilter
                 },
             })
-            this.transactionsList = transactionsData,
-            this.status = status
-        }
-    }
+            this.transactionsList = transactionList
+        },
+    },
 })
 
 interface transactionsList {

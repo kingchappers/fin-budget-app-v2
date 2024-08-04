@@ -4,7 +4,6 @@ import type { FormSubmitEvent } from '#ui/types'
 import { transactionZodObject } from '~/types/transactionZodObject';
 import { format } from 'date-fns';
 import { useTransactionStore } from '~/server/stores/transactionStore';
-import type { RefSymbol } from '@vue/reactivity';
 
 const schema = transactionZodObject
 const date = ref(new Date())
@@ -19,13 +18,9 @@ const state = reactive({
     userId: undefined
 })
 const refreshing = ref(false)
-const transactionForm = ref(0);
-const form = ref()
+const transactionsArray = useTransactionStore();
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-    console.log(form.value)
-    form.value.clear()
-    console.log(form.value)
     const transactionDate = event.data.transactionDate;
     const vendor = event.data.vendor;
     const value = event.data.value;
@@ -34,7 +29,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     const notes = event.data.notes;
     const userId = event.data.userId;
 
-    const { error, data: transaction } = await useFetch('/api/transactions/createTransaction', {
+    const transaction = await $fetch('/api/transactions/createTransaction', {
         method: 'POST',
         body: {
             transactionDate,
@@ -47,11 +42,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         }
     })
 
-    // reloadNuxtApp()
-
-    const transactionsArray = useTransactionStore();
-    await callOnce(transactionsArray.fetch)
-
+    reloadNuxtApp()
     //Clear the form fields after submission
     event.data.transactionDate;
     event.data.vendor = ''
@@ -65,7 +56,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 </script>
 
 <template>
-    <UForm ref="form":schema="schema" :state="state" class="flex flex-row space-x-4" :disabled="refreshing" @submit="onSubmit">
+    <UForm :schema="schema" :state="state" class="flex flex-row space-x-4" :disabled="refreshing" @submit="onSubmit">
         <UFormGroup label="Date" name="transactionDate">
 
             <UPopover :popper="{ placementablet: 'bottom-start' }">
