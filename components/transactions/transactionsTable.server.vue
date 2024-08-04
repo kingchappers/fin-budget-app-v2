@@ -30,6 +30,7 @@ const columns = [{
 }]
 
 const selected = ref([])
+
 </script>
 
 <template>
@@ -48,7 +49,6 @@ const selected = ref([])
                 </template>
                 <!-- Implement a menu here for editing? Would not work with current versions of nuxtui -->
             </UTable>
-            <p>{{ transactionsArray.transactionsList.transactions }}</p>
         </div>
     </div>
     <div v-else>

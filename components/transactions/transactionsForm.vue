@@ -3,6 +3,8 @@ import { z } from 'zod'
 import type { FormSubmitEvent } from '#ui/types'
 import { transactionZodObject } from '~/types/transactionZodObject';
 import { format } from 'date-fns';
+import { useTransactionStore } from '~/server/stores/transactionStore';
+import type { RefSymbol } from '@vue/reactivity';
 
 const schema = transactionZodObject
 const date = ref(new Date())
@@ -17,9 +19,13 @@ const state = reactive({
     userId: undefined
 })
 const refreshing = ref(false)
+const transactionForm = ref(0);
+const form = ref()
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-    // Do something with data
+    console.log(form.value)
+    form.value.clear()
+    console.log(form.value)
     const transactionDate = event.data.transactionDate;
     const vendor = event.data.vendor;
     const value = event.data.value;
@@ -42,15 +48,27 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     })
 
     // reloadNuxtApp()
+
+    const transactionsArray = useTransactionStore();
+    await callOnce(transactionsArray.fetch)
+
+    //Clear the form fields after submission
+    event.data.transactionDate;
+    event.data.vendor = ''
+    event.data.value = 0
+    event.data.category = ''
+    event.data.items = ''
+    event.data.notes = ''
+    event.data.userId = ''
 }
+
 </script>
 
 <template>
-
-    <UForm :schema="schema" :state="state" class="flex flex-row space-x-4" :disabled="refreshing" @submit="onSubmit">
+    <UForm ref="form":schema="schema" :state="state" class="flex flex-row space-x-4" :disabled="refreshing" @submit="onSubmit">
         <UFormGroup label="Date" name="transactionDate">
 
-            <UPopover :popper="{ placement: 'bottom-start' }">
+            <UPopover :popper="{ placementablet: 'bottom-start' }">
                 <UButton icon="i-heroicons-calendar-days-20-solid" :label="format(state.transactionDate, 'd MMM, yyy')"
                     class="bg-white text-black hover:bg-slate-300" />
                 <template #panel="{ close }">
