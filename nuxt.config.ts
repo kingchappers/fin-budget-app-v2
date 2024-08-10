@@ -19,5 +19,10 @@ export default defineNuxtConfig({
   },
 
   modules: ["@nuxt/ui", "@nuxt/image", "@pinia/nuxt"],
+
+//   pinia: {
+//     storesDirs: ['./stores/**', '~/server/stores/**'],
+//   },
+
   compatibilityDate: "2024-07-27"
 })

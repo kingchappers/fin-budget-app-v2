@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { ref } from "vue";
 import type { transactionFilter } from '~/types/transactionFilter';
 import type { transactionType } from "~/types/transactionType";
 

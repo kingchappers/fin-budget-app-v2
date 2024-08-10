@@ -4,7 +4,6 @@ import { useTransactionStore } from '~/server/stores/transactionStore';
 import { storeToRefs } from 'pinia';
 
 const transactionsArray = useTransactionStore();
-await callOnce(transactionsArray.fetch)
 const { transactionsList } = storeToRefs(transactionsArray)
 
 const columns = [{

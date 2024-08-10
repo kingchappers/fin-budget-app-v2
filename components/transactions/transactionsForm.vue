@@ -19,6 +19,7 @@ const state = reactive({
 })
 const refreshing = ref(false)
 const transactionsArray = useTransactionStore();
+const { transactionsList } = storeToRefs(transactionsArray)
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     const transactionDate = event.data.transactionDate;
@@ -42,7 +43,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         }
     })
 
-    reloadNuxtApp()
+    //Grab updated store after submission
+    await callOnce(transactionsArray.fetch)
     //Clear the form fields after submission
     event.data.transactionDate;
     event.data.vendor = ''
