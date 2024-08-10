@@ -6,7 +6,6 @@ import { format } from 'date-fns';
 import { useTransactionStore } from '~/server/stores/transactionStore';
 
 const schema = transactionZodObject
-const date = ref(new Date())
 type Schema = z.output<typeof schema>
 const state = reactive({
     transactionDate: ref(new Date()),
@@ -53,7 +52,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     event.data.notes = ''
     event.data.userId = ''
 }
-
 </script>
 
 <template>

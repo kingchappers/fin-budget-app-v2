@@ -3,7 +3,6 @@ import { useTransactionStore } from '~/server/stores/transactionStore';
 
 const transactionsArray = useTransactionStore();
 await callOnce(transactionsArray.fetch)
-// const { transactionsList } = storeToRefs(transactionsArray)
 </script>
 
 <template>
