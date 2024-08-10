@@ -1,5 +1,5 @@
 import { Transaction } from "~/server/models/transaction.model";
-import { transactionZodObject } from "~/types/transactionZodObject";
+import { transactionZodObject } from "~/types/transactionZodObjects";
 
 export default defineEventHandler(async (event) => {
     const params = await readValidatedBody(event, data => transactionZodObject.safeParse(data))
@@ -18,6 +18,4 @@ export default defineEventHandler(async (event) => {
     const transaction = await Transaction.create({ transactionDate, vendor, value, category, items, notes, userId });
 
     return { transaction };
-    // return {params, event }
-
 });

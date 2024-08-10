@@ -9,3 +9,8 @@ export const transactionZodObject = z.object({
     notes: z.string().optional(),
     userId: z.string(),
 })
+
+export const deleteTransactionZodObject = z.object({
+    userId: z.string(),
+    _id: z.string()
+})

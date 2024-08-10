@@ -1,4 +1,5 @@
 export type transactionType = {
+    _id: String;
     transactionDate: Date;
     vendor: String;
     value: number;
@@ -7,3 +8,4 @@ export type transactionType = {
     notes?: String;
     userId: String;
 }
+

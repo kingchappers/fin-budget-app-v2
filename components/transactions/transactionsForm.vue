@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { z } from 'zod'
 import type { FormSubmitEvent } from '#ui/types'
-import { transactionZodObject } from '~/types/transactionZodObject';
+import { transactionZodObject } from '~/types/transactionZodObjects';
 import { format } from 'date-fns';
 import { useTransactionStore } from '~/server/stores/transactionStore';
 
@@ -19,7 +19,6 @@ const state = reactive({
 })
 const refreshing = ref(false)
 const transactionsArray = useTransactionStore();
-const { transactionsList } = storeToRefs(transactionsArray)
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     const transactionDate = event.data.transactionDate;

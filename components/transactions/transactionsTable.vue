@@ -2,6 +2,7 @@
 import { format } from 'date-fns';
 import { useTransactionStore } from '~/server/stores/transactionStore';
 import { storeToRefs } from 'pinia';
+import type { transactionType } from '~/types/transactionTypes';
 
 const transactionsArray = useTransactionStore();
 const { transactionsList } = storeToRefs(transactionsArray)
@@ -27,13 +28,38 @@ const columns = [{
     key: 'notes',
     label: 'Notes'
 }]
-const selected = ref([])
+const selectedValues = ref([])
+
+async function deleteTransactions(selectedValues: transactionType[]) {
+    console.log(selectedValues)
+
+    selectedValues.forEach(async (selected, index) => {
+        const userId = selected.userId;
+        const _id = selected._id;
+
+        const deletedTransaction = await $fetch('/api/transactions/deleteTransaction', {
+            method: 'POST',
+            body: {
+                userId,
+                _id
+            }
+        })
+
+    })
+
+    //Grab updated store after submission
+    await useAsyncData(transactionsArray.fetch)
+}
 </script>
 
 <template>
     <div v-if="transactionsList">
-        <UTable :empty-state="{ icon: 'i-heroicons-circle-stack-20-solid', label: 'No items.' }" v-model="selected"
-            :columns="columns" :rows="transactionsList.transactions">
+        <div class="flex flex-row space-x-4">
+            <UButton icon="i-heroicons-trash" class="bg-red-600 hover:bg-red-700"
+                @click="deleteTransactions(selectedValues)">Delete</UButton>
+        </div>
+        <UTable :empty-state="{ icon: 'i-heroicons-circle-stack-20-solid', label: 'No items.' }"
+            v-model="selectedValues" :columns="columns" :rows="transactionsList.transactions">
             <template #value-data="{ row }">
                 <p>£{{ row.value }}</p>
             </template>
