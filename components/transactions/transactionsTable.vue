@@ -80,8 +80,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     const notes = event.data.notes;
     const userId = event.data.userId;
 
-    const transaction = await $fetch('/api/transactions/createTransaction', {
-        method: 'POST',
+    const transaction = await $fetch('/api/transactions/updateTransaction', {
+        method: 'PATCH',
         body: {
             transactionDate,
             vendor,
