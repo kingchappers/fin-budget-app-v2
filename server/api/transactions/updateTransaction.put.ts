@@ -1,8 +1,8 @@
 import { Transaction } from "~/server/models/transaction.model";
-import { transactionZodObject } from "~/types/transactionZodObjects";
+import { updateTransactionZodObject } from "~/types/transactionZodObjects";
 
 export default defineEventHandler(async (event) => {
-    const params = await readValidatedBody(event, data => transactionZodObject.safeParse(data))
+    const params = await readValidatedBody(event, data => updateTransactionZodObject.safeParse(data))
     if (!params.success) {
         throw params.error.issues
     }
@@ -13,9 +13,9 @@ export default defineEventHandler(async (event) => {
     const category = params.data.category;
     const items = params.data.items;
     const notes = params.data.notes;
-    const userId = params.data.userId;
+    const _id = params.data._id;
 
-    const transaction = await Transaction.create({ transactionDate, vendor, value, category, items, notes, userId });
+    const transaction = await Transaction.findByIdAndUpdate(_id, {transactionDate, vendor, value, category, items, notes}).lean().exec();
 
     return { transaction };
 });

@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import { useTransactionStore } from '~/server/stores/transactionStore';
 import { storeToRefs } from 'pinia';
 import type { transactionType } from '~/types/transactionTypes';
-import { transactionZodObject } from '~/types/transactionZodObjects';
+import { updateTransactionZodObject } from '~/types/transactionZodObjects';
 import type { FormSubmitEvent } from '#ui/types'
 import type { z } from 'zod';
 
@@ -57,7 +57,7 @@ const items = (row: transactionType) => [
     }]
 ]
 const selectedValues = ref([])
-const schema = transactionZodObject
+const schema = updateTransactionZodObject
 type Schema = z.output<typeof schema>
 
 const state = reactive({
@@ -79,9 +79,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     const items = event.data.items;
     const notes = event.data.notes;
     const userId = event.data.userId;
+    const _id = event.data._id
 
     const transaction = await $fetch('/api/transactions/updateTransaction', {
-        method: 'PATCH',
+        method: 'PUT',
         body: {
             transactionDate,
             vendor,
@@ -90,6 +91,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             items,
             notes,
             userId,
+            _id,
         }
     })
 
@@ -141,49 +143,50 @@ async function deleteTransactions(selectedValues: transactionType[]) {
             </template>
         </UTable>
 
+        <!-- Row Editing Modal Form -->
         <div v-if="rowEditing">
             <UModal v-model="isEditingRow">
                 <UCard>
-                    <UForm :schema="schema" :state="state" class="grid grid-cols-2 gap-4" @submit="onSubmit">
-                        <UFormGroup label="Date" name="transactionDate">
+                    <UForm :schema="schema" :state="state" class="grid grid-cols-4 gap-4" @submit="onSubmit">
+                        <UFormGroup label="Date" name="transactionDate" class="col-span-2">
 
                             <UPopover :popper="{ placementablet: 'bottom-start' }">
                                 <UButton icon="i-heroicons-calendar-days-20-solid"
                                     :label="format(state.transactionDate, 'd MMM, yyy')"
                                     class="bg-white text-black hover:bg-slate-300" />
                                 <template #panel="{ close }">
-                                    <ButtonsDatePicker v-model="rowEditing.transactionDate" is-required
+                                    <ButtonsDatePicker v-model="state.transactionDate" is-required
                                         @close="close" />
                                 </template>
                             </UPopover>
                         </UFormGroup>
 
-                        <UFormGroup label="Vendor" name="vendor">
+                        <UFormGroup label="Vendor" name="vendor" class="col-span-2">
                             <UInput v-model="state.vendor" />
                         </UFormGroup>
 
-                        <UFormGroup label="Value" name="value">
-                            <UInput v-model="rowEditing.value" type="number" />
+                        <UFormGroup label="Value" name="value" class="col-span-2">
+                            <UInput v-model="state.value" type="number" />
                         </UFormGroup>
 
-                        <UFormGroup label="Category" name="category">
-                            <UInput v-model="rowEditing.category" />
+                        <UFormGroup label="Category" name="category" class="col-span-2">
+                            <UInput v-model="state.category" />
                         </UFormGroup>
 
-                        <UFormGroup label="Items" name="items">
-                            <UInput v-model="rowEditing.items" />
+                        <UFormGroup label="Items" name="items" class="col-span-2">
+                            <UInput v-model="state.items" />
                         </UFormGroup>
 
-                        <UFormGroup label="Notes" name="notes">
-                            <UInput v-model="rowEditing.notes" />
+                        <UFormGroup label="Notes" name="notes" class="col-span-2">
+                            <UInput v-model="state.notes" />
                         </UFormGroup>
 
-                        <UFormGroup label="User ID" name="userId">
-                            <UInput v-model="rowEditing.userId" />
+                        <UFormGroup label="User ID" name="userId" class="col-span-2">
+                            <UInput v-model="state.userId" />
                         </UFormGroup>
 
                         <UButton type="submit" class="col-start-1 h-8 w-16 m-6">
-                            Submit
+                            Update
                         </UButton>
                     </UForm>
                 </UCard>
@@ -191,7 +194,3 @@ async function deleteTransactions(selectedValues: transactionType[]) {
         </div>
     </div>
 </template>
-
-<!-- label: 'Edit',
-    icon: 'i-heroicons-pencil-square-20-solid',
-    click: () => console.log('Edit', row.id) -->

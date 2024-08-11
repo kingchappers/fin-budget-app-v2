@@ -12,5 +12,16 @@ export const transactionZodObject = z.object({
 
 export const deleteTransactionZodObject = z.object({
     userId: z.string(),
-    _id: z.string()
+    _id: z.string(),
+})
+
+export const updateTransactionZodObject = z.object({
+    transactionDate: z.coerce.date(),
+    vendor: z.string(),
+    value: z.number(),
+    category: z.string(),
+    items: z.string().optional(),
+    notes: z.string().optional(),
+    userId: z.string(),
+    _id: z.string(),
 })
