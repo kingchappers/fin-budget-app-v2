@@ -18,6 +18,7 @@ const state = reactive({
 })
 const refreshing = ref(false)
 const transactionsArray = useTransactionStore();
+const test = transactionsArray.transactionsList.transactions[1]._id
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     const transactionDate = event.data.transactionDate;
