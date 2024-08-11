@@ -1,11 +1,11 @@
 export type transactionType = {
-    _id: String;
+    _id: string;
     transactionDate: Date;
-    vendor: String;
+    vendor: string;
     value: number;
-    category: String;
-    items?: String;
-    notes?: String;
-    userId: String;
+    category: string;
+    items?: string;
+    notes?: string;
+    userId: string;
 }
 

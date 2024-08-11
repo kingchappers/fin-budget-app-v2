@@ -4,8 +4,8 @@ import { useTransactionStore } from '~/server/stores/transactionStore';
 import { storeToRefs } from 'pinia';
 import type { transactionType } from '~/types/transactionTypes';
 import { transactionZodObject } from '~/types/transactionZodObjects';
-import type { z } from 'zod';
 import type { FormSubmitEvent } from '#ui/types'
+import type { z } from 'zod';
 
 const transactionsArray = useTransactionStore();
 const { transactionsList } = storeToRefs(transactionsArray)
@@ -41,6 +41,14 @@ const items = (row: transactionType) => [
         click: () => {
             isEditingRow.value = true
             rowEditing.value = row
+            state.transactionDate = rowEditing.value.transactionDate
+            state.vendor = rowEditing.value.vendor
+            state.value = rowEditing.value.value
+            state.category = rowEditing.value.category
+            state.items = rowEditing.value.items
+            state.notes = rowEditing.value.notes
+            state.userId = rowEditing.value.userId
+            state._id = rowEditing.value._id
         }
     },], [{
         label: 'Delete',
@@ -51,15 +59,18 @@ const items = (row: transactionType) => [
 const selectedValues = ref([])
 const schema = transactionZodObject
 type Schema = z.output<typeof schema>
+
 const state = reactive({
     transactionDate: ref(new Date()),
-    vendor: undefined,
-    value: undefined,
-    category: undefined,
-    items: undefined,
-    notes: undefined,
-    userId: undefined
+    vendor: ref<string>(),
+    value: ref<number>(),
+    category: ref<string>(),
+    items: ref<string>(),
+    notes: ref<string>(),
+    userId: ref<string>(),
+    _id: ref<string>()
 })
+
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     const transactionDate = event.data.transactionDate;
     const vendor = event.data.vendor;
@@ -83,15 +94,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     })
 
     //Grab updated store after submission
-    await callOnce(transactionsArray.fetch)
+    await callOnce(transactionsArray.fetch);
     //Clear the form fields after submission
-    event.data.transactionDate;
-    event.data.vendor = ''
-    event.data.value = 0
-    event.data.category = ''
-    event.data.items = ''
-    event.data.notes = ''
-    event.data.userId = ''
+    isEditingRow.value = false;
 }
 
 async function deleteTransactions(selectedValues: transactionType[]) {
@@ -100,7 +105,7 @@ async function deleteTransactions(selectedValues: transactionType[]) {
         const _id = selected._id;
 
         const deletedTransaction = await $fetch('/api/transactions/deleteTransaction', {
-            method: 'POST',
+            method: 'DELETE',
             body: {
                 userId,
                 _id
@@ -136,51 +141,54 @@ async function deleteTransactions(selectedValues: transactionType[]) {
             </template>
         </UTable>
 
-        <UModal v-model="isEditingRow">
-            <UCard>
-                <UForm :schema="schema" :state="state" class="flex flex-row space-x-4" @submit="onSubmit">
-                    <UFormGroup label="Date" name="transactionDate">
+        <div v-if="rowEditing">
+            <UModal v-model="isEditingRow">
+                <UCard>
+                    <UForm :schema="schema" :state="state" class="grid grid-cols-2 gap-4" @submit="onSubmit">
+                        <UFormGroup label="Date" name="transactionDate">
 
-                        <UPopover :popper="{ placementablet: 'bottom-start' }">
-                            <UButton icon="i-heroicons-calendar-days-20-solid"
-                                :label="format(state.transactionDate, 'd MMM, yyy')"
-                                class="bg-white text-black hover:bg-slate-300" />
-                            <template #panel="{ close }">
-                                <ButtonsDatePicker v-model="rowEditing.transactionDate" is-required @close="close" />
-                            </template>
-                        </UPopover>
-                    </UFormGroup>
+                            <UPopover :popper="{ placementablet: 'bottom-start' }">
+                                <UButton icon="i-heroicons-calendar-days-20-solid"
+                                    :label="format(state.transactionDate, 'd MMM, yyy')"
+                                    class="bg-white text-black hover:bg-slate-300" />
+                                <template #panel="{ close }">
+                                    <ButtonsDatePicker v-model="rowEditing.transactionDate" is-required
+                                        @close="close" />
+                                </template>
+                            </UPopover>
+                        </UFormGroup>
 
-                    <UFormGroup label="Vendor" name="vendor">
-                        <UInput v-model="rowEditing.vendor" />
-                    </UFormGroup>
+                        <UFormGroup label="Vendor" name="vendor">
+                            <UInput v-model="state.vendor" />
+                        </UFormGroup>
 
-                    <UFormGroup label="Value" name="value">
-                        <UInput v-model="rowEditing.value" type="number" />
-                    </UFormGroup>
+                        <UFormGroup label="Value" name="value">
+                            <UInput v-model="rowEditing.value" type="number" />
+                        </UFormGroup>
 
-                    <UFormGroup label="Category" name="category">
-                        <UInput v-model="rowEditing.category" />
-                    </UFormGroup>
+                        <UFormGroup label="Category" name="category">
+                            <UInput v-model="rowEditing.category" />
+                        </UFormGroup>
 
-                    <UFormGroup label="Items" name="items">
-                        <UInput v-model="rowEditing.items" />
-                    </UFormGroup>
+                        <UFormGroup label="Items" name="items">
+                            <UInput v-model="rowEditing.items" />
+                        </UFormGroup>
 
-                    <UFormGroup label="Notes" name="notes">
-                        <UInput v-model="rowEditing.notes" />
-                    </UFormGroup>
+                        <UFormGroup label="Notes" name="notes">
+                            <UInput v-model="rowEditing.notes" />
+                        </UFormGroup>
 
-                    <UFormGroup label="User ID" name="userId">
-                        <UInput v-model="rowEditing.userId" />
-                    </UFormGroup>
+                        <UFormGroup label="User ID" name="userId">
+                            <UInput v-model="rowEditing.userId" />
+                        </UFormGroup>
 
-                    <UButton type="submit" class="h-8 m-6">
-                        Submit
-                    </UButton>
-                </UForm>
-            </UCard>
-        </UModal>
+                        <UButton type="submit" class="col-start-1 h-8 w-16 m-6">
+                            Submit
+                        </UButton>
+                    </UForm>
+                </UCard>
+            </UModal>
+        </div>
     </div>
 </template>
 
