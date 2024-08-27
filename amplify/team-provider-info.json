@@ -1,0 +1,25 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-finbudgetappv2-dev-195324-authRole",
+      "UnauthRoleArn": "arn:aws:iam::192350001975:role/amplify-finbudgetappv2-dev-195324-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::192350001975:role/amplify-finbudgetappv2-dev-195324-authRole",
+      "Region": "eu-west-2",
+      "DeploymentBucketName": "amplify-finbudgetappv2-dev-195324-deployment",
+      "UnauthRoleName": "amplify-finbudgetappv2-dev-195324-unauthRole",
+      "StackName": "amplify-finbudgetappv2-dev-195324",
+      "StackId": "arn:aws:cloudformation:eu-west-2:192350001975:stack/amplify-finbudgetappv2-dev-195324/a16c5e70-64a5-11ef-8319-0a5fb52e9565",
+      "AmplifyAppId": "d3gy8yrziielpw"
+    },
+    "categories": {
+      "auth": {
+        "finbudgetappv2a91271aa": {
+          "userPoolId": "eu-west-2_J6kM16ZTK",
+          "userPoolName": "testFinBudgetAppUsers",
+          "webClientId": "5mpdsasf707u9mfeg3uihfeip3",
+          "nativeClientId": "5mpdsasf707u9mfeg3uihfeip3"
+        }
+      }
+    }
+  }
+}

@@ -1,3 +1,6 @@
+import { PutItemCommand } from "@aws-sdk/client-dynamodb"
+import connectDynamoDb from "../../plugins/dynamoDbClient"
+
 import { Transaction } from "~/server/models/transaction.model";
 import { transactionZodObject } from "~/types/transactionZodObjects";
 
@@ -7,15 +10,46 @@ export default defineEventHandler(async (event) => {
         throw params.error.issues
     }
 
-    const transactionDate = params.data.transactionDate;
-    const vendor = params.data.vendor;
-    const value = params.data.value;
-    const category = params.data.category;
-    const items = params.data.items;
-    const notes = params.data.notes;
-    const userId = params.data.userId;
+    if (!params.data.items) {
+        params.data.items = ""
+    }
 
-    const transaction = await Transaction.create({ transactionDate, vendor, value, category, items, notes, userId });
+    if (!params.data.notes) {
+        params.data.notes = ""
+    }
 
-    return { transaction };
+    const transactionParams = {
+        TableName: "testFinBudgetTransactionsTable",
+        Item: {
+            transactionDate: { S: params.data.transactionDate.toDateString() },
+            vendor: { S: params.data.vendor },
+            value: { N: params.data.value.toString() },
+            category: { S: params.data.category },
+            items: { S: params.data.items },
+            notes: { S: params.data.notes },
+            userId: { S: params.data.userId },
+            transactionId: { S: "testID" }
+
+        }
+    }
+
+    // const transactionDate = params.data.transactionDate;
+    // const vendor = params.data.vendor;
+    // const value = params.data.value;
+    // const category = params.data.category;
+    // const items = params.data.items;
+    // const notes = params.data.notes;
+    // const userId = params.data.userId;
+
+    // const transaction = await Transaction.create({ transactionDate, vendor, value, category, items, notes, userId });
+
+    try {
+        const dynamoClient = await connectDynamoDb()
+        const data = await dynamoClient.send(new PutItemCommand(transactionParams));
+        console.log("success");
+        console.log(data);
+    } catch (err) {
+        console.error(err);
+    }
+
 });

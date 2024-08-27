@@ -10,10 +10,18 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@aws-amplify/auth": "^6.3.16",
+    "@aws-amplify/core": "^6.3.12",
+    "@aws-amplify/ui-vue": "^4.2.11",
+    "@aws-sdk/client-cognito-identity": "^3.637.0",
+    "@aws-sdk/client-dynamodb": "^3.637.0",
+    "@aws-sdk/client-iam": "^3.637.0",
+    "@aws-sdk/credential-provider-cognito-identity": "^3.637.0",
     "@nuxt/image": "^1.7.0",
     "@nuxt/ui": "^2.18.3",
     "@pinia/nuxt": "^0.5.2",
     "@typegoose/typegoose": "^12.6.0",
+    "aws-amplify": "^6.5.3",
     "aws-sdk": "^2.1682.0",
     "date-fns": "^3.6.0",
     "mongoose": "^8.5.2",
@@ -24,9 +32,17 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@aws-amplify/backend": "^1.1.1",
+    "@aws-amplify/backend-cli": "^1.2.5",
     "autoprefixer": "^10.4.20",
+    "aws-cdk": "^2.154.1",
+    "aws-cdk-lib": "^2.154.1",
+    "constructs": "^10.3.0",
+    "esbuild": "^0.23.1",
     "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.4"
+    "tailwindcss": "^3.4.4",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.4"
   },
   "overrides": {
     "vue": "latest"
