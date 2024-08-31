@@ -4,6 +4,9 @@ import type { FormSubmitEvent } from '#ui/types'
 import { transactionZodObject } from '~/types/transactionZodObjects';
 import { format } from 'date-fns';
 import { useTransactionStore } from '~/server/stores/transactionStore';
+import { fetchAuthSession } from 'aws-amplify/auth';
+import { useAuthenticator } from '@aws-amplify/ui-vue';
+
 
 const schema = transactionZodObject
 type Schema = z.output<typeof schema>
@@ -18,7 +21,8 @@ const state = reactive({
 })
 const refreshing = ref(false)
 const transactionsArray = useTransactionStore();
-const test = transactionsArray.transactionsList.transactions[1]._id
+const auth = useAuthenticator();
+const session = await fetchAuthSession();
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     const transactionDate = event.data.transactionDate;
@@ -27,10 +31,20 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     const category = event.data.category;
     const items = event.data.items;
     const notes = event.data.notes;
-    const userId = event.data.userId;
+    const userId = auth.user.userId;
+
+    let authorisation = ''
+    if (session.tokens && session.tokens.idToken) {
+        authorisation = session.tokens.idToken.toString()
+    } else {
+        console.log('Error: Session token not found. Redirecting to login')
+    }
 
     const transaction = await $fetch('/api/transactions/createTransaction', {
         method: 'POST',
+        headers: {
+            Authorisation: authorisation
+        },
         body: {
             transactionDate,
             vendor,
@@ -88,7 +102,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             <UInput v-model="state.notes" />
         </UFormGroup>
 
-        <UFormGroup label="User ID" name="userId">
+        <UFormGroup label="UserID" name="userId">
             <UInput v-model="state.userId" />
         </UFormGroup>
 

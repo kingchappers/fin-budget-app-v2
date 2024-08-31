@@ -11,11 +11,14 @@ Amplify.configure(awsconfig);
 <template>
     <authenticator>
         <template v-slot="{ user, signOut }">
-            <h1>Hello {{ user.username }}!</h1>
+            <h1>Hello {{ user.signInDetails.loginId }}!</h1>
+            <p>{{ user }}</p>
             <h1> {{ user.userId }}</h1>
             <button @click="signOut">Sign Out</button>
         </template>
     </authenticator>
+
+    <button @click="signOut">Sign Out</button>
 
     <NuxtLayout>
         <NuxtPage />
