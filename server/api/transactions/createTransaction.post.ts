@@ -1,8 +1,7 @@
 import { PutItemCommand } from "@aws-sdk/client-dynamodb"
 import connectDynamoDb from "../../plugins/dynamoDbClient"
-
-import { Transaction } from "~/server/models/transaction.model";
 import { transactionZodObject } from "~/types/transactionZodObjects";
+
 
 export default defineEventHandler(async (event) => {
     const params = await readValidatedBody(event, data => transactionZodObject.safeParse(data))
@@ -33,6 +32,11 @@ export default defineEventHandler(async (event) => {
         }
     }
 
+    console.log("event header: " + event.headers)
+
+    const authorisationHeader = event.headers.get("authorisation")
+    console.log("test value: " + authorisationHeader)
+
     // const transactionDate = params.data.transactionDate;
     // const vendor = params.data.vendor;
     // const value = params.data.value;
@@ -44,7 +48,7 @@ export default defineEventHandler(async (event) => {
     // const transaction = await Transaction.create({ transactionDate, vendor, value, category, items, notes, userId });
 
     try {
-        const dynamoClient = await connectDynamoDb()
+        const dynamoClient = await connectDynamoDb(authorisationHeader)
         const data = await dynamoClient.send(new PutItemCommand(transactionParams));
         console.log("success");
         console.log(data);
