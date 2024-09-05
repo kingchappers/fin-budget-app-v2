@@ -32,6 +32,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     const items = event.data.items;
     const notes = event.data.notes;
     const userId = auth.user.userId;
+    console.log(userId);
 
     let authorisation = ''
     if (session.tokens && session.tokens.idToken) {
@@ -65,7 +66,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     event.data.category = ''
     event.data.items = ''
     event.data.notes = ''
-    event.data.userId = ''
+    // event.data.userId = ''
 }
 </script>
 

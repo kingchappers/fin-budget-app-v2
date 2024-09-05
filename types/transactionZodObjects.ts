@@ -10,6 +10,15 @@ export const transactionZodObject = z.object({
     userId: z.string(),
 })
 
+export const transactionFormZodObject = z.object({
+    transactionDate: z.coerce.date(),
+    vendor: z.string(),
+    value: z.number(),
+    category: z.string(),
+    items: z.string().optional(),
+    notes: z.string().optional(),
+})
+
 export const deleteTransactionZodObject = z.object({
     userId: z.string(),
     _id: z.string(),

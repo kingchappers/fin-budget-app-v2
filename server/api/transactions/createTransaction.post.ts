@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
             items: { S: params.data.items },
             notes: { S: params.data.notes },
             userId: { S: params.data.userId },
-            transactionId: { S: "testID" }
+            transactionId: { S: "testID2" }
 
         }
     }
