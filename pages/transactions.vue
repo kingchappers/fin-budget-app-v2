@@ -9,21 +9,12 @@ const auth = useAuthenticator();
 import { fetchAuthSession } from 'aws-amplify/auth';
 
 const session = await fetchAuthSession();
-// console.log("id token", session.tokens?.idToken)
-// console.log("access token", session.tokens?.accessToken)
-// console.log("session", session)
-
-// console.log("access token", session)
 </script>
 
 <template>
     <main>
         <div>
-            <h1 class="text-4xl font-extrabold">Transactions Placeholder</h1>
-            <p>{{ auth.authStatus }}</p>
-            <p>{{ auth }}</p>
-            <p> ___________________________________________________________________</p>
-            <p> {{ session }}</p>
+            <h1 class="text-4xl font-extrabold">Transactions</h1>
             <TransactionsForm />
             <TransactionsTable />
         </div>
