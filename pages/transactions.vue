@@ -4,11 +4,6 @@ import { useTransactionStore } from '~/server/stores/transactionStore';
 const transactionsArray = useTransactionStore();
 await callOnce(transactionsArray.fetch)
 
-import { useAuthenticator } from '@aws-amplify/ui-vue';
-const auth = useAuthenticator();
-import { fetchAuthSession } from 'aws-amplify/auth';
-
-const session = await fetchAuthSession();
 </script>
 
 <template>
