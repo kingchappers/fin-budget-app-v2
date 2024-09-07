@@ -28,32 +28,14 @@ export default defineEventHandler(async (event) => {
             notes: { S: params.data.notes },
             userId: { S: params.data.userId },
             transactionId: { S: "testID2" }
-
         }
     }
-
-    console.log("event header: " + event.headers)
-
     const authorisationHeader = event.headers.get("authorisation")
-    console.log("test value: " + authorisationHeader)
-
-    // const transactionDate = params.data.transactionDate;
-    // const vendor = params.data.vendor;
-    // const value = params.data.value;
-    // const category = params.data.category;
-    // const items = params.data.items;
-    // const notes = params.data.notes;
-    // const userId = params.data.userId;
-
-    // const transaction = await Transaction.create({ transactionDate, vendor, value, category, items, notes, userId });
 
     try {
         const dynamoClient = await connectDynamoDb(authorisationHeader)
         const data = await dynamoClient.send(new PutItemCommand(transactionParams));
-        console.log("success");
-        console.log(data);
     } catch (err) {
         console.error(err);
     }
-
 });
