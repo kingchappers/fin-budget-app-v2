@@ -1,7 +1,7 @@
 import { PutItemCommand } from "@aws-sdk/client-dynamodb"
 import connectDynamoDb from "../../plugins/dynamoDbClient"
 import { transactionZodObject } from "~/types/transactionZodObjects";
-
+import crypto from "crypto"
 
 export default defineEventHandler(async (event) => {
     const params = await readValidatedBody(event, data => transactionZodObject.safeParse(data))
@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
             items: { S: params.data.items },
             notes: { S: params.data.notes },
             userId: { S: params.data.userId },
-            transactionId: { S: "testID2" }
+            transactionId: { S: crypto.randomUUID() }
         }
     }
     const authorisationHeader = event.headers.get("authorisation")
