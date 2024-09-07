@@ -5,6 +5,8 @@ import crypto from "crypto"
 
 export default defineEventHandler(async (event) => {
     const params = await readValidatedBody(event, data => transactionZodObject.safeParse(data))
+    const authorisationHeader = event.headers.get("authorisation")
+
     if (!params.success) {
         throw params.error.issues
     }
@@ -30,7 +32,6 @@ export default defineEventHandler(async (event) => {
             transactionId: { S: crypto.randomUUID() }
         }
     }
-    const authorisationHeader = event.headers.get("authorisation")
 
     try {
         const dynamoClient = await connectDynamoDb(authorisationHeader)
