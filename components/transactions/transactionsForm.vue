@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { z } from 'zod'
 import type { FormSubmitEvent } from '#ui/types'
-import { transactionZodObject } from '~/types/transactionZodObjects';
+import { transactionFormZodObject } from '~/types/transactionZodObjects';
 import { format } from 'date-fns';
 import { useTransactionStore } from '~/server/stores/transactionStore';
 import { fetchAuthSession } from 'aws-amplify/auth';
 import { useAuthenticator } from '@aws-amplify/ui-vue';
 
 
-const schema = transactionZodObject
+const schema = transactionFormZodObject
 type Schema = z.output<typeof schema>
 const state = reactive({
     transactionDate: ref(new Date()),
@@ -17,13 +17,11 @@ const state = reactive({
     category: undefined,
     items: undefined,
     notes: undefined,
-    userId: undefined
 })
 const refreshing = ref(false)
 const transactionsArray = useTransactionStore();
 const auth = useAuthenticator();
 const session = await fetchAuthSession();
-
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     const transactionDate = event.data.transactionDate;
     const vendor = event.data.vendor;
@@ -32,8 +30,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     const items = event.data.items;
     const notes = event.data.notes;
     const userId = auth.user.userId;
-    console.log(userId);
-
     let authorisation = ''
     if (session.tokens && session.tokens.idToken) {
         authorisation = session.tokens.idToken.toString()
@@ -66,7 +62,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     event.data.category = ''
     event.data.items = ''
     event.data.notes = ''
-    // event.data.userId = ''
 }
 </script>
 
@@ -101,10 +96,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
         <UFormGroup label="Notes" name="notes">
             <UInput v-model="state.notes" />
-        </UFormGroup>
-
-        <UFormGroup label="UserID" name="userId">
-            <UInput v-model="state.userId" />
         </UFormGroup>
 
         <UButton type="submit" class="h-8 m-6">
