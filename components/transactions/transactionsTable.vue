@@ -127,7 +127,7 @@ async function deleteTransactions(selectedValues: transactionType[]) {
                 @click="deleteTransactions(selectedValues)">Delete Selected</UButton>
         </div>
         <UTable :empty-state="{ icon: 'i-heroicons-circle-stack-20-solid', label: 'No items.' }"
-            v-model="selectedValues" :columns="columns" :rows="transactionsList.transactions">
+            v-model="selectedValues" :columns="columns" :rows="transactionsList">
             <template #value-data="{ row }">
                 <p>£{{ row.value }}</p>
             </template>

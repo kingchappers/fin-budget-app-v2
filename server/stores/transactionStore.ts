@@ -22,7 +22,7 @@ const transactionFilter: transactionFilter = {
 export const useTransactionStore = defineStore('transactionStore', {
     state: () => {
         return {
-            transactionsList: [] as object as transactionsList,
+            transactionsList: [],
             status: '',
             userId: userStore.userId,
         }

@@ -17,6 +17,7 @@
     "@aws-sdk/client-dynamodb": "^3.637.0",
     "@aws-sdk/client-iam": "^3.637.0",
     "@aws-sdk/credential-provider-cognito-identity": "^3.637.0",
+    "@aws-sdk/util-dynamodb": "^3.650.0",
     "@nuxt/image": "^1.7.0",
     "@nuxt/ui": "^2.18.3",
     "@pinia/nuxt": "^0.5.2",
