@@ -1,4 +1,3 @@
-import { Transaction } from "~/server/models/transaction.model";
 import { transactionFilterZodObject } from "~/types/transactionFilter";
 import { QueryCommand, QueryInput } from "@aws-sdk/client-dynamodb"
 import connectDynamoDb from "../../plugins/dynamoDbClient"
@@ -6,7 +5,7 @@ import { unmarshallDynamoItemArray } from "~/server/utils/unmarshallDynamoItems"
 
 export default defineEventHandler(async (event) => {
     const params = await getValidatedQuery(event, data => transactionFilterZodObject.safeParse(data))
-    const userId = event.headers.get("userId") || "Invalid ID"
+    const userId = event.headers.get("userId") || "Invalid User ID"
     const authorisationHeader = event.headers.get("authorisation")
 
     if (!params.success) {

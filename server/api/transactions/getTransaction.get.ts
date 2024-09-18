@@ -1,32 +1,46 @@
-import { z } from "zod";
-import { Transaction } from "~/server/models/transaction.model";
-import { stringToObjectId } from "~/server/utils/stringToObjectId";
-
-const id = z.object({
-    id: z.string()
-})
+import { transactionFilterZodObject } from "~/types/transactionFilter";
+import { GetItemCommand, GetItemInput } from "@aws-sdk/client-dynamodb"
+import connectDynamoDb from "../../plugins/dynamoDbClient"
+import { unmarshallDynamoItem } from "~/server/utils/unmarshallDynamoItems";
 
 export default defineEventHandler(async (event) => {
-    const params = await getValidatedQuery(event, data => id.safeParse(data))
+    const params = await getValidatedQuery(event, data => transactionFilterZodObject.safeParse(data))
+    const userId = event.headers.get("userId") || "Invalid User ID"
+    const transactionId = event.headers.get("transactionId") || "Invalid Transaction ID"
+    const authorisationHeader = event.headers.get("authorisation")
 
     if (!params.success) {
         throw params.error.issues
     }
 
-    if (params && params.data) {
-        const parsedId = stringToObjectId(params.data.id);
+    const limit = params.data.limit
+    const page = params.data.page;
+    const skip = (page - 1) * limit;
 
-        if (!parsedId) {
-            return { error: "Transaction not found" };
-        }
+    if (!userId) {
+        throw "Error, no user ID!"
+    }
 
-        const transaction = await Transaction.findById(parsedId).lean().exec();
-        if (transaction) {
-            return {
-                transaction,
-            };
-        } else {
-            return { error: "Transaction not found" };
+    const input: GetItemInput = {
+        "Key": {
+            "userId": {
+                "S": userId
+            },
+            "transactionId": {
+                "S": transactionId
+            }
+        },
+        "TableName": "testFinBudgetTransactionsTable"
+    };
+
+    try {
+        const dynamoClient = await connectDynamoDb(authorisationHeader)
+        const marshalledTransactions = await dynamoClient.send(new GetItemCommand(input));
+        if (marshalledTransactions.Item) {
+            const transaction = unmarshallDynamoItem(marshalledTransactions.Item)
+            return transaction
         }
+    } catch (err) {
+        console.error(err);
     }
 });
