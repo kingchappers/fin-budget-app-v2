@@ -1,4 +1,4 @@
-import { PutItemCommand } from "@aws-sdk/client-dynamodb"
+import { PutItemCommand, PutItemCommandInput } from "@aws-sdk/client-dynamodb"
 import connectDynamoDb from "../../plugins/dynamoDbClient"
 import { transactionZodObject } from "~/types/transactionZodObjects";
 import crypto from "crypto"
@@ -19,17 +19,33 @@ export default defineEventHandler(async (event) => {
         params.data.notes = ""
     }
 
-    const transactionParams = {
-        TableName: "testFinBudgetTransactionsTable",
-        Item: {
-            transactionDate: { S: params.data.transactionDate.toDateString() },
-            vendor: { S: params.data.vendor },
-            value: { N: params.data.value.toString() },
-            category: { S: params.data.category },
-            items: { S: params.data.items },
-            notes: { S: params.data.notes },
-            userId: { S: params.data.userId },
-            transactionId: { S: crypto.randomUUID() }
+    const transactionParams: PutItemCommandInput = {
+        "TableName": "testFinBudgetTransactionsTable",
+        "Item": {
+            "transactionDate": {
+                "S": params.data.transactionDate.toDateString()
+            },
+            "vendor": {
+                "S": params.data.vendor
+            },
+            "value": {
+                "N": params.data.value.toString()
+            },
+            "category": {
+                "S": params.data.category
+            },
+            "items": {
+                "S": params.data.items
+            },
+            "notes": {
+                "S": params.data.notes
+            },
+            "userId": {
+                "S": params.data.userId
+            },
+            "transactionId": {
+                "S": crypto.randomUUID()
+            }
         }
     }
 
