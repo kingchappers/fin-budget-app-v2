@@ -20,8 +20,7 @@ export const transactionFormZodObject = z.object({
 })
 
 export const deleteTransactionZodObject = z.object({
-    userId: z.string(),
-    _id: z.string(),
+    transactionId: z.string(),
 })
 
 export const updateTransactionZodObject = z.object({
@@ -32,5 +31,5 @@ export const updateTransactionZodObject = z.object({
     items: z.string().optional(),
     notes: z.string().optional(),
     userId: z.string(),
-    _id: z.string(),
+    transactionId: z.string(),
 })

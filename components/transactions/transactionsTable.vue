@@ -6,6 +6,8 @@ import type { transactionType } from '~/types/transactionTypes';
 import { updateTransactionZodObject } from '~/types/transactionZodObjects';
 import type { FormSubmitEvent } from '#ui/types'
 import type { z } from 'zod';
+import { fetchAuthSession } from '@aws-amplify/auth';
+import { useUserStore } from '~/server/stores/userStore';
 
 const transactionsArray = useTransactionStore();
 const { transactionsList } = storeToRefs(transactionsArray)
@@ -48,7 +50,7 @@ const items = (row: transactionType) => [
             state.items = rowEditing.value.items
             state.notes = rowEditing.value.notes
             state.userId = rowEditing.value.userId
-            state._id = rowEditing.value._id
+            state.transactionId = rowEditing.value.transactionId
         }
     },], [{
         label: 'Delete',
@@ -68,7 +70,7 @@ const state = reactive({
     items: ref<string>(),
     notes: ref<string>(),
     userId: ref<string>(),
-    _id: ref<string>()
+    transactionId: ref<string>()
 })
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
@@ -79,7 +81,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     const items = event.data.items;
     const notes = event.data.notes;
     const userId = event.data.userId;
-    const _id = event.data._id
+    const transactionId = event.data.transactionId
 
     const transaction = await $fetch('/api/transactions/updateTransaction', {
         method: 'PUT',
@@ -91,7 +93,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             items,
             notes,
             userId,
-            _id,
+            transactionId,
         }
     })
 
@@ -102,15 +104,25 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 }
 
 async function deleteTransactions(selectedValues: transactionType[]) {
+    const userStore = useUserStore();
+    const session = await fetchAuthSession();
+    let authorisation = ''
+    if (session.tokens && session.tokens.idToken) {
+        authorisation = session.tokens.idToken.toString()
+    } else {
+        console.log('Error: Session token not found. Redirecting to login')
+    }
     selectedValues.forEach(async (selected, index) => {
-        const userId = selected.userId;
-        const _id = selected._id;
+        const transactionId = selected.transactionId;
 
         const deletedTransaction = await $fetch('/api/transactions/deleteTransaction', {
             method: 'DELETE',
+            headers: {
+                Authorisation: authorisation,
+                UserId: userStore.userId
+            },
             body: {
-                userId,
-                _id
+                transactionId
             }
         })
 
@@ -155,8 +167,7 @@ async function deleteTransactions(selectedValues: transactionType[]) {
                                     :label="format(state.transactionDate, 'd MMM, yyy')"
                                     class="bg-white text-black hover:bg-slate-300" />
                                 <template #panel="{ close }">
-                                    <ButtonsDatePicker v-model="state.transactionDate" is-required
-                                        @close="close" />
+                                    <ButtonsDatePicker v-model="state.transactionDate" is-required @close="close" />
                                 </template>
                             </UPopover>
                         </UFormGroup>

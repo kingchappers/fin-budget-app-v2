@@ -1,28 +1,29 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
-  css: ['~/assets/css/main.css'],
+    //   devtools: { enabled: true },
+    css: ['~/assets/css/main.css'],
 
-  postcss: {
-      plugins: {
-          tailwindcss: {},
-          autoprefixer: {},
-      }
-  },
+    postcss: {
+        plugins: {
+            tailwindcss: {},
+            autoprefixer: {},
+        }
+    },
 
-  nitro: {
-      plugins: ["~/server/plugins/mongodb.ts"],
-  },
+    nitro: {
+        plugins: ["~/server/plugins/mongodb.ts"],
+    },
 
-  runtimeConfig: {
-      mongodbUri:'',
-  },
+    runtimeConfig: {
+        mongodbUri: '',
+    },
 
-  modules: ["@nuxt/ui", "@nuxt/image", "@pinia/nuxt"],
+    modules: [
+        "@nuxt/ui",
+        "@nuxt/image",
+        "@pinia/nuxt",
+        "@nuxt/devtools"
+    ],
 
-//   pinia: {
-//     storesDirs: ['./stores/**', '~/server/stores/**'],
-//   },
-
-  compatibilityDate: "2024-07-27"
+    compatibilityDate: "2024-07-27"
 })

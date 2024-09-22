@@ -1,16 +1,44 @@
-import { Transaction } from "~/server/models/transaction.model";
+import { DeleteItemCommand, DeleteItemInput } from "@aws-sdk/client-dynamodb"
+import connectDynamoDb from "../../plugins/dynamoDbClient"
 import { deleteTransactionZodObject } from "~/types/transactionZodObjects";
 
 export default defineEventHandler(async (event) => {
     const params = await readValidatedBody(event, data => deleteTransactionZodObject.safeParse(data))
+
     if (!params.success) {
         throw params.error.issues
     }
 
-    const userId = params.data.userId;
-    const _id = params.data._id;
+    if (!params.data.transactionId) {
+        params.data.transactionId = "Invalid Transaction ID"
+        console.log("Invalid Transaction ID")
+    }
 
-    const transaction = await Transaction.findByIdAndDelete({ userId: userId, _id: _id}).exec();
+    const userId = event.headers.get("userId") || "Invalid User ID"
+    const authorisationHeader = event.headers.get("authorisation")
+    const transactionId = params.data.transactionId
 
-    return { transaction };
+    if (!userId) {
+        throw "Error, no user ID!"
+    }
+
+    const input: DeleteItemInput = {
+        "Key": {
+            "userId": {
+                "S": userId
+            },
+            "transactionId": {
+                "S": transactionId
+            }
+        },
+        "TableName": "testFinBudgetTransactionsTable"
+    };
+
+    try {
+        const dynamoClient = await connectDynamoDb(authorisationHeader);
+        const deletedTransaction = dynamoClient.send(new DeleteItemCommand(input));
+        return deletedTransaction
+    } catch (err) {
+        console.error(err);
+    }
 });
