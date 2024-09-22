@@ -74,17 +74,28 @@ const state = reactive({
 })
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
+    const userStore = useUserStore();
+    const session = await fetchAuthSession();
+    let authorisation = ''
+    if (session.tokens && session.tokens.idToken) {
+        authorisation = session.tokens.idToken.toString()
+    } else {
+        console.log('Error: Session token not found. Redirecting to login')
+    }
     const transactionDate = event.data.transactionDate;
     const vendor = event.data.vendor;
     const value = event.data.value;
     const category = event.data.category;
     const items = event.data.items;
     const notes = event.data.notes;
-    const userId = event.data.userId;
     const transactionId = event.data.transactionId
 
     const transaction = await $fetch('/api/transactions/updateTransaction', {
         method: 'PUT',
+        headers: {
+            Authorisation: authorisation,
+            UserId: userStore.userId
+        },
         body: {
             transactionDate,
             vendor,
@@ -92,7 +103,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             category,
             items,
             notes,
-            userId,
             transactionId,
         }
     })

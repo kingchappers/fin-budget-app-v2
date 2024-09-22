@@ -30,6 +30,5 @@ export const updateTransactionZodObject = z.object({
     category: z.string(),
     items: z.string().optional(),
     notes: z.string().optional(),
-    userId: z.string(),
     transactionId: z.string(),
 })
