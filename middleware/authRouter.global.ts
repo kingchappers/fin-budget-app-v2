@@ -2,7 +2,8 @@ import { getCurrentUser } from '@aws-amplify/auth';
 import { useAuthenticator } from '@aws-amplify/ui-vue';
 import { useUserStore } from '~/server/stores/userStore';
 import { Amplify } from 'aws-amplify';
-import awsconfig from '../src/aws-exports';
+import awsconfig from '~/src/aws-exports';
+
 Amplify.configure(awsconfig);
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
