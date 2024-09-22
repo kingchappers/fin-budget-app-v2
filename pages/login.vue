@@ -2,9 +2,11 @@
 import { Authenticator, useAuthenticator } from "@aws-amplify/ui-vue";
 import "@aws-amplify/ui-vue/styles.css";
 import { Amplify } from 'aws-amplify';
-import awsconfig from '~/src/aws-exports.js';
+// import awsconfig from '~/src/aws-exports.js';
+import config from '~/src/amplifyconfiguration.json';
 
-Amplify.configure(awsconfig);
+
+Amplify.configure(config);
 const auth = useAuthenticator()
 </script>
 
