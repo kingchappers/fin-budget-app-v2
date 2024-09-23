@@ -4,9 +4,36 @@ import "@aws-amplify/ui-vue/styles.css";
 import { Amplify } from 'aws-amplify';
 import awsconfig from '~/src/aws-exports.js';
 
-// Review the below for info on how to configure the aws-exports file
+// Review the below for info on how to configure the aws-exports file - "Configure the user pool" section
 //https://docs.aws.amazon.com/prescriptive-guidance/latest/patterns/authenticate-react-app-users-cognito-amplify-ui.html
-Amplify.configure(awsconfig);
+
+//The cognito part is add in the exports which isn't being produced, how to I produce this with the settings that I need/want?
+Amplify.configure({
+    Auth: {
+    Cognito: {
+      userPoolId: "eu-west-2_J6kM16ZTK",
+      userPoolClientId: "5mpdsasf707u9mfeg3uihfeip3",
+      identityPoolId: "eu-west-2:7f32016b-3dc6-4c2e-86ae-9697a90e2fb7",
+      loginWith: {
+        email: true,
+      },
+      signUpVerificationMethod: "code",
+      userAttributes: {
+        email: {
+          required: true,
+        },
+      },
+      allowGuestAccess: true,
+      passwordFormat: {
+        minLength: 8,
+        requireLowercase: true,
+        requireUppercase: true,
+        requireNumbers: true,
+        requireSpecialCharacters: true,
+      },
+    },
+  },
+});
 const auth = useAuthenticator()
 </script>
 
