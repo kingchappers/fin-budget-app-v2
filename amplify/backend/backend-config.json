@@ -1,43 +1,34 @@
 {
-  "auth": {
-    "finbudgetappv2a91271aa": {
-      "customAuth": false,
-      "dependsOn": [],
-      "providerPlugin": "awscloudformation",
-      "service": "Cognito",
-      "serviceType": "imported"
-    }
-  },
   "parameters": {
-    "AMPLIFY_auth_finbudgetappv2a91271aa_nativeClientId": {
+    "AMPLIFY_auth_finbudgetappv2d4d0aa1c_nativeClientId": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "finbudgetappv2a91271aa"
+          "resourceName": "finbudgetappv2d4d0aa1c"
         }
       ]
     },
-    "AMPLIFY_auth_finbudgetappv2a91271aa_userPoolId": {
+    "AMPLIFY_auth_finbudgetappv2d4d0aa1c_userPoolId": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "finbudgetappv2a91271aa"
+          "resourceName": "finbudgetappv2d4d0aa1c"
         }
       ]
     },
-    "AMPLIFY_auth_finbudgetappv2a91271aa_userPoolName": {
+    "AMPLIFY_auth_finbudgetappv2d4d0aa1c_userPoolName": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "finbudgetappv2a91271aa"
+          "resourceName": "finbudgetappv2d4d0aa1c"
         }
       ]
     },
-    "AMPLIFY_auth_finbudgetappv2a91271aa_webClientId": {
+    "AMPLIFY_auth_finbudgetappv2d4d0aa1c_webClientId": {
       "usedBy": [
         {
           "category": "auth",
-          "resourceName": "finbudgetappv2a91271aa"
+          "resourceName": "finbudgetappv2d4d0aa1c"
         }
       ]
     }

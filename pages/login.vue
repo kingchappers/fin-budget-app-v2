@@ -4,6 +4,8 @@ import "@aws-amplify/ui-vue/styles.css";
 import { Amplify } from 'aws-amplify';
 import awsconfig from '~/src/aws-exports.js';
 
+// Review the below for info on how to configure the aws-exports file
+//https://docs.aws.amazon.com/prescriptive-guidance/latest/patterns/authenticate-react-app-users-cognito-amplify-ui.html
 Amplify.configure(awsconfig);
 const auth = useAuthenticator()
 </script>
