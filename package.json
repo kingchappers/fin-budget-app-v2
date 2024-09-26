@@ -10,7 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@aws-amplify/auth": "^6.3.16",
+    "@aws-amplify/auth": "^6.4.0",
     "@aws-amplify/core": "^6.3.12",
     "@aws-amplify/ui-vue": "^4.2.11",
     "@aws-sdk/client-cognito-identity": "^3.637.0",
