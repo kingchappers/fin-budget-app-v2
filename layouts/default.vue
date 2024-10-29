@@ -1,8 +1,6 @@
 <template>
     <div class="bg-sky-300">
         <html lang="en" class="text-xs lg:text-lg container justify-center mx-auto p-4 h-screen bg-sky-100">
-        <div>
-
             <head>
                 <link rel="icon" href="/favicon.ico" sizes="any" />
             </head>
@@ -21,7 +19,6 @@
                     <slot />
                 </main>
             </body>
-        </div>
 
         </html>
     </div>
