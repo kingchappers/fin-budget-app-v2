@@ -114,35 +114,29 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 }
 
 async function deleteTransactions(selectedValues: transactionType[]) {
-    const userStore = useUserStore();
-    try {
-        const session = await fetchAuthSession();
-        let authorisation = ''
-        if (session.tokens && session.tokens.idToken) {
-            authorisation = session.tokens.idToken.toString()
-        } else {
-            console.log('Error: Session token not found. Redirecting to login')
-        }
+    const userStore = useUserStore();z
+    const session = await fetchAuthSession();
+    let authorisation = ''
+    if (session.tokens && session.tokens.idToken) {
+        authorisation = session.tokens.idToken.toString()
+    } else {
+        console.log('Error: Session token not found. Redirecting to login')
+    }
+    selectedValues.forEach(async (selected, index) => {
+        const transactionId = selected.transactionId;
 
-        selectedValues.forEach(async (selected, index) => {
-            const transactionId = selected.transactionId;
-
-            const deletedTransaction = await $fetch('/api/transactions/deleteTransaction', {
-                method: 'DELETE',
-                headers: {
-                    Authorisation: authorisation,
-                    UserId: userStore.userId
-                },
-                body: {
-                    transactionId
-                }
-            })
-
+        const deletedTransaction = await $fetch('/api/transactions/deleteTransaction', {
+            method: 'DELETE',
+            headers: {
+                Authorisation: authorisation,
+                UserId: userStore.userId
+            },
+            body: {
+                transactionId
+            }
         })
 
-    } catch (e) {
-        console.log(e)
-    }
+    })
     //Grab updated store after submission
     await useAsyncData(transactionsArray.fetch)
 }
