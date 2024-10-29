@@ -15,11 +15,14 @@ export default defineNuxtConfig({
 
     vite: {
         build: {
-            target: 'esnext'
+            target: "es2022"
         },
         esbuild: {
-            supported: {
-                'top-level-await': true
+            target: "es2022"
+        },
+        optimizeDeps: {
+            esbuildOptions: {
+                target: "es2022",
             }
         }
     },

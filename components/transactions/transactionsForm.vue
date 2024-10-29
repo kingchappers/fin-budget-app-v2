@@ -20,7 +20,7 @@ const state = reactive({
 })
 const refreshing = ref(false)
 const transactionsArray = useTransactionStore();
-const auth = useAuthenticator();z
+const auth = useAuthenticator();
 const session = await fetchAuthSession();
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
