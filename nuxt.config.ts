@@ -15,7 +15,7 @@ export default defineNuxtConfig({
 
     vite: {
         build: {
-            target: 'esnext'
+            target: 'ES2022'
         }
     },
 
