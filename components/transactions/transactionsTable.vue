@@ -114,7 +114,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 }
 
 async function deleteTransactions(selectedValues: transactionType[]) {
-    const userStore = useUserStore();z
+    const userStore = useUserStore();
     const session = await fetchAuthSession();
     let authorisation = ''
     if (session.tokens && session.tokens.idToken) {
