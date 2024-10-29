@@ -5,7 +5,7 @@ const transactionsArray = useTransactionStore();
 try {
     await callOnce(transactionsArray.fetch)
 } catch (e) {
-
+    console.log(e)
 }
 </script>
 
