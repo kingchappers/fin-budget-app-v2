@@ -1,14 +1,7 @@
-import type { UserConfig } from 'vite'
-
 export default defineAppConfig({
-    // vite.config.js
-    optimizeDeps: {
-        esbuildOptions: {
-            target: 'esnext'
-        }
+    esbuild: {
+      supported: {
+        'top-level-await': true
+      },
     },
-    build: {
-        target: 'esnext'
-    }
-} satisfies UserConfig
-)
+  });
