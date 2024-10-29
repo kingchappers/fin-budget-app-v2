@@ -21,48 +21,53 @@ const state = reactive({
 const refreshing = ref(false)
 const transactionsArray = useTransactionStore();
 const auth = useAuthenticator();
-const session = await fetchAuthSession();
+try {
+    const session = await fetchAuthSession();
 
-async function onSubmit(event: FormSubmitEvent<Schema>) {
-    const transactionDate = event.data.transactionDate;
-    const vendor = event.data.vendor;
-    const value = event.data.value;
-    const category = event.data.category;
-    const items = event.data.items;
-    const notes = event.data.notes;
-    const userId = auth.user.userId;
-    let authorisation = ''
-    if (session.tokens && session.tokens.idToken) {
-        authorisation = session.tokens.idToken.toString()
-    } else {
-        console.log('Error: Session token not found. Redirecting to login')
-    }
-
-    const transaction = await $fetch('/api/transactions/createTransaction', {
-        method: 'POST',
-        headers: {
-            Authorisation: authorisation
-        },
-        body: {
-            transactionDate,
-            vendor,
-            value,
-            category,
-            items,
-            notes,
-            userId,
+    async function onSubmit(event: FormSubmitEvent<Schema>) {
+        const transactionDate = event.data.transactionDate;
+        const vendor = event.data.vendor;
+        const value = event.data.value;
+        const category = event.data.category;
+        const items = event.data.items;
+        const notes = event.data.notes;
+        const userId = auth.user.userId;
+        let authorisation = ''
+        if (session.tokens && session.tokens.idToken) {
+            authorisation = session.tokens.idToken.toString()
+        } else {
+            console.log('Error: Session token not found. Redirecting to login')
         }
-    })
 
-    //Grab updated store after submission
-    await callOnce(transactionsArray.fetch)
-    //Clear the form fields after submission
-    event.data.transactionDate;
-    event.data.vendor = ''
-    event.data.value = 0
-    event.data.category = ''
-    event.data.items = ''
-    event.data.notes = ''
+        const transaction = await $fetch('/api/transactions/createTransaction', {
+            method: 'POST',
+            headers: {
+                Authorisation: authorisation
+            },
+            body: {
+                transactionDate,
+                vendor,
+                value,
+                category,
+                items,
+                notes,
+                userId,
+            }
+        })
+
+        //Grab updated store after submission
+
+        await callOnce(transactionsArray.fetch)
+        //Clear the form fields after submission
+        event.data.transactionDate;
+        event.data.vendor = ''
+        event.data.value = 0
+        event.data.category = ''
+        event.data.items = ''
+        event.data.notes = ''
+    }
+} catch (e) {
+    console.log(e)
 }
 </script>
 
