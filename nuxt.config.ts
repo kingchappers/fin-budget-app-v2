@@ -1,5 +1,4 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import topLevelAwait from "vite-plugin-top-level-await";
 
 export default defineNuxtConfig({
     //   devtools: { enabled: true },
