@@ -1,5 +1,11 @@
 export default defineAppConfig({
-    esbuildOptions: {
+    // vite.config.js
+    optimizeDeps: {
+        esbuildOptions: {
+            target: 'esnext'
+        }
+    },
+    build: {
         target: 'esnext'
     }
 })
