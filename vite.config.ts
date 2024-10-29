@@ -1,3 +1,5 @@
+import type { UserConfig } from 'vite'
+
 export default defineAppConfig({
     // vite.config.js
     optimizeDeps: {
@@ -8,4 +10,5 @@ export default defineAppConfig({
     build: {
         target: 'esnext'
     }
-})
+} satisfies UserConfig
+)
