@@ -2,11 +2,11 @@
 import { useTransactionStore } from '~/server/stores/transactionStore';
 
 const transactionsArray = useTransactionStore();
-// try {
-//     await callOnce(transactionsArray.fetch)
-// } catch (e) {
-//     console.log(e)
-// }
+try {
+    await callOnce(transactionsArray.fetch)
+} catch (e) {
+    console.log(e)
+}
 </script>
 
 <template>

@@ -39,7 +39,7 @@ export const useTransactionStore = defineStore('transactionStore', {
                     transactionFilter
                 },
             })
-            this.transactionsList = transactionList
+            //this.transactionsList = transactionList
         },
     },
 })
