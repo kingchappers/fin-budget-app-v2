@@ -4,7 +4,7 @@ import type { transactionFilter } from '~/types/transactionFilter';
 import type { transactionType } from "~/types/transactionTypes";
 import { useUserStore } from "./userStore";
 
-// const session = await fetchAuthSession();
+const session = await fetchAuthSession();
 const userStore = useUserStore();
 let authorisation = ''
 if (session.tokens && session.tokens.idToken) {
