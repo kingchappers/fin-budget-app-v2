@@ -6,9 +6,6 @@ import { useUserStore } from "./userStore";
 
 const session = await fetchAuthSession();
 const userStore = useUserStore();
-if (!userStore.userId){
-    console.log('Error: No user session found!')
-}
 let authorisation = ''
 if (session.tokens && session.tokens.idToken) {
     authorisation = session.tokens.idToken.toString()
