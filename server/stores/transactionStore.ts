@@ -4,14 +4,6 @@ import type { transactionFilter } from '~/types/transactionFilter';
 import type { transactionType } from "~/types/transactionTypes";
 import { useUserStore } from "./userStore";
 
-const session = await fetchAuthSession();
-let authorisation = ''
-if (session.tokens && session.tokens.idToken) {
-    authorisation = session.tokens.idToken.toString()
-} else {
-    console.log('Error: Session token not found. Redirecting to login')
-}
-
 const transactionFilter: transactionFilter = {
     limit: 5,
     page: 0,
@@ -28,6 +20,14 @@ export const useTransactionStore = defineStore('transactionStore', {
     },
     actions: {
         async fetch() {
+            const session = await fetchAuthSession();
+            let authorisation = ''
+            if (session.tokens && session.tokens.idToken) {
+                authorisation = session.tokens.idToken.toString()
+            } else {
+                console.log('Error: Session token not found. Redirecting to login')
+            }
+
             const userStore = useUserStore();
             transactionFilter.userId = userStore.userId;
             const transactionList = await $fetch('/api/transactions/getTransactions', {
