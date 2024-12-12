@@ -30,16 +30,18 @@ export const useTransactionStore = defineStore('transactionStore', {
 
             const userStore = useUserStore();
             transactionFilter.userId = userStore.userId;
+            console.log(transactionFilter)
             const transactionList = await $fetch('/api/transactions/getTransactions', {
                 method: 'get',
                 headers: {
                     Authorisation: authorisation,
-                    UserId: this.userId
+                    UserId: userStore.userId
                 },
                 params: {
                     transactionFilter
                 },
             })
+            console.log(transactionList)
             this.transactionsList = transactionList
         },
     },
