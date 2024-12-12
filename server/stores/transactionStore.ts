@@ -5,7 +5,6 @@ import type { transactionType } from "~/types/transactionTypes";
 import { useUserStore } from "./userStore";
 
 const session = await fetchAuthSession();
-const userStore = useUserStore();
 let authorisation = ''
 if (session.tokens && session.tokens.idToken) {
     authorisation = session.tokens.idToken.toString()
@@ -16,19 +15,21 @@ if (session.tokens && session.tokens.idToken) {
 const transactionFilter: transactionFilter = {
     limit: 5,
     page: 0,
-    userId: userStore.userId
+    userId: ''
 }
 
 export const useTransactionStore = defineStore('transactionStore', {
     state: () => {
         return {
-            transactionsList: [],
+            transactionsList: {},
             status: '',
-            userId: userStore.userId,
+            userId: '',
         }
     },
     actions: {
         async fetch() {
+            const userStore = useUserStore();
+            transactionFilter.userId = userStore.userId;
             const transactionList = await $fetch('/api/transactions/getTransactions', {
                 method: 'get',
                 headers: {
