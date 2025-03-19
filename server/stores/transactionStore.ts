@@ -42,7 +42,7 @@ export const useTransactionStore = defineStore('transactionStore', {
                 },
             })
             console.log(transactionList)
-            this.transactionsList = transactionList
+            this.transactionsList = transactionList || {}
         },
     },
 })
