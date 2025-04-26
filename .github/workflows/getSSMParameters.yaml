@@ -15,10 +15,9 @@ permissions:
   pull-requests: write
   
 jobs: 
-  build-and-deploy-lambda:
+  get-ssm-parameters:
     runs-on: ubuntu-24.04
     steps:
       - name: Set SSM Params as Env Vars
-        uses: Bardavon-Health/actions-aws-ssm-params-to-env@v1.4.0
-        with:
-          ssm-path: /path/to/parameter
+        run: | 
+          /bin/bash ./githubBuild/getSSMParameters.sh

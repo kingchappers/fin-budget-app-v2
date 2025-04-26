@@ -8,12 +8,25 @@ import { Amplify } from 'aws-amplify';
 //https://docs.aws.amazon.com/prescriptive-guidance/latest/patterns/authenticate-react-app-users-cognito-amplify-ui.html
 
 //The cognito part is add in the exports which isn't being produced, how to I produce this with the settings that I need/want?
+
+// https://ui.docs.amplify.aws/vue/connected-components/authenticator/customization#headers--footers
+
+if (process.env.COGNITO_USER_POOL_ID === undefined) {
+  throw new Error("Missing COGNITO_USER_POOL_ID environment variable");
+}
+if (process.env.COGNITO_USER_POOL_CLIENT_ID === undefined) {
+  throw new Error("Missing COGNITO_USER_POOL_CLIENT_ID environment variable");
+}
+if (process.env.COGNITO_IDENTITY_POOL_ID === undefined) {
+  throw new Error("Missing COGNITO_IDENTITY_POOL_ID environment variable");
+}
+
 Amplify.configure({
     Auth: {
     Cognito: {
-      userPoolId: "eu-west-2_J6kM16ZTK",
-      userPoolClientId: "5mpdsasf707u9mfeg3uihfeip3",
-      identityPoolId: "eu-west-2:7f32016b-3dc6-4c2e-86ae-9697a90e2fb7",
+      userPoolId: process.env.COGNITO_USER_POOL_ID,
+      userPoolClientId: process.env.COGNITO_USER_POOL_CLIENT_ID,
+      identityPoolId: process.env.COGNITO_IDENTITY_POOL_ID, 
       loginWith: {
         email: true,
       },
