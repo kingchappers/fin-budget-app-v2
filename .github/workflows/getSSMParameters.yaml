@@ -20,4 +20,4 @@ jobs:
     steps:
       - name: Set SSM Params as Env Vars
         run: | 
-          /bin/bash ./githubBuild/getSSMParameters.sh
+          /bin/bash ./githubBuild/getSsmParameters.sh
