@@ -14,7 +14,7 @@ export const incomeFormZodObject = z.object({
     incomeDate: z.coerce.date(),
     company: z.string(),
     amount: z.number(),
-    category: z.string(),
+    incomeCategory: z.string(),
     items: z.string().optional(),
     notes: z.string().optional(),
 })

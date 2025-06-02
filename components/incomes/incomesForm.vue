@@ -3,7 +3,7 @@ import { z } from 'zod'
 import type { FormSubmitEvent } from '#ui/types'
 import { incomeFormZodObject } from '~/types/incomeZodObjects';
 import { format } from 'date-fns';
-import { useIncomeStore } from '~/server/stores/incometore';
+import { useIncomeStore } from '~/server/stores/incomeStore';
 import { fetchAuthSession } from 'aws-amplify/auth';
 import { useAuthenticator } from '@aws-amplify/ui-vue';
 
@@ -37,7 +37,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         console.log('Error: Session token not found. Redirecting to login')
     }
 
-    const transaction = await $fetch('/api/transactions/createTransaction', {
+    const income = await $fetch('https://ukwgjfxg48.execute-api.eu-west-2.amazonaws.com/income/', {
         method: 'POST',
         headers: {
             Authorisation: authorisation
