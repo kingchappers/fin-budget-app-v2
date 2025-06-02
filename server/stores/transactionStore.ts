@@ -13,7 +13,7 @@ const transactionFilter: transactionFilter = {
 export const useTransactionStore = defineStore('transactionStore', {
     state: () => {
         return {
-            transactionsList: {},
+            transactionsList: {} as transactionsList[],
             status: '',
             userId: '',
         }
@@ -40,7 +40,7 @@ export const useTransactionStore = defineStore('transactionStore', {
                 params: {
                     transactionFilter
                 },
-            })
+            }) as transactionsList[]
             console.log(transactionList)
             this.transactionsList = transactionList || {}
         },
