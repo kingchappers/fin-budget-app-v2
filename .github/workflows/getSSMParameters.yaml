@@ -1,0 +1,27 @@
+name: getSSMParameters
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+  
+permissions:
+  contents: read
+  pull-requests: write
+  
+jobs: 
+  get-ssm-parameters:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set SSM Params as Env Vars
+        run: | 
+          /bin/bash ./githubBuild/getSsmParameters.sh
+
+          fin-budget-app-v2/githubBuild

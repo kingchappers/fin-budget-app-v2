@@ -1,19 +1,19 @@
 import { fetchAuthSession } from "@aws-amplify/auth";
 import { defineStore } from "pinia";
-import type { transactionFilter } from '~/types/transactionFilter';
-import type { transactionType } from "~/types/transactionTypes";
+import type { incomeFilter } from '~/types/incomeFilter';
+import type { incomeType } from "~/types/incomeTypes";
 import { useUserStore } from "./userStore";
 
-const transactionFilter: transactionFilter = {
+const incomeFilter: incomeFilter = {
     limit: 5,
     page: 0,
     userId: ''
 }
 
-export const useTransactionStore = defineStore('transactionStore', {
+export const useIncomeStore = defineStore('incomeStore', {
     state: () => {
         return {
-            transactionsList: {} as transactionsList[],
+            incomeList: {},
             status: '',
             userId: '',
         }
@@ -29,24 +29,24 @@ export const useTransactionStore = defineStore('transactionStore', {
             }
 
             const userStore = useUserStore();
-            transactionFilter.userId = userStore.userId;
-            console.log(transactionFilter)
-            const transactionList = await $fetch('/api/transactions/getTransactions', {
+            incomeFilter.userId = userStore.userId;
+            console.log(incomeFilter)
+            const incomeList = await $fetch('/api/incomes/getIncomes', {
                 method: 'get',
                 headers: {
                     Authorisation: authorisation,
                     UserId: userStore.userId
                 },
                 params: {
-                    transactionFilter
+                    incomeFilter
                 },
-            }) as transactionsList[]
-            console.log(transactionList)
-            this.transactionsList = transactionList || {}
+            })
+            console.log(incomeList)
+            this.incomeList = incomeList || {}
         },
     },
 })
 
-interface transactionsList {
-    transactions: transactionType[]
+interface incomeList {
+    incomes: incomeType[]
 }
