@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import IncomesForm from '~/components/incomes/incomesForm.vue';
+import IncomesTable from '~/components/incomes/incomesTable.vue';
 import { useIncomeStore } from '~/server/stores/incomeStore';
 
 const incomesArrayArray = useIncomeStore();
