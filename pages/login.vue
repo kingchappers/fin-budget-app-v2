@@ -11,7 +11,7 @@ import { Amplify } from 'aws-amplify';
 
 // https://ui.docs.amplify.aws/vue/connected-components/authenticator/customization#headers--footers
 
-if (process.env.COGNITO_USER_POOL_ID === undefined) {
+if (process.env.AMPLIFY_COGNITO_USER_POOL_ID === undefined) {
   throw new Error("Missing COGNITO_USER_POOL_ID environment variable");
 }
 if (process.env.COGNITO_USER_POOL_CLIENT_ID === undefined) {
