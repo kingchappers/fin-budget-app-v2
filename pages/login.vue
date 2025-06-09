@@ -10,10 +10,15 @@ import { Amplify } from 'aws-amplify';
 //The cognito part is add in the exports which isn't being produced, how to I produce this with the settings that I need/want?
 
 // https://ui.docs.amplify.aws/vue/connected-components/authenticator/customization#headers--footers
-
+if (process.env.AMPLIFY_TEST === undefined) {
+  throw new Error("Missing TEST environment variable");
+} else {
+  console.log("TEST environment variable is set to:", process.env.AMPLIFY_TEST);
+}
 if (process.env.AMPLIFY_COGNITO_USER_POOL_ID === undefined) {
   throw new Error("Missing COGNITO_USER_POOL_ID environment variable");
 }
+
 if (process.env.COGNITO_USER_POOL_CLIENT_ID === undefined) {
   throw new Error("Missing COGNITO_USER_POOL_CLIENT_ID environment variable");
 }
