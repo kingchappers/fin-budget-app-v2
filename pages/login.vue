@@ -24,7 +24,7 @@ if (process.env.COGNITO_IDENTITY_POOL_ID === undefined) {
 Amplify.configure({
     Auth: {
     Cognito: {
-      userPoolId: process.env.COGNITO_USER_POOL_ID,
+      userPoolId: process.env.AMPLIFY_COGNITO_USER_POOL_ID,
       userPoolClientId: process.env.COGNITO_USER_POOL_CLIENT_ID,
       identityPoolId: process.env.COGNITO_IDENTITY_POOL_ID, 
       loginWith: {
