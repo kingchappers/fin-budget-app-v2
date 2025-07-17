@@ -26,6 +26,7 @@ if (process.env.VITE_AMPLIFY_TEST === undefined) {
 // See if I can also include the amplify.yml in the deployment so I don't have to go in via the UI. I should also be able to get rid of a lot of the other random scripts that are in place too
 
   console.log("VITE_AMPLIFY_TEST", test);
+  console.log("other vite_amplify_test", process.env.VITE_AMPLIFY_TEST)
   throw new Error("Missing TEST environment variable");
 } else {
   console.log("TEST environment variable is set to:", process.env.VITE_AMPLIFY_TEST);
