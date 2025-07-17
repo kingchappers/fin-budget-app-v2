@@ -12,9 +12,10 @@ import { Amplify } from 'aws-amplify';
 // https://ui.docs.amplify.aws/vue/connected-components/authenticator/customization#headers--footers
 // if (process.env.NUXT_PUBLIC_AMPLIFY_TEST === undefined) {
 if (process.env.VITE_AMPLIFY_TEST === undefined) {
+  const test = ref(import.meta.env.VITE_AMPLIFY_TEST);
   console.log("AMPLIFY_TEST", process.env.AMPLIFY_TEST);
   console.log("New Amplify_test", process.env.AMPLIFY_TEST);
-  console.log("VITE_AMPLIFY_TEST", ref(import.meta.env.VITE_AMPLIFY_TEST));
+  console.log("VITE_AMPLIFY_TEST", test.value);
   throw new Error("Missing TEST environment variable");
 } else {
   console.log("TEST environment variable is set to:", process.env.VITE_AMPLIFY_TEST);
