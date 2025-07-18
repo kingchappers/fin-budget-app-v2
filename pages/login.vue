@@ -27,6 +27,7 @@ if (process.env.VITE_AMPLIFY_TEST === undefined) {
 
   console.log("VITE_AMPLIFY_TEST", test);
   console.log("other vite_amplify_test", process.env.VITE_AMPLIFY_TEST)
+  console.log("NUXT_PUBLIC_AMPLIFY_TEST", process.env.NUXT_PUBLIC_AMPLIFY_TEST);
   throw new Error("Missing TEST environment variable");
 } else {
   console.log("TEST environment variable is set to:", process.env.VITE_AMPLIFY_TEST);
