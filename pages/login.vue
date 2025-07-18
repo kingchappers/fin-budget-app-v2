@@ -18,7 +18,7 @@ interface CognitoConfig {
 }
 
 // Or using useFetch
-const { data: cognitoConfig } = await useFetch<CognitoConfig>('/api/ssmParameters.getCognitoParameters')
+const { data: cognitoConfig } = await useFetch<CognitoConfig>('/api/ssmParameters/getCognitoParameters')
 console.log("cognitoConfig", cognitoConfig.value);
 if (process.env.VITE_AMPLIFY_TEST === undefined) {
   const test = ref(import.meta.env.VITE_AMPLIFY_TEST);
