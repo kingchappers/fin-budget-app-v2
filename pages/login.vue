@@ -11,6 +11,15 @@ import { Amplify } from 'aws-amplify';
 
 // https://ui.docs.amplify.aws/vue/connected-components/authenticator/customization#headers--footers
 // if (process.env.NUXT_PUBLIC_AMPLIFY_TEST === undefined) {
+interface CognitoConfig {
+  userPoolId: string;
+  userPoolClientId: string;
+  identityPoolId: string;
+}
+
+// Or using useFetch
+const { data: cognitoConfig } = await useFetch<CognitoConfig>('/api/ssmParameters.getCognitoParameters')
+console.log("cognitoConfig", cognitoConfig.value);
 if (process.env.VITE_AMPLIFY_TEST === undefined) {
   const test = ref(import.meta.env.VITE_AMPLIFY_TEST);
   console.log("AMPLIFY_TEST", process.env.AMPLIFY_TEST);
