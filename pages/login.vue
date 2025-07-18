@@ -30,7 +30,10 @@ if (process.env.VITE_AMPLIFY_TEST === undefined) {
   console.log("NUXT_PUBLIC_AMPLIFY_TEST", process.env.NUXT_PUBLIC_AMPLIFY_TEST);
 
   console.log("VUE_APP_FOO_TEST", process.env.VUE_APP_FOO_TEST);
-  
+  // next try adding the variable to the variables in amplify
+
+  console.log("VUE_APP_BAR TEST: ", process.env.VUE_APP_BAR_TEST);
+
   throw new Error("Missing TEST environment variable");
 } else {
   console.log("TEST environment variable is set to:", process.env.VITE_AMPLIFY_TEST);
