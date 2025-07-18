@@ -11,38 +11,8 @@ import { Amplify } from 'aws-amplify';
 
 // https://ui.docs.amplify.aws/vue/connected-components/authenticator/customization#headers--footers
 // if (process.env.NUXT_PUBLIC_AMPLIFY_TEST === undefined) {
-interface CognitoConfig {
-  userPoolId: string;
-  userPoolClientId: string;
-  identityPoolId: string;
-}
 
-// Or using useFetch
-const { data: cognitoConfig } = await useFetch<CognitoConfig>('/api/ssmParameters/getCognitoParameters')
-console.log("cognitoConfig", cognitoConfig.value);
 if (process.env.VITE_AMPLIFY_TEST === undefined) {
-  const test = ref(import.meta.env.VITE_AMPLIFY_TEST);
-  console.log("AMPLIFY_TEST", process.env.AMPLIFY_TEST);
-  console.log("New Amplify_test", process.env.AMPLIFY_TEST);
-// Got the Error: 
-// 2025-07-17T07:18:40.167Z [INFO]: # Executing command: export AMPLIFY_TEST=$(aws ssm get-parameter --name "AMPLIFY_TEST" --with-decryption --query "Parameter.Value" --output text)
-// 120
-// 2025-07-17T07:18:40.778Z [WARNING]: An error occurred (AccessDeniedException) when calling the GetParameter operation: User: arn:aws:sts::192350001975:assumed-role/AmplifySSRLoggingRole-c97031ed-59e1-4702-875b-a3c426876ea9/BuildSession is not authorized to perform: ssm:GetParameter on resource: arn:aws:ssm:eu-west-2:192350001975:parameter/AMPLIFY_TEST because no identity-based policy allows the ssm:GetParameter action
-
-// This was after adding that command in the build settings for Amplify. 
-// This is done under Hosting -> Build Setting in the Amplify app
-// Grant permissions and see if I can access the parameter from the app once the command works
-// See if I can also include the amplify.yml in the deployment so I don't have to go in via the UI. I should also be able to get rid of a lot of the other random scripts that are in place too
-
-  console.log("VITE_AMPLIFY_TEST", test);
-  console.log("other vite_amplify_test", process.env.VITE_AMPLIFY_TEST)
-  console.log("NUXT_PUBLIC_AMPLIFY_TEST", process.env.NUXT_PUBLIC_AMPLIFY_TEST);
-
-  console.log("VUE_APP_FOO_TEST", process.env.VUE_APP_FOO_TEST);
-  // next try adding the variable to the variables in amplify
-
-  console.log("VUE_APP_BAR TEST: ", process.env.VUE_APP_BAR_TEST);
-
   throw new Error("Missing TEST environment variable");
 } else {
   console.log("TEST environment variable is set to:", process.env.VITE_AMPLIFY_TEST);
