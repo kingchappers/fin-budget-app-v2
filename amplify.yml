@@ -21,6 +21,9 @@ frontend:
         - export VUE_APP_AMPLIFY_TEST=$(aws ssm get-parameter --name "/AMPLIFY_TEST" --with-decryption --query "Parameter.Value" --output text)
         - echo "VUE_APP_AMPLIFY_TEST=$AMPLIFY_TEST"
         - echo "VUE_APP_AMPLIFY_TEST=$AMPLIFY_TEST" >> .env
+        - export VITE_AMPLIFY_TEST=$(aws ssm get-parameter --name "/AMPLIFY_TEST" --with-decryption --query "Parameter.Value" --output text)
+        - echo "VITE_AMPLIFY_TEST=$AMPLIFY_TEST"
+        - echo "VITE_AMPLIFY_TEST=$AMPLIFY_TEST" >> .env
         - pwd
         - ls -la
         - cat .env
