@@ -19,6 +19,7 @@ frontend:
         - echo "AMPLIFY_TEST=$AMPLIFY_TEST"
         - echo "AMPLIFY_TEST=$AMPLIFY_TEST" >> .env
         - pwd
+        - ls -la
         - cat .env
 
     build:
