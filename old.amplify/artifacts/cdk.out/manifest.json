@@ -1,0 +1,144 @@
+{
+  "version": "39.0.0",
+  "artifacts": {
+    "amplify-nuxtapp-samuelchapman-sandbox-f0fcb13ea8.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "amplify-nuxtapp-samuelchapman-sandbox-f0fcb13ea8.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "amplify-nuxtapp-samuelchapman-sandbox-f0fcb13ea8": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "amplify-nuxtapp-samuelchapman-sandbox-f0fcb13ea8.template.json",
+        "terminationProtection": false,
+        "tags": {
+          "amplify:deployment-type": "sandbox",
+          "created-by": "amplify"
+        },
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/2c6d20b4d324e2768e8ec8cf741855ea4c1db6c45e38d58a34b43d25ff52a15e.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "amplify-nuxtapp-samuelchapman-sandbox-f0fcb13ea8.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "amplify-nuxtapp-samuelchapman-sandbox-f0fcb13ea8.assets"
+      ],
+      "metadata": {
+        "/amplify-nuxtapp-samuelchapman-sandbox-f0fcb13ea8": [
+          {
+            "type": "aws:cdk:stack-tags",
+            "data": [
+              {
+                "Key": "amplify:deployment-type",
+                "Value": "sandbox"
+              },
+              {
+                "Key": "created-by",
+                "Value": "amplify"
+              }
+            ]
+          }
+        ],
+        "/amplify-nuxtapp-samuelchapman-sandbox-f0fcb13ea8/deploymentType": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "deploymentType"
+          }
+        ],
+        "/amplify-nuxtapp-samuelchapman-sandbox-f0fcb13ea8/region": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "region"
+          }
+        ],
+        "/amplify-nuxtapp-samuelchapman-sandbox-f0fcb13ea8/auth/createIncome/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "createIncomeServiceRole40A430FD"
+          }
+        ],
+        "/amplify-nuxtapp-samuelchapman-sandbox-f0fcb13ea8/auth/createIncome/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "createIncome1463299D"
+          }
+        ],
+        "/amplify-nuxtapp-samuelchapman-sandbox-f0fcb13ea8/auth/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/amplify-nuxtapp-samuelchapman-sandbox-f0fcb13ea8/auth/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/amplify-nuxtapp-samuelchapman-sandbox-f0fcb13ea8/auth/amplifynuxtappsamuelchapmansandboxf0fcb13ea8authcreateIncomeF8FA6A74Ref": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifynuxtappsamuelchapmansandboxf0fcb13ea8authcreateIncomeF8FA6A74Ref"
+          }
+        ],
+        "/amplify-nuxtapp-samuelchapman-sandbox-f0fcb13ea8/auth.NestedStack/auth.NestedStackResource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "auth179371D7"
+          }
+        ],
+        "/amplify-nuxtapp-samuelchapman-sandbox-f0fcb13ea8/definedFunctions": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "definedFunctions"
+          }
+        ],
+        "/amplify-nuxtapp-samuelchapman-sandbox-f0fcb13ea8/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/amplify-nuxtapp-samuelchapman-sandbox-f0fcb13ea8/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/amplify-nuxtapp-samuelchapman-sandbox-f0fcb13ea8/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/amplify-nuxtapp-samuelchapman-sandbox-f0fcb13ea8/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "amplify-nuxtapp-samuelchapman-sandbox-f0fcb13ea8"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}
