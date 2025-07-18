@@ -9,9 +9,9 @@ frontend:
   phases:
     preBuild:
       commands:
-        - export COGNITO_USER_POOL_ID=$(aws ssm get-parameter --name "/amplify/fin-budget/prod/COGNITO_USER_POOL_ID" --with-decryption --query "Parameter.Value" --output text)
-        - export COGNITO_USER_POOL_CLIENT_ID=$(aws ssm get-parameter --name "/amplify/fin-budget/prod/COGNITO_USER_POOL_CLIENT_ID" --with-decryption --query "Parameter.Value" --output text)
-        - export COGNITO_IDENTITY_POOL_ID=$(aws ssm get-parameter --name "/amplify/fin-budget/prod/COGNITO_IDENTITY_POOL_ID" --with-decryption --query "Parameter.Value" --output text)
+        - export VITE_COGNITO_USER_POOL_ID=$(aws ssm get-parameter --name "/amplify/COGNITO_USER_POOL_ID" --with-decryption --query "Parameter.Value" --output text)
+        - export VITE_COGNITO_USER_POOL_CLIENT_ID=$(aws ssm get-parameter --name "/amplify/COGNITO_USER_POOL_CLIENT_ID" --with-decryption --query "Parameter.Value" --output text)
+        - export VITE_COGNITO_IDENTITY_POOL_ID=$(aws ssm get-parameter --name "/amplify/COGNITO_IDENTITY_POOL_ID" --with-decryption --query "Parameter.Value" --output text)
         # - export NUXT_PUBLIC_AMPLIFY_TEST=$(aws ssm get-parameter --name "/AMPLIFY_TEST" --with-decryption --query "Parameter.Value" --output text)
         # - echo "NUXT_PUBLIC_AMPLIFY_TEST=$NUXT_PUBLIC_AMPLIFY_TEST"
         # - echo "NUXT_PUBLIC_AMPLIFY_TEST=$NUXT_PUBLIC_AMPLIFY_TEST" >> .env
