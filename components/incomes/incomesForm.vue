@@ -30,9 +30,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     const items = event.data.items;
     const notes = event.data.notes;
     const userId = auth.user.userId;
-    let authorisation = ''
+    let authorization = ''
     if (session.tokens && session.tokens.idToken) {
-        authorisation = session.tokens.idToken.toString()
+        authorization = session.tokens.idToken.toString()
     } else {
         console.log('Error: Session token not found. Redirecting to login')
     }
@@ -40,7 +40,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     const income = await $fetch('https://ukwgjfxg48.execute-api.eu-west-2.amazonaws.com/prod/income', {
         method: 'POST',
         headers: {
-            Authorisation: authorisation
+            Authorization: authorization
         },
         body: {
             incomeDate,
