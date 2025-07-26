@@ -40,7 +40,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     const income = await $fetch('https://ukwgjfxg48.execute-api.eu-west-2.amazonaws.com/prod/income', {
         method: 'POST',
         headers: {
-            Authorization: authorization
+            Authorization: "Bearer " +  authorization
         },
         body: {
             incomeDate,
