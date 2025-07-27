@@ -53,6 +53,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         }
     })
 
+    console.log("Bearer " +  authorization)
+    console.log(income)
+
     //Grab updated store after submission
     await callOnce(incomeArray.fetch)
     //Clear the form fields after submission
@@ -62,8 +65,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     event.data.incomeCategory = ''
     event.data.items = ''
     event.data.notes = ''
-
-    console.log(income)
 }
 </script>
 
