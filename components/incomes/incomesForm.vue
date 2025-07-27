@@ -33,6 +33,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     let authorization = ''
     if (session.tokens && session.tokens.idToken) {
         authorization = session.tokens.idToken.toString()
+        console.log('Session token found:', authorization);
     } else {
         console.log('Error: Session token not found. Redirecting to login')
     }
@@ -52,9 +53,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             userId
         }
     })
-
-    console.log("Bearer " +  authorization)
-    console.log(income)
 
     //Grab updated store after submission
     await callOnce(incomeArray.fetch)
