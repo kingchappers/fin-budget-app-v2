@@ -62,6 +62,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     event.data.incomeCategory = ''
     event.data.items = ''
     event.data.notes = ''
+
+    console.log(income)
 }
 </script>
 
