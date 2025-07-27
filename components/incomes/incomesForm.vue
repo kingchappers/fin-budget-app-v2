@@ -32,9 +32,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     const userId = auth.user.userId;
     let authorization = ''
     if (session.tokens && session.tokens.idToken) {
-        authorization = session.tokens.idToken.toString()
-        session.tokens.accessToken
-        
+        authorization = session.tokens.idToken.toString()        
         console.log('Session token found:', authorization);
     } else {
         console.log('Error: Session token not found. Redirecting to login')
