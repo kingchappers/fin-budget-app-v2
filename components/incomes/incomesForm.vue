@@ -44,6 +44,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             'Authorization': token,
             'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: {
             incomeDate,
             amount,
