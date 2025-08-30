@@ -38,7 +38,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         console.log('Error: Session token not found. Redirecting to login')
     }
 
-    const income = await $fetch('https://a320wx4bw2.execute-api.eu-west-2.amazonaws.com/prod/income', {
+    const income = await $fetch('https://dg2rxkailb.execute-api.eu-west-2.amazonaws.com/prod/income', {
         method: 'POST',
         headers: {
             'Authorization': token,
