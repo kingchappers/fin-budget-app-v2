@@ -43,10 +43,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         headers: {
             'Authorization': token,
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://main.d3m9wu6rhd9z99.amplifyapp.com',
-            'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
-            'Access-Control-Allow-Methods': 'OPTIONS,POST',
-            'Access-Control-Allow-Credentials': 'true',
+            'Access-Control-Allow-Origin': 'https://main.d3m9wu6rhd9z99.amplifyapp.com'
+            // 'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+            // 'Access-Control-Allow-Methods': 'OPTIONS,POST',
+            // 'Access-Control-Allow-Credentials': 'true',
         },
         credentials: 'include',
         body: {
