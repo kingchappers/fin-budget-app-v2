@@ -55,7 +55,7 @@ const items = (row: incomeType) => [
     },], [{
         label: 'Delete',
         icon: 'i-heroicons-trash-20-solid',
-        click: () => deleteIncomes([row])
+        // click: () => deleteIncomes([row])
     }]
 ]
 const selectedValues = ref([])
@@ -90,56 +90,56 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     const notes = event.data.notes;
     const incomeId = event.data.incomeId
 
-    const income = await $fetch('/api/income/updateIncome', {
-        method: 'PUT',
-        headers: {
-            Authorisation: authorisation,
-            UserId: userStore.userId
-        },
-        body: {
-            incomeDate,
-            company,
-            amount,
-            incomeCategory,
-            items,
-            notes,
-            incomeId,
-        }
-    })
+    // const income = await $fetch('/api/income/updateIncome', {
+    //     method: 'PUT',
+    //     headers: {
+    //         Authorisation: authorisation,
+    //         UserId: userStore.userId
+    //     },
+    //     body: {
+    //         incomeDate,
+    //         company,
+    //         amount,
+    //         incomeCategory,
+    //         items,
+    //         notes,
+    //         incomeId,
+    //     }
+    // })
 
     //Grab updated store after submission
-    await callOnce(incomeArray.fetch);
+    // await callOnce(incomeArray.fetch);
     //Clear the form fields after submission
     isEditingRow.value = false;
 }
 
-async function deleteIncomes(selectedValues: incomeType[]) {
-    const userStore = useUserStore();
-    const session = await fetchAuthSession();
-    let authorisation = ''
-    if (session.tokens && session.tokens.idToken) {
-        authorisation = session.tokens.idToken.toString()
-    } else {
-        console.log('Error: Session token not found. Redirecting to login')
-    }
-    selectedValues.forEach(async (selected, index) => {
-        const incomeId = selected.incomeId;
+// async function deleteIncomes(selectedValues: incomeType[]) {
+//     const userStore = useUserStore();
+//     const session = await fetchAuthSession();
+//     let authorisation = ''
+//     if (session.tokens && session.tokens.idToken) {
+//         authorisation = session.tokens.idToken.toString()
+//     } else {
+//         console.log('Error: Session token not found. Redirecting to login')
+//     }
+//     selectedValues.forEach(async (selected, index) => {
+//         const incomeId = selected.incomeId;
 
-        const deletedIncome = await $fetch('/api/income/deleteIncome', {
-            method: 'DELETE',
-            headers: {
-                Authorisation: authorisation,
-                UserId: userStore.userId
-            },
-            body: {
-                incomeId
-            }
-        })
+//         const deletedIncome = await $fetch('/api/income/deleteIncome', {
+//             method: 'DELETE',
+//             headers: {
+//                 Authorisation: authorisation,
+//                 UserId: userStore.userId
+//             },
+//             body: {
+//                 incomeId
+//             }
+//         })
 
-    })
-    //Grab updated store after submission
-    await useAsyncData(incomeArray.fetch)
-}
+//     })
+//     //Grab updated store after submission
+//     await useAsyncData(incomeArray.fetch)
+// }
 </script>
 
 <template>
