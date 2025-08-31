@@ -40,5 +40,9 @@ export default defineNuxtConfig({
         "@nuxt/devtools"
     ],
 
-    compatibilityDate: "2024-07-27"
+    compatibilityDate: "2024-07-27",
+
+    routeRules: {
+        '/*': { cors: true }
+    },
 })
