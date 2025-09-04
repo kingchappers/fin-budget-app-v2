@@ -42,7 +42,4 @@ export default defineNuxtConfig({
 
     compatibilityDate: "2024-07-27",
 
-    routeRules: {
-        '/*': { cors: true }
-    },
 })
