@@ -21,6 +21,7 @@ const refreshing = ref(false)
 const incomeArray = useIncomeStore();
 const auth = useAuthenticator();
 const session = await fetchAuthSession();
+const incomeCategories = ref(['Job', 'Other', 'Refund', 'Rent', 'Side Project', 'Tax Refund'])
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     const incomeDate = event.data.incomeDate;
@@ -33,7 +34,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     const incomeId = crypto.randomUUID();
     let token = ''
     if (session.tokens && session.tokens.idToken) {
-        token = session.tokens.idToken.toString()        
+        token = session.tokens.idToken.toString()
         console.log('Session token found:', token);
     } else {
         console.log('Error: Session token not found. Redirecting to login')
@@ -98,18 +99,19 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         <UFormGroup label="incomeCategory" name="incomeCategory">
             <UInput v-model="state.incomeCategory" />
         </UFormGroup>
-        
+
         <UFormGroup label="Income Category" name="incomeCategory">
             <USelect v-model="state.incomeCategory" :options="[
                 { label: 'Salary', value: 'Salary' },
                 { label: 'Freelance', value: 'Freelance' },
                 { label: 'Investment', value: 'Investment' },
                 { label: 'Other', value: 'Other' },
-                {label: 'Job', value: 'Job'}
+                { label: 'Job', value: 'Job' }
             ]" />
         </UFormGroup>
+
         <UFormGroup label="Income Category" name="incomeCategory">
-            <ButtonsIncomeCategorySelect @update:modelValue="state.incomeCategory" />
+            <USelectMenu v-model="state.incomeCategory" :items="incomeCategories" class="w-48" />
         </UFormGroup>
 
         <UFormGroup label="Items" name="items">
