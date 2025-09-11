@@ -100,7 +100,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             <UInput v-model="state.incomeCategory" />
         </UFormGroup>
 
-        <UFormGroup label="Income Category" name="incomeCategory">
+        <!-- <UFormGroup label="Income Category" name="incomeCategory">
             <USelect v-model="state.incomeCategory" :options="[
                 { label: 'Salary', value: 'Salary' },
                 { label: 'Freelance', value: 'Freelance' },
@@ -108,10 +108,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                 { label: 'Other', value: 'Other' },
                 { label: 'Job', value: 'Job' }
             ]" />
-        </UFormGroup>
+        </UFormGroup> -->
 
         <UFormGroup label="Income Category" name="incomeCategory">
-            <USelectMenu v-model="state.incomeCategory" :items="incomeCategories" class="w-48" />
+            <USelectMenu v-model="state.incomeCategory" :items="incomeCategories" />
         </UFormGroup>
 
         <UFormGroup label="Items" name="items">
