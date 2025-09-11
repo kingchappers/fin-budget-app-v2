@@ -110,21 +110,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             ]" />
         </UFormGroup>
 
-        <UFormGoup label="Income Category" name="incomeCategory">
+        <UFormGroup label="Income Category" name="incomeCategory">
             <USelectMenu v-model="state.incomeCategory" :items="incomeCategories" class="w-48" />
-        </UFormGoup>
-
-
-
-        <!-- <UFormGroup label="Income Category" name="incomeCategory">
-            <UAutocomplete v-model="state.incomeCategory" :options="[
-                { label: 'Salary', value: 'Salary' },
-                { label: 'Freelance', value: 'Freelance' },
-                { label: 'Investment', value: 'Investment' },
-                { label: 'Other', value: 'Other' },
-                { label: 'Job', value: 'Job' }
-            ]" placeholder="Type or select a category" :searchable="true" class="w-full" />
-        </UFormGroup> -->
+        </UFormGroup>
 
         <UFormGroup label="Items" name="items">
             <UInput v-model="state.items" />
