@@ -98,6 +98,18 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         <UFormGroup label="incomeCategory" name="incomeCategory">
             <UInput v-model="state.incomeCategory" />
         </UFormGroup>
+        
+        <UFormGroup label="Income Category" name="incomeCategory">
+            <USelect v-model="state.incomeCategory" :options="[
+                { label: 'Salary', value: 'Salary' },
+                { label: 'Freelance', value: 'Freelance' },
+                { label: 'Investment', value: 'Investment' },
+                { label: 'Other', value: 'Other' },
+            ]" />
+        </UFormGroup>
+        <UFormGroup label="Income Category" name="incomeCategory">
+            <ButtonsIncomeCategorySelect v-model="state.incomeCategory" />
+        </UFormGroup>
 
         <UFormGroup label="Items" name="items">
             <UInput v-model="state.items" />
