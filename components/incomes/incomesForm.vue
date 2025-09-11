@@ -105,10 +105,11 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                 { label: 'Freelance', value: 'Freelance' },
                 { label: 'Investment', value: 'Investment' },
                 { label: 'Other', value: 'Other' },
+                {label: 'Job', value: 'Job'}
             ]" />
         </UFormGroup>
         <UFormGroup label="Income Category" name="incomeCategory">
-            <ButtonsIncomeCategorySelect v-model="state.incomeCategory" />
+            <ButtonsIncomeCategorySelect @update:modelValue="state.incomeCategory"  />
         </UFormGroup>
 
         <UFormGroup label="Items" name="items">
