@@ -1,16 +1,22 @@
 <!-- Vue component -->
 <script>
-  import Multiselect from 'vue-multiselect'
+import Multiselect from 'vue-multiselect'
 
-  export default {
-    components: { Multiselect },
-    data () {
-      return {
-        value: null,
-        options: ['Gift', 'Job', 'Other', 'Refund', 'Rent', 'Side Project', 'Tax Refund']
+export default {
+  components: { Multiselect },
+  data() {
+    return {
+      value: null,
+      options: ['Gift', 'Job', 'Other', 'Refund', 'Rent', 'Side Project', 'Tax Refund'],
+      computed: {
+        ...mapState(['value', 'options'])
+      },
+      methods: {
+        ...mapActions(['updateValueAction'])
       }
     }
   }
+}
 </script>
 
 <template>

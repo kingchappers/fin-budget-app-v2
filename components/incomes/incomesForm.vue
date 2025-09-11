@@ -109,7 +109,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             ]" />
         </UFormGroup>
         <UFormGroup label="Income Category" name="incomeCategory">
-            <ButtonsIncomeCategorySelect @update:modelValue="state.incomeCategory"  />
+            <ButtonsIncomeCategorySelect @update:modelValue="state.incomeCategory" />
         </UFormGroup>
 
         <UFormGroup label="Items" name="items">
