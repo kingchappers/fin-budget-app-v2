@@ -21,7 +21,32 @@ const refreshing = ref(false)
 const incomeArray = useIncomeStore();
 const auth = useAuthenticator();
 const session = await fetchAuthSession();
-const incomeCategories = ref(['Job', 'Other', 'Refund', 'Rent', 'Side Project', 'Tax Refund'])
+const incomeCategories = [
+    {
+        label: 'Job',
+        value: 'Job'
+    },
+    {
+        label: 'Other',
+        value: 'Other'
+    },
+    {
+        label: 'Refund',
+        value: 'Refund'
+    },
+    {
+        label: 'Rent',
+        value: 'Rent'
+    },
+    {
+        label: 'Side Project',
+        value: 'Side Project'
+    },
+    {
+        label: 'Tax Refund',
+        value: 'Tax Refund'
+    }
+]
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     const incomeDate = event.data.incomeDate;
@@ -44,11 +69,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         method: 'POST',
         headers: {
             'Authorization': token,
-            'Content-Type': 'application/json',
-            // 'Access-Control-Allow-Origin': 'https://main.d3m9wu6rhd9z99.amplifyapp.com'
-            // 'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
-            // 'Access-Control-Allow-Methods': 'OPTIONS,POST',
-            // 'Access-Control-Allow-Credentials': 'true',
+            'Content-Type': 'application/json'
         },
         credentials: 'include',
         body: {
@@ -100,18 +121,15 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             <UInput v-model="state.incomeCategory" />
         </UFormGroup>
 
-        <!-- <UFormGroup label="Income Category" name="incomeCategory">
-            <USelect v-model="state.incomeCategory" :options="[
-                { label: 'Salary', value: 'Salary' },
-                { label: 'Freelance', value: 'Freelance' },
-                { label: 'Investment', value: 'Investment' },
-                { label: 'Other', value: 'Other' },
-                { label: 'Job', value: 'Job' }
-            ]" />
-        </UFormGroup> -->
-
         <UFormGroup label="Income Category" name="incomeCategory">
-            <USelectMenu v-model="state.incomeCategory" :items="incomeCategories" />
+            <USelect
+                v-model="state.incomeCategory"
+                :options="incomeCategories"
+                option-attribute="value"
+                :searchable="true"
+                placeholder="Select a category"
+                class="w-full"
+            />
         </UFormGroup>
 
         <UFormGroup label="Items" name="items">
