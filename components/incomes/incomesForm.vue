@@ -117,10 +117,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             <UInput v-model="state.amount" type="number" />
         </UFormGroup>
 
-        <UFormGroup label="incomeCategory" name="incomeCategory">
-            <UInput v-model="state.incomeCategory" />
-        </UFormGroup>
-
         <UFormGroup label="Income Category" name="incomeCategory">
             <USelect
                 v-model="state.incomeCategory"
