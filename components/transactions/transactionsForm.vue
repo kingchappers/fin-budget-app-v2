@@ -21,7 +21,7 @@ const state = reactive({
 const refreshing = ref(false)
 const transactionsArray = useTransactionStore();
 const auth = useAuthenticator();
-const session = await fetchAuthSession();
+const session = await fetchAuthSession({ forceRefresh: true });
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     const transactionDate = event.data.transactionDate;

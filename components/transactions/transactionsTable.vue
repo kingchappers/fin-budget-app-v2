@@ -75,7 +75,7 @@ const state = reactive({
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     const userStore = useUserStore();
-    const session = await fetchAuthSession();
+    const session = await fetchAuthSession({ forceRefresh: true });
     let authorisation = ''
     if (session.tokens && session.tokens.idToken) {
         authorisation = session.tokens.idToken.toString()
@@ -115,7 +115,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
 async function deleteTransactions(selectedValues: transactionType[]) {
     const userStore = useUserStore();
-    const session = await fetchAuthSession();
+    const session = await fetchAuthSession({ forceRefresh: true });
     let authorisation = ''
     if (session.tokens && session.tokens.idToken) {
         authorisation = session.tokens.idToken.toString()
