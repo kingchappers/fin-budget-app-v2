@@ -20,7 +20,7 @@ export const useTransactionStore = defineStore('transactionStore', {
     },
     actions: {
         async fetch() {
-            const session = await fetchAuthSession();
+            const session = await fetchAuthSession({ forceRefresh: true });
             let authorisation = ''
             if (session.tokens && session.tokens.idToken) {
                 authorisation = session.tokens.idToken.toString()
