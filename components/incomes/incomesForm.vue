@@ -9,14 +9,15 @@ import { useAuthenticator } from '@aws-amplify/ui-vue';
 
 const schema = incomeFormZodObject
 type Schema = z.output<typeof schema>
-const state = reactive({
+const initialState = {
     incomeDate: ref(new Date()),
     company: undefined,
     amount: undefined,
     incomeCategory: undefined,
     notes: undefined,
     items: undefined,
-})
+}
+const state = reactive({ ...initialState })
 const refreshing = ref(false)
 const incomeArray = useIncomeStore();
 const auth = useAuthenticator();
@@ -91,6 +92,11 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     event.data.incomeCategory = ''
     event.data.items = ''
     event.data.notes = ''
+
+    Object.assign(state, {
+        ...initialState,
+        incomeDate: ref(new Date())
+    })
 }
 </script>
 
