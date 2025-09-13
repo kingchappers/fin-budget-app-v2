@@ -56,7 +56,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     const items = event.data.items;
     const notes = event.data.notes;
     const userId = auth.user.userId;
-    const incomeId = crypto.randomUUID();
     let token = ''
     if (session.tokens && session.tokens.idToken) {
         token = session.tokens.idToken.toString()
@@ -79,8 +78,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             incomeCategory,
             items,
             notes,
-            userId,
-            incomeId
+            userId
         }
     })
 
