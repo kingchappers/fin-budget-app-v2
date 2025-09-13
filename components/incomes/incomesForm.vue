@@ -20,7 +20,7 @@ const state = reactive({
 const refreshing = ref(false)
 const incomeArray = useIncomeStore();
 const auth = useAuthenticator();
-const session = await fetchAuthSession({ forceRefresh: true });
+const session = await fetchAuthSession();
 const incomeCategories = [
     {
         label: 'Job',

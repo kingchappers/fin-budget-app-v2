@@ -20,7 +20,7 @@ export const useIncomeStore = defineStore('incomeStore', {
     },
     actions: {
         async fetch() {
-            const session = await fetchAuthSession({ forceRefresh: true });
+            const session = await fetchAuthSession();
             let authorisation = ''
             if (session.tokens && session.tokens.idToken) {
                 authorisation = session.tokens.idToken.toString()
