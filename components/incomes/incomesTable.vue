@@ -75,7 +75,7 @@ const state = reactive({
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     const userStore = useUserStore();
-    const session = await fetchAuthSession({ forceRefresh: true });
+    const session = await fetchAuthSession();
     let authorisation = ''
     if (session.tokens && session.tokens.idToken) {
         authorisation = session.tokens.idToken.toString()
@@ -89,57 +89,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     const items = event.data.items;
     const notes = event.data.notes;
     const incomeId = event.data.incomeId
-
-    // const income = await $fetch('/api/income/updateIncome', {
-    //     method: 'PUT',
-    //     headers: {
-    //         Authorisation: authorisation,
-    //         UserId: userStore.userId
-    //     },
-    //     body: {
-    //         incomeDate,
-    //         company,
-    //         amount,
-    //         incomeCategory,
-    //         items,
-    //         notes,
-    //         incomeId,
-    //     }
-    // })
-
-    //Grab updated store after submission
-    // await callOnce(incomeArray.fetch);
-    //Clear the form fields after submission
     isEditingRow.value = false;
 }
-
-// async function deleteIncomes(selectedValues: incomeType[]) {
-//     const userStore = useUserStore();
-//     const session = await fetchAuthSession();
-//     let authorisation = ''
-//     if (session.tokens && session.tokens.idToken) {
-//         authorisation = session.tokens.idToken.toString()
-//     } else {
-//         console.log('Error: Session token not found. Redirecting to login')
-//     }
-//     selectedValues.forEach(async (selected, index) => {
-//         const incomeId = selected.incomeId;
-
-//         const deletedIncome = await $fetch('/api/income/deleteIncome', {
-//             method: 'DELETE',
-//             headers: {
-//                 Authorisation: authorisation,
-//                 UserId: userStore.userId
-//             },
-//             body: {
-//                 incomeId
-//             }
-//         })
-
-//     })
-//     //Grab updated store after submission
-//     await useAsyncData(incomeArray.fetch)
-// }
 </script>
 
 <template>
