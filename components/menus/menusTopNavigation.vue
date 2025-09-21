@@ -2,34 +2,34 @@
 import { useAuthenticator } from '@aws-amplify/ui-vue'
 const auth = useAuthenticator();
 
-const accountMenu = [{
+const accountMenu = [[{
     label: 'Profile',
     icon: 'i-heroicons-user',
     to: '/profile'
-}, {
+}], [{
     label: 'Help',
     icon: 'i-heroicons-question-mark-circle',
     to: '/help',
-}, {
+}], [{
     label: 'Sign In / Register',
     icon: 'i-heroicons-arrow-left-end-on-rectangle',
     to: '/login'
-}]
+}]]
 
-const accountMenuAuthenticated = [{
+const accountMenuAuthenticated = [[{
     label: 'Profile',
     icon: 'i-heroicons-user',
     to: '/profile'
-}, {
+}], [{
     label: 'Help',
     icon: 'i-heroicons-question-mark-circle',
     to: '/help',
-}, {
+}], [{
     label: 'Sign Out',
     icon: 'i-heroicons-arrow-right-on-rectangle',
     to: '/login',
     click: () => auth.signOut()
-}]
+}]]
 
 const accountMenuToUse = computed(() => {
     return auth.user ? accountMenuAuthenticated : accountMenu
@@ -72,33 +72,23 @@ const links = [
         label: 'Income',
         icon: 'i-heroicons-briefcase',
         to: '/income'
-    }], [{
-        label: 'Profile',
-        icon: 'i-heroicons-user',
-        to: '/profile'
-    }, {
-        label: 'Help',
-        icon: 'i-heroicons-question-mark-circle',
-        to: '/help',
-    }, {
-        label: 'Sign In / Register',
-        icon: 'i-heroicons-arrow-left-end-on-rectangle',
-        to: '/login'
     }]
 ]
 </script>
 
 <template>
-    <div class="lg:flex md:flex-nowrap border-b border-gray-200 dark:border-gray-800 color:black w-lvw" >
-        <UHorizontalNavigation :links="links" color="blue"
-            />
+    <div class="lg:flex md:flex-nowrap border-b border-gray-200 dark:border-gray-800 color:black w-lvw">
+        <UHorizontalNavigation :links="links" color="blue" />
         <UDropdown :items="utilityMenu" :popper="{ placement: 'bottom-start' }">
             <UButton label="Utilities" icon="i-heroicons-bars-3-20-solid" color="white" variant="soft" class="ml-2" />
         </UDropdown>
-        <UButton variant="soft" icon="i-heroicons-arrow-left-start-on-rectangle"
+        <UDropdown :items="accountMenuToUse" :popper="{ placement: 'bottom-start' }">
+            <UButton label="Account" icon="i-heroicons-bars-3-20-solid" color="white" variant="soft" class="ml-2" />
+        </UDropdown>
+        <!-- <UButton variant="soft" color="white" icon="i-heroicons-arrow-left-start-on-rectangle"
             class="my-5 bg-transparant border-transparent text-gray-500 hover:bg-white hover:text-gray-600"
             @click="auth.signOut">
             Sign Out
-        </UButton>
+        </UButton> -->
     </div>
 </template>
