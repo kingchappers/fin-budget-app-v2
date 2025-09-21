@@ -1,16 +1,9 @@
 <script setup lang="ts">
+import { fetchAuthSession } from "@aws-amplify/core";
 import { Authenticator, useAuthenticator } from "@aws-amplify/ui-vue";
 import "@aws-amplify/ui-vue/styles.css";
 import { Amplify } from 'aws-amplify';
-// import awsconfig from '~/src/aws-exports.js';
 
-// Review the below for info on how to configure the aws-exports file - "Configure the user pool" section
-//https://docs.aws.amazon.com/prescriptive-guidance/latest/patterns/authenticate-react-app-users-cognito-amplify-ui.html
-
-//The cognito part is add in the exports which isn't being produced, how to I produce this with the settings that I need/want?
-
-// https://ui.docs.amplify.aws/vue/connected-components/authenticator/customization#headers--footers
-// if (process.env.NUXT_PUBLIC_AMPLIFY_TEST === undefined) {
 if (import.meta.env.VITE_COGNITO_USER_POOL_ID === undefined) {
   throw new Error("Missing COGNITO_USER_POOL_ID environment variable");
 }
@@ -20,6 +13,19 @@ if (import.meta.env.VITE_COGNITO_USER_POOL_CLIENT_ID === undefined) {
 }
 if (import.meta.env.VITE_COGNITO_IDENTITY_POOL_ID === undefined) {
   throw new Error("Missing COGNITO_IDENTITY_POOL_ID environment variable");
+}
+
+try {
+  const currentSession = await fetchAuthSession();
+  if (currentSession) {
+    // User is authenticated
+    console.log("Session found!");
+  } else {
+    // User is not authenticated
+    console.log("No session found.");
+  }  
+} catch (error) {
+  console.error("Error fetching auth session:", error);
 }
 
 Amplify.configure({
@@ -63,9 +69,5 @@ const auth = useAuthenticator()
                     @click="signOut">Sign Out</UButton>
             </template>
         </authenticator>
-        <!-- <template v-if="auth.route === 'authenticated'">
-            <h1>Hello {{ auth.user?.username }}!</h1>
-            <button @click="auth.signOut">Sign out</button>
-        </template> -->
     </main>
 </template>
