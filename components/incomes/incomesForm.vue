@@ -100,7 +100,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 }
 </script>
 <template>
-    <UForm :schema="schema" :state="state" class="lg:flex md:flex-nowrap flex-row space-x-4" :disabled="refreshing" @submit="onSubmit">
+    <UForm :schema="schema" :state="state" class="lg:flex md:flex-nowrap flex-row space-x-4 text-black" :disabled="refreshing" @submit="onSubmit">
         <UFormGroup label="Date" name="incomeDate">
 
             <UPopover :popper="{ placementablet: 'bottom-start' }">
