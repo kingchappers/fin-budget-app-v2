@@ -18,7 +18,6 @@ frontend:
         - export VITE_COGNITO_IDENTITY_POOL_ID=$(aws ssm get-parameter --name "/amplify/COGNITO_IDENTITY_POOL_ID" --with-decryption --query "Parameter.Value" --output text)
         - export VITE_AMPLIFY_TEST=$(aws ssm get-parameter --name "/AMPLIFY_TEST" --with-decryption --query "Parameter.Value" --output text)
         - echo "VITE_AMPLIFY_TEST=$AMPLIFY_TEST"
-        - ls .output/public
 
     build:
       commands:
