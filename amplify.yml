@@ -9,7 +9,7 @@ frontend:
   phases:
     preBuild:
       commands:
-        - - nvm uninstall 18
+        - nvm uninstall 18
         - nvm uninstall 20
         - nvm uninstall --lts 
         - nvm install 22
