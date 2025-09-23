@@ -9,10 +9,11 @@ frontend:
   phases:
     preBuild:
       commands:
+        - - nvm uninstall 18
+        - nvm uninstall 20
+        - nvm uninstall --lts 
         - nvm install 22
         - nvm use 22
-        - nvm uninstall 18
-        - nvm uninstall 20
         - export VITE_COGNITO_USER_POOL_ID=$(aws ssm get-parameter --name "/amplify/COGNITO_USER_POOL_ID" --with-decryption --query "Parameter.Value" --output text)
         - export VITE_COGNITO_USER_POOL_CLIENT_ID=$(aws ssm get-parameter --name "/amplify/COGNITO_USER_POOL_CLIENT_ID" --with-decryption --query "Parameter.Value" --output text)
         - export VITE_COGNITO_IDENTITY_POOL_ID=$(aws ssm get-parameter --name "/amplify/COGNITO_IDENTITY_POOL_ID" --with-decryption --query "Parameter.Value" --output text)
