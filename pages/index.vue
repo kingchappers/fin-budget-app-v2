@@ -28,7 +28,8 @@
                 implementing the Open Banking API, but for now this isn't part of my plan while I'm trying to get the
                 app working to meet my personal requirements.</p>
 
-            <p class="mb-5">If you came here to find out more about me you can veiw information <a class="text-blue-600" href="https://samchapman.dev/">here</a> on my personal website.</p>
+            <p class="mb-5">If you came here to find out more about me you can veiw information <a class="text-blue-600"
+                    href="https://samchapman.dev/">here</a> on my personal website.</p>
         </div>
     </main>
 </template>
