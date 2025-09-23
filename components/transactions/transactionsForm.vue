@@ -68,7 +68,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
 <template>
     <UForm :schema="schema" :state="state" class="flex flex-row space-x-4" :disabled="refreshing" @submit="onSubmit">
-        <UFormGroup label="Date" name="transactionDate">
+        <UFormGroup name="transactionDate">
+            <p class="text-sm">Date</p>
 
             <UPopover :popper="{ placementablet: 'bottom-start' }">
                 <UButton icon="i-heroicons-calendar-days-20-solid" :label="format(state.transactionDate, 'd MMM, yyy')"
@@ -79,23 +80,28 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             </UPopover>
         </UFormGroup>
 
-        <UFormGroup label="Vendor" name="vendor">
+        <UFormGroup name="vendor">
+            <p class="text-sm">Vendor</p>
             <UInput v-model="state.vendor" />
         </UFormGroup>
 
-        <UFormGroup label="Value" name="value">
+        <UFormGroup name="value">
+            <p class="text-sm">Vale</p>
             <UInput v-model="state.value" type="number" />
         </UFormGroup>
 
-        <UFormGroup label="Category" name="category">
+        <UFormGroup name="category">
+            <p class="text-sm">Category</p>
             <UInput v-model="state.category" />
         </UFormGroup>
 
-        <UFormGroup label="Items" name="items">
+        <UFormGroup name="items">
+            <p class="text-sm">Items</p>
             <UInput v-model="state.items" />
         </UFormGroup>
 
-        <UFormGroup label="Notes" name="notes">
+        <UFormGroup name="notes">
+            <p class="text-sm">Notes</p>
             <UInput v-model="state.notes" />
         </UFormGroup>
 

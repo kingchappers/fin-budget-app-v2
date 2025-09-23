@@ -100,7 +100,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 }
 </script>
 <template>
-    <UForm :schema="schema" :state="state" class="lg:flex md:flex-nowrap flex-row space-x-4" :disabled="refreshing" @submit="onSubmit">
+    <UForm :schema="schema" :state="state" class="lg:flex md:flex-nowrap flex-row space-x-4" :disabled="refreshing"
+        @submit="onSubmit">
         <UFormGroup name="incomeDate">
             <p class="text-sm">Date</p>
             <UPopover :popper="{ placementablet: 'bottom-start' }">
@@ -123,15 +124,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         </UFormGroup>
 
         <UFormGroup name="incomeCategory">
-            <p class="text-sm">Income Category</p>
-            <USelect
-                v-model="state.incomeCategory"
-                :options="incomeCategories"
-                option-attribute="value"
-                :searchable="true"
-                placeholder="Select a category"
-                class="w-full"
-            />
+            <p class="text-sm">Category</p>
+            <USelect v-model="state.incomeCategory" :options="incomeCategories" option-attribute="value"
+                :searchable="true" placeholder="Select a category" class="w-full" />
         </UFormGroup>
 
         <UFormGroup name="items">
