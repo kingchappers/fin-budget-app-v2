@@ -11,7 +11,6 @@ frontend:
       commands:
         - nvm uninstall 18
         - nvm uninstall 20
-        - nvm uninstall --lts 
         - nvm install 22
         - nvm use 22
         - export VITE_COGNITO_USER_POOL_ID=$(aws ssm get-parameter --name "/amplify/COGNITO_USER_POOL_ID" --with-decryption --query "Parameter.Value" --output text)
@@ -19,8 +18,7 @@ frontend:
         - export VITE_COGNITO_IDENTITY_POOL_ID=$(aws ssm get-parameter --name "/amplify/COGNITO_IDENTITY_POOL_ID" --with-decryption --query "Parameter.Value" --output text)
         - export VITE_AMPLIFY_TEST=$(aws ssm get-parameter --name "/AMPLIFY_TEST" --with-decryption --query "Parameter.Value" --output text)
         - echo "VITE_AMPLIFY_TEST=$AMPLIFY_TEST"
-        - echo "VITE_AMPLIFY_TEST=$AMPLIFY_TEST" >> .env
-        - cat .env
+        - ls .output/public
 
     build:
       commands:
