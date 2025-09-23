@@ -3,6 +3,7 @@ backend:
   phases:
     build:
       commands:
+        - nvm install --lts
         - npm ci --cache .npm --prefer-offline
         - npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
 frontend:
@@ -12,20 +13,9 @@ frontend:
         - export VITE_COGNITO_USER_POOL_ID=$(aws ssm get-parameter --name "/amplify/COGNITO_USER_POOL_ID" --with-decryption --query "Parameter.Value" --output text)
         - export VITE_COGNITO_USER_POOL_CLIENT_ID=$(aws ssm get-parameter --name "/amplify/COGNITO_USER_POOL_CLIENT_ID" --with-decryption --query "Parameter.Value" --output text)
         - export VITE_COGNITO_IDENTITY_POOL_ID=$(aws ssm get-parameter --name "/amplify/COGNITO_IDENTITY_POOL_ID" --with-decryption --query "Parameter.Value" --output text)
-        # - export NUXT_PUBLIC_AMPLIFY_TEST=$(aws ssm get-parameter --name "/AMPLIFY_TEST" --with-decryption --query "Parameter.Value" --output text)
-        # - echo "NUXT_PUBLIC_AMPLIFY_TEST=$NUXT_PUBLIC_AMPLIFY_TEST"
-        # - echo "NUXT_PUBLIC_AMPLIFY_TEST=$NUXT_PUBLIC_AMPLIFY_TEST" >> .env
-        # - export AMPLIFY_TEST=$(aws ssm get-parameter --name "/AMPLIFY_TEST" --with-decryption --query "Parameter.Value" --output text)
-        # - echo "AMPLIFY_TEST=$AMPLIFY_TEST"
-        # - echo "AMPLIFY_TEST=$AMPLIFY_TEST" >> .env
-        # - export VUE_APP_AMPLIFY_TEST=$(aws ssm get-parameter --name "/AMPLIFY_TEST" --with-decryption --query "Parameter.Value" --output text)
-        # - echo "VUE_APP_AMPLIFY_TEST=$AMPLIFY_TEST"
-        # - echo "VUE_APP_AMPLIFY_TEST=$AMPLIFY_TEST" >> .env
         - export VITE_AMPLIFY_TEST=$(aws ssm get-parameter --name "/AMPLIFY_TEST" --with-decryption --query "Parameter.Value" --output text)
         - echo "VITE_AMPLIFY_TEST=$AMPLIFY_TEST"
         - echo "VITE_AMPLIFY_TEST=$AMPLIFY_TEST" >> .env
-        - pwd
-        - ls -la
         - cat .env
 
     build:
