@@ -100,9 +100,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 }
 </script>
 <template>
-    <UForm :schema="schema" :state="state" class="lg:flex md:flex-nowrap flex-row space-x-4 text-black" :disabled="refreshing" @submit="onSubmit">
-        <UFormGroup label="Date" name="incomeDate">
-
+    <UForm :schema="schema" :state="state" class="grid grid-cols-3 lg:grid-cols-6 gap-x-4" :disabled="refreshing"
+        @submit="onSubmit">
+        <UFormGroup name="incomeDate">
+            <p class="text-sm">Date</p>
             <UPopover :popper="{ placementablet: 'bottom-start' }">
                 <UButton icon="i-heroicons-calendar-days-20-solid" :label="format(state.incomeDate, 'd MMM, yyy')"
                     class="bg-white text-black hover:bg-slate-300" />
@@ -112,30 +113,29 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             </UPopover>
         </UFormGroup>
 
-        <UFormGroup label="Company" name="company">
+        <UFormGroup name="company">
+            <p class="text-sm">Company</p>
             <UInput v-model="state.company" />
         </UFormGroup>
 
-        <UFormGroup label="Amount" name="amount">
+        <UFormGroup name="amount">
+            <p class="text-sm">Ammount</p>
             <UInput v-model="state.amount" type="number" />
         </UFormGroup>
 
-        <UFormGroup label="Income Category" name="incomeCategory">
-            <USelect
-                v-model="state.incomeCategory"
-                :options="incomeCategories"
-                option-attribute="value"
-                :searchable="true"
-                placeholder="Select a category"
-                class="w-full"
-            />
+        <UFormGroup name="incomeCategory">
+            <p class="text-sm">Category</p>
+            <USelect v-model="state.incomeCategory" :options="incomeCategories" option-attribute="value"
+                :searchable="true" placeholder="Select a category" class="w-full" />
         </UFormGroup>
 
-        <UFormGroup label="Items" name="items">
+        <UFormGroup name="items">
+            <p class="text-sm">Items</p>
             <UInput v-model="state.items" />
         </UFormGroup>
 
-        <UFormGroup label="Notes" name="notes">
+        <UFormGroup name="notes">
+            <p class="text-sm">Notes</p>
             <UInput v-model="state.notes" />
         </UFormGroup>
 
