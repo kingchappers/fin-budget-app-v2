@@ -67,7 +67,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 </script>
 
 <template>
-    <UForm :schema="schema" :state="state" class="flex flex-row space-x-4" :disabled="refreshing" @submit="onSubmit">
+    <UForm :schema="schema" :state="state" class="grid grid-cols-3 lg:grid-cols-6 gap-x-4" :disabled="refreshing"
+        @submit="onSubmit">
         <UFormGroup name="transactionDate">
             <p class="text-sm">Date</p>
 
