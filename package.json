@@ -30,6 +30,7 @@
     "pinia": "^2.2.0",
     "v-calendar": "^3.1.2",
     "vue": "latest",
+    "yarn": "^1.22.22",
     "zod": "^3.23.8"
   },
   "devDependencies": {
