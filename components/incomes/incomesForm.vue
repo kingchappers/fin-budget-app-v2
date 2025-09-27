@@ -3,7 +3,6 @@ import { z } from 'zod'
 import type { FormSubmitEvent } from '#ui/types'
 import { incomeFormZodObject } from '~/types/incomeZodObjects';
 import { CalendarDate, DateFormatter, getLocalTimeZone } from '@internationalized/date'
-import { format } from 'date-fns';
 import { useIncomeStore } from '~/server/stores/incomeStore';
 import { fetchAuthSession } from 'aws-amplify/auth';
 import { useAuthenticator } from '@aws-amplify/ui-vue';
@@ -27,32 +26,7 @@ const df = new DateFormatter('en-GB', {
     dateStyle: 'medium'
 })
 const incomeDateFormValue = shallowRef(new CalendarDate(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()))
-const incomeCategories = [
-    {
-        label: 'Job',
-        value: 'Job'
-    },
-    {
-        label: 'Other',
-        value: 'Other'
-    },
-    {
-        label: 'Refund',
-        value: 'Refund'
-    },
-    {
-        label: 'Rent',
-        value: 'Rent'
-    },
-    {
-        label: 'Side Project',
-        value: 'Side Project'
-    },
-    {
-        label: 'Tax Refund',
-        value: 'Tax Refund'
-    }
-]
+const incomeCategories = ['Job', 'Other', 'Refund', 'Rent', 'Side Project', 'Tax Refund']
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     const incomeDate = incomeDateFormValue.value.toDate('UTC');;
