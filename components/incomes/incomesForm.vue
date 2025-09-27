@@ -106,7 +106,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             <p class="text-sm">Date</p>
             <UPopover :popper="{ placementablet: 'bottom-start' }">
                 <UButton icon="i-heroicons-calendar-days-20-solid" :label="format(state.incomeDate, 'd MMM, yyy')"
-                    class="bg-white text-black hover:bg-slate-300" />
+                    class="bg-white text-black hover:bg-slate-300 -mr-4" />
                 <template #panel="{ close }">
                     <ButtonsDatePicker v-model="state.incomeDate" is-required @close="close" />
                 </template>
