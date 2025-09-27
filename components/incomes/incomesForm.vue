@@ -2,6 +2,7 @@
 import { z } from 'zod'
 import type { FormSubmitEvent } from '#ui/types'
 import { incomeFormZodObject } from '~/types/incomeZodObjects';
+import { CalendarDate, DateFormatter, getLocalTimeZone } from '@internationalized/date'
 import { format } from 'date-fns';
 import { useIncomeStore } from '~/server/stores/incomeStore';
 import { fetchAuthSession } from 'aws-amplify/auth';
@@ -22,6 +23,10 @@ const refreshing = ref(false)
 const incomeArray = useIncomeStore();
 const auth = useAuthenticator();
 const session = await fetchAuthSession();
+const df = new DateFormatter('en-GB', {
+    dateStyle: 'medium'
+})
+const incomeDateFormValue = shallowRef(new CalendarDate(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()))
 const incomeCategories = [
     {
         label: 'Job',
@@ -50,7 +55,7 @@ const incomeCategories = [
 ]
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-    const incomeDate = event.data.incomeDate;
+    const incomeDate = incomeDateFormValue.value.toDate('UTC');;
     const company = event.data.company;
     const amount = event.data.amount;
     const incomeCategory = event.data.incomeCategory;
@@ -102,7 +107,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 <template>
     <UForm :schema="schema" :state="state" class="grid grid-cols-3 lg:grid-cols-6 gap-x-4" :disabled="refreshing"
         @submit="onSubmit">
-        <UFormField name="incomeDate">
+        <!-- <UFormField name="incomeDate">
             <p class="text-sm">Date</p>
             <UPopover :popper="{ placementablet: 'bottom-start' }" class="-mr-4">
                 <UButton icon="i-heroicons-calendar-days-20-solid" :label="format(state.incomeDate, 'd MMM, yyy')"
@@ -111,6 +116,18 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                     <ButtonsDatePicker v-model="state.incomeDate" is-required @close="close" />
                 </template>
             </UPopover>
+        </UFormField> -->
+        <UFormField name="incomeDate2">
+            
+                <UPopover>
+                    <UButton color="neutral" variant="subtle" icon="i-lucide-calendar">
+                        {{ incomeDateFormValue ? df.format(incomeDateFormValue.toDate(getLocalTimeZone())) : 'Select a date' }}
+                    </UButton>
+
+                    <template #content>
+                        <UCalendar v-model="incomeDateFormValue" class="p-2" />
+                    </template>
+                </UPopover>
         </UFormField>
 
         <UFormField name="company">

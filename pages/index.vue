@@ -1,8 +1,52 @@
 <script setup lang="ts">
+// import { CalendarDate, DateFormatter, getLocalTimeZone } from '@internationalized/date'
+// import { incomeFormZodObject } from '~/types/incomeZodObjects';
+// import type { FormSubmitEvent } from '#ui/types'
+// import { z } from 'zod'
+
+// const initialState = {
+//     incomeDate: ref(new Date()),
+// }
+
+// const schema = incomeFormZodObject
+
+// const state = reactive({ ...initialState })
+// type Schema = z.output<typeof schema>
+
+// const df = new DateFormatter('en-GB', {
+//     dateStyle: 'medium'
+// })
+
+// const modelValue = shallowRef(new CalendarDate(2022, 1, 10))
+// async function onSubmit(event: FormSubmitEvent<Schema>) {
+//     const incomeDate = event.data.incomeDate;
+//     console.log(incomeDate);
+//     console.log(state.incomeDate);
+//     console.log(modelValue.value.toDate('UTC'));
+//     // form submission logic
+// }
 </script>
 
 <template>
     <main>
+        <!-- <UForm :state="state" class="grid grid-cols-3 lg:grid-cols-6 gap-x-4"
+                @submit="onSubmit">
+        <UFormField name="incomeDate2">
+            
+                <UPopover>
+                    <UButton color="neutral" variant="subtle" icon="i-lucide-calendar" class="bg-sky-100 text-slate-800">
+                        {{ modelValue ? df.format(modelValue.toDate(getLocalTimeZone())) : 'Select a date' }}
+                    </UButton>
+
+                    <template #content>
+                        <UCalendar v-model="modelValue" class="p-2" />
+                    </template>
+                </UPopover>
+        </UFormField>
+        <UButton type="submit" class="h-8 m-6">
+            Submit
+        </UButton>
+        </UForm> -->
         <div>
             <h1 class="text-4xl font-extrabold">Welcome to the budget-app!</h1>
             <h1 class="text-4xl font-extrabold mb-5">About</h1>
