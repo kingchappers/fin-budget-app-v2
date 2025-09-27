@@ -19,7 +19,7 @@
     "@aws-sdk/credential-provider-cognito-identity": "^3.895.0",
     "@aws-sdk/util-dynamodb": "^3.895.0",
     "@nuxt/image": "^1.7.0",
-    "@nuxt/ui": "3",
+    "@nuxt/ui": "^4.0.0",
     "@pinia/nuxt": "^0.5.2",
     "@popperjs/core": "^2.11.8",
     "@typegoose/typegoose": "^12.6.0",
