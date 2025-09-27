@@ -107,27 +107,17 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 <template>
     <UForm :schema="schema" :state="state" class="grid grid-cols-3 lg:grid-cols-6 gap-x-4" :disabled="refreshing"
         @submit="onSubmit">
-        <!-- <UFormField name="incomeDate">
-            <p class="text-sm">Date</p>
-            <UPopover :popper="{ placementablet: 'bottom-start' }" class="-mr-4">
-                <UButton icon="i-heroicons-calendar-days-20-solid" :label="format(state.incomeDate, 'd MMM, yyy')"
-                    class="bg-white text-black hover:bg-slate-300" />
-                <template #panel="{ close }">
-                    <ButtonsDatePicker v-model="state.incomeDate" is-required @close="close" />
+        <UFormField name="incomeDate">
+            <UPopover>
+                <UButton color="neutral" variant="subtle" icon="i-lucide-calendar">
+                    {{ incomeDateFormValue ? df.format(incomeDateFormValue.toDate(getLocalTimeZone())) : 'Select a date'
+                    }}
+                </UButton>
+
+                <template #content>
+                    <UCalendar v-model="incomeDateFormValue" class="p-2" />
                 </template>
             </UPopover>
-        </UFormField> -->
-        <UFormField name="incomeDate2">
-            
-                <UPopover>
-                    <UButton color="neutral" variant="subtle" icon="i-lucide-calendar">
-                        {{ incomeDateFormValue ? df.format(incomeDateFormValue.toDate(getLocalTimeZone())) : 'Select a date' }}
-                    </UButton>
-
-                    <template #content>
-                        <UCalendar v-model="incomeDateFormValue" class="p-2" />
-                    </template>
-                </UPopover>
         </UFormField>
 
         <UFormField name="company">
@@ -142,8 +132,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
         <UFormField name="incomeCategory">
             <p class="text-sm">Category</p>
-            <USelect v-model="state.incomeCategory" :options="incomeCategories" option-attribute="value"
-                :searchable="true" placeholder="Select a category" class="w-full" />
+            <USelectMenu v-model="state.incomeCategory" :items="incomeCategories" placeholder="Select a category" class="w-full" />
         </UFormField>
 
         <UFormField name="items">
