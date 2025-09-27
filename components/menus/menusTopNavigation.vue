@@ -79,11 +79,13 @@ const links = [
 <template>
     <div class="lg:flex md:flex-nowrap border-b border-neutral-200 dark:border-neutral-800 w-lvw">
         <UNavigationMenu orientation="horizontal" :items="links"/>
+        </div>
+        <div class="lg:flex md:flex-nowrap justify-end  border-b border-neutral-200 dark:border-neutral-800 w-lvw">
         <UDropdownMenu :items="utilityMenu" :popper="{ placement: 'bottom-start' }">
-            <UButton label="Utilities" icon="i-heroicons-bars-3-20-solid" color="white" variant="soft" class="ml-2" />
+            <UButton label="Utilities" icon="i-heroicons-bars-3-20-solid" variant="soft" class="ml-2 bg-sky-100 text-slate-800" />
         </UDropdownMenu>
         <UDropdownMenu :items="accountMenuToUse" :popper="{ placement: 'bottom-start' }">
-            <UButton label="Account" icon="i-heroicons-bars-3-20-solid" color="white" variant="soft" class="ml-2" />
+            <UButton label="Account" icon="i-heroicons-bars-3-20-solid" variant="soft" class="ml-2 bg-sky-100 text-slate-800" />
         </UDropdownMenu>
     </div>
 </template>
