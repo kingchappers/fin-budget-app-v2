@@ -1,67 +1,20 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss' layer(base);
+@import "@nuxt/ui";
 
-/* ________________________________________________________________________________________POTENTIALLY REQUIRED, THIS WAS TAKEN FROM THE ORIGINAL NEXT.JS APP'S GLOBALS.CSS FILE
-________________________________________________________________________________________
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
 */
-/* :root {
-    --foreground-rgb: 0, 0, 0;
-    --background-start-rgb: 214, 219, 220;
-    --background-end-rgb: 255, 255, 255;
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-neutral-200, currentcolor);
+  }
 }
-
-@media (prefers-color-scheme: dark) {
-    :root {
-      --foreground-rgb: 255, 255, 255;
-      --background-start-rgb: 0, 0, 0;
-      --background-end-rgb: 0, 0, 0;
-    }
-}
-
-bodyOld {
-    color: rgb(var(--foreground-rgb));
-    background: linear-gradient(
-        to bottom,
-        transparent,
-        rgb(var(--background-end-rgb))
-        )
-    rgb(var(--background-start-rgb));
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-}
-
-input[type=number] {
-    -moz-appearance:textfield; /* Firefox
-}
-
-.Select__value-container {
-    font-size: 1rem;
-    min-height: 5px;
-    padding: 0px;
-}
-.Select__control--is-focused {
-    font-size: 5px;
-    min-height: 25px;
-}
-.Select__dropdown-indicator{
-    padding: 1px;
-    padding-right: 3px;
-    padding-left: 5px;
-}
-.Select__control{
-    font-size: 5px;
-    min-height: 25px;
-}
-.Select__clear-indicator{
-    font-size: 5px;
-    min-height: 25px;
-    padding: 1px;
-}
-.Select__input-container{
-    min-height: 25px;
-    padding: 1px;
-} */

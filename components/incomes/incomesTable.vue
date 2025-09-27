@@ -40,7 +40,7 @@ const items = (row: incomeType) => [
     [{
         label: 'Edit',
         icon: 'i-heroicons-pencil-square-20-solid',
-        click: () => {
+        onClick: () => {
             isEditingRow.value = true
             rowEditing.value = row
             state.incomeDate = rowEditing.value.incomeDate
@@ -97,7 +97,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     <div v-if="incomeList">
         <div class="flex flex-row space-x-4">
             <UButton icon="i-heroicons-trash" class="bg-red-600 hover:bg-red-700"
-                @click="deleteIncomes(selectedValues)">Delete Selected</UButton>
+                @onClick="deleteIncomes(selectedValues)">Delete Selected</UButton>
         </div>
         <UTable :empty-state="{ icon: 'i-heroicons-circle-stack-20-solid', label: 'No items.' }"
             v-model="selectedValues" :columns="columns" :rows="incomeList">
@@ -110,9 +110,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             </template>
 
             <template #actions-data="{ row }">
-                <UDropdown :items="items(row)">
-                    <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
-                </UDropdown>
+                <UDropdownMenu :items="items(row)">
+                    <UButton color="neutral" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
+                </UDropdownMenu>
             </template>
         </UTable>
 
@@ -121,7 +121,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             <UModal v-model="isEditingRow">
                 <UCard>
                     <UForm :schema="schema" :state="state" class="grid grid-cols-4 gap-4" @submit="onSubmit">
-                        <UFormGroup label="Date" name="incomeDate" class="col-span-2">
+                        <UFormField label="Date" name="incomeDate" class="col-span-2">
 
                             <UPopover :popper="{ placementablet: 'bottom-start' }">
                                 <UButton icon="i-heroicons-calendar-days-20-solid"
@@ -131,31 +131,31 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                                     <ButtonsDatePicker v-model="state.incomeDate" is-required @close="close" />
                                 </template>
                             </UPopover>
-                        </UFormGroup>
+                        </UFormField>
 
-                        <UFormGroup label="Company" name="company" class="col-span-2">
+                        <UFormField label="Company" name="company" class="col-span-2">
                             <UInput v-model="state.company" />
-                        </UFormGroup>
+                        </UFormField>
 
-                        <UFormGroup label="Amount" name="amount" class="col-span-2">
+                        <UFormField label="Amount" name="amount" class="col-span-2">
                             <UInput v-model="state.amount" type="number" />
-                        </UFormGroup>
+                        </UFormField>
 
-                        <UFormGroup label="Category" name="incomeCategory" class="col-span-2">
+                        <UFormField label="Category" name="incomeCategory" class="col-span-2">
                             <UInput v-model="state.incomeCategory" />
-                        </UFormGroup>
+                        </UFormField>
 
-                        <UFormGroup label="Items" name="items" class="col-span-2">
+                        <UFormField label="Items" name="items" class="col-span-2">
                             <UInput v-model="state.items" />
-                        </UFormGroup>
+                        </UFormField>
 
-                        <UFormGroup label="Notes" name="notes" class="col-span-2">
+                        <UFormField label="Notes" name="notes" class="col-span-2">
                             <UInput v-model="state.notes" />
-                        </UFormGroup>
+                        </UFormField>
 
-                        <UFormGroup label="User ID" name="userId" class="col-span-2">
+                        <UFormField label="User ID" name="userId" class="col-span-2">
                             <UInput v-model="state.userId" />
-                        </UFormGroup>
+                        </UFormField>
 
                         <UButton type="submit" class="col-start-1 h-8 w-16 m-6">
                             Update

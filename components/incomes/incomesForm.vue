@@ -102,42 +102,42 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 <template>
     <UForm :schema="schema" :state="state" class="grid grid-cols-3 lg:grid-cols-6 gap-x-4" :disabled="refreshing"
         @submit="onSubmit">
-        <UFormGroup name="incomeDate">
+        <UFormField name="incomeDate">
             <p class="text-sm">Date</p>
-            <UPopover :popper="{ placementablet: 'bottom-start' }">
+            <UPopover :popper="{ placementablet: 'bottom-start' }" class="-mr-4">
                 <UButton icon="i-heroicons-calendar-days-20-solid" :label="format(state.incomeDate, 'd MMM, yyy')"
-                    class="bg-white text-black hover:bg-slate-300 -mr-4" />
+                    class="bg-white text-black hover:bg-slate-300" />
                 <template #panel="{ close }">
                     <ButtonsDatePicker v-model="state.incomeDate" is-required @close="close" />
                 </template>
             </UPopover>
-        </UFormGroup>
+        </UFormField>
 
-        <UFormGroup name="company">
+        <UFormField name="company">
             <p class="text-sm">Company</p>
             <UInput v-model="state.company" />
-        </UFormGroup>
+        </UFormField>
 
-        <UFormGroup name="amount">
+        <UFormField name="amount">
             <p class="text-sm">Ammount</p>
             <UInput v-model="state.amount" type="number" />
-        </UFormGroup>
+        </UFormField>
 
-        <UFormGroup name="incomeCategory">
+        <UFormField name="incomeCategory">
             <p class="text-sm">Category</p>
             <USelect v-model="state.incomeCategory" :options="incomeCategories" option-attribute="value"
                 :searchable="true" placeholder="Select a category" class="w-full" />
-        </UFormGroup>
+        </UFormField>
 
-        <UFormGroup name="items">
+        <UFormField name="items">
             <p class="text-sm">Items</p>
             <UInput v-model="state.items" />
-        </UFormGroup>
+        </UFormField>
 
-        <UFormGroup name="notes">
+        <UFormField name="notes">
             <p class="text-sm">Notes</p>
             <UInput v-model="state.notes" />
-        </UFormGroup>
+        </UFormField>
 
         <UButton type="submit" class="h-8 m-6">
             Submit
