@@ -40,7 +40,7 @@ const items = (row: transactionType) => [
     [{
         label: 'Edit',
         icon: 'i-heroicons-pencil-square-20-solid',
-        click: () => {
+        onClick: () => {
             isEditingRow.value = true
             rowEditing.value = row
             state.transactionDate = rowEditing.value.transactionDate
@@ -55,7 +55,7 @@ const items = (row: transactionType) => [
     },], [{
         label: 'Delete',
         icon: 'i-heroicons-trash-20-solid',
-        click: () => deleteTransactions([row])
+        onClick: () => deleteTransactions([row])
     }]
 ]
 const selectedValues = ref([])
@@ -146,7 +146,7 @@ async function deleteTransactions(selectedValues: transactionType[]) {
     <div v-if="transactionsList">
         <div class="flex flex-row space-x-4">
             <UButton icon="i-heroicons-trash" class="bg-red-600 hover:bg-red-700"
-                @click="deleteTransactions(selectedValues)">Delete Selected</UButton>
+                @onClick="deleteTransactions(selectedValues)">Delete Selected</UButton>
         </div>
         <UTable :empty-state="{ icon: 'i-heroicons-circle-stack-20-solid', label: 'No items.' }"
             v-model="selectedValues" :columns="columns" :rows="transactionsList">
@@ -159,9 +159,9 @@ async function deleteTransactions(selectedValues: transactionType[]) {
             </template>
 
             <template #actions-data="{ row }">
-                <UDropdown :items="items(row)">
-                    <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
-                </UDropdown>
+                <UDropdownMenu :items="items(row)">
+                    <UButton color="neutral" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
+                </UDropdownMenu>
             </template>
         </UTable>
 
@@ -170,7 +170,7 @@ async function deleteTransactions(selectedValues: transactionType[]) {
             <UModal v-model="isEditingRow">
                 <UCard>
                     <UForm :schema="schema" :state="state" class="grid grid-cols-4 gap-4" @submit="onSubmit">
-                        <UFormGroup label="Date" name="transactionDate" class="col-span-2">
+                        <UFormField label="Date" name="transactionDate" class="col-span-2">
 
                             <UPopover :popper="{ placementablet: 'bottom-start' }">
                                 <UButton icon="i-heroicons-calendar-days-20-solid"
@@ -180,31 +180,31 @@ async function deleteTransactions(selectedValues: transactionType[]) {
                                     <ButtonsDatePicker v-model="state.transactionDate" is-required @close="close" />
                                 </template>
                             </UPopover>
-                        </UFormGroup>
+                        </UFormField>
 
-                        <UFormGroup label="Vendor" name="vendor" class="col-span-2">
+                        <UFormField label="Vendor" name="vendor" class="col-span-2">
                             <UInput v-model="state.vendor" />
-                        </UFormGroup>
+                        </UFormField>
 
-                        <UFormGroup label="Value" name="value" class="col-span-2">
+                        <UFormField label="Value" name="value" class="col-span-2">
                             <UInput v-model="state.value" type="number" />
-                        </UFormGroup>
+                        </UFormField>
 
-                        <UFormGroup label="Category" name="category" class="col-span-2">
+                        <UFormField label="Category" name="category" class="col-span-2">
                             <UInput v-model="state.category" />
-                        </UFormGroup>
+                        </UFormField>
 
-                        <UFormGroup label="Items" name="items" class="col-span-2">
+                        <UFormField label="Items" name="items" class="col-span-2">
                             <UInput v-model="state.items" />
-                        </UFormGroup>
+                        </UFormField>
 
-                        <UFormGroup label="Notes" name="notes" class="col-span-2">
+                        <UFormField label="Notes" name="notes" class="col-span-2">
                             <UInput v-model="state.notes" />
-                        </UFormGroup>
+                        </UFormField>
 
-                        <UFormGroup label="User ID" name="userId" class="col-span-2">
+                        <UFormField label="User ID" name="userId" class="col-span-2">
                             <UInput v-model="state.userId" />
-                        </UFormGroup>
+                        </UFormField>
 
                         <UButton type="submit" class="col-start-1 h-8 w-16 m-6">
                             Update

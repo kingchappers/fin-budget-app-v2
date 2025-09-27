@@ -28,7 +28,7 @@ const accountMenuAuthenticated = [[{
     label: 'Sign Out',
     icon: 'i-heroicons-arrow-right-on-rectangle',
     to: '/login',
-    click: () => auth.signOut()
+    onClick: () => auth.signOut()
 }]]
 
 const accountMenuToUse = computed(() => {
@@ -77,13 +77,13 @@ const links = [
 </script>
 
 <template>
-    <div class="lg:flex md:flex-nowrap border-b border-gray-200 dark:border-gray-800 w-lvw">
-        <UHorizontalNavigation :links="links"/>
-        <UDropdown :items="utilityMenu" :popper="{ placement: 'bottom-start' }">
+    <div class="lg:flex md:flex-nowrap border-b border-neutral-200 dark:border-neutral-800 w-lvw">
+        <UNavigationMenu orientation="horizontal" :items="links"/>
+        <UDropdownMenu :items="utilityMenu" :popper="{ placement: 'bottom-start' }">
             <UButton label="Utilities" icon="i-heroicons-bars-3-20-solid" color="white" variant="soft" class="ml-2" />
-        </UDropdown>
-        <UDropdown :items="accountMenuToUse" :popper="{ placement: 'bottom-start' }">
+        </UDropdownMenu>
+        <UDropdownMenu :items="accountMenuToUse" :popper="{ placement: 'bottom-start' }">
             <UButton label="Account" icon="i-heroicons-bars-3-20-solid" color="white" variant="soft" class="ml-2" />
-        </UDropdown>
+        </UDropdownMenu>
     </div>
 </template>

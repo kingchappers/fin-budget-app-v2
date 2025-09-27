@@ -66,7 +66,7 @@ const auth = useAuthenticator()
                     think of something to add eventually.</p>
                 <!-- <button @click="signOut">Sign Out</button> -->
                 <UButton icon="i-heroicons-arrow-left-start-on-rectangle" class="my-5 bg-red-600 hover:bg-red-700"
-                    @click="signOut">Sign Out</UButton>
+                    @onClick="signOut">Sign Out</UButton>
             </template>
         </authenticator>
     </main>

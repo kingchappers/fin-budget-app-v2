@@ -5,7 +5,7 @@ import { Amplify } from 'aws-amplify';
 
 // Amplify.configure(awsconfig);
 Amplify.configure({
-    Auth: {
+  Auth: {
     Cognito: {
       userPoolId: "eu-west-2_J6kM16ZTK",
       userPoolClientId: "5mpdsasf707u9mfeg3uihfeip3",
@@ -33,7 +33,9 @@ Amplify.configure({
 </script>
 
 <template>
+  <UApp>
     <NuxtLayout>
-        <NuxtPage />
+      <NuxtPage />
     </NuxtLayout>
+  </UApp>
 </template>

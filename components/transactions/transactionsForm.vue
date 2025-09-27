@@ -69,7 +69,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 <template>
     <UForm :schema="schema" :state="state" class="grid grid-cols-3 lg:grid-cols-6 gap-x-4" :disabled="refreshing"
         @submit="onSubmit">
-        <UFormGroup name="transactionDate">
+        <UFormField name="transactionDate">
             <p class="text-sm">Date</p>
 
             <UPopover :popper="{ placementablet: 'bottom-start' }">
@@ -79,32 +79,32 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                     <ButtonsDatePicker v-model="state.transactionDate" is-required @close="close" />
                 </template>
             </UPopover>
-        </UFormGroup>
+        </UFormField>
 
-        <UFormGroup name="vendor">
+        <UFormField name="vendor">
             <p class="text-sm">Vendor</p>
             <UInput v-model="state.vendor" />
-        </UFormGroup>
+        </UFormField>
 
-        <UFormGroup name="value">
+        <UFormField name="value">
             <p class="text-sm">Vale</p>
             <UInput v-model="state.value" type="number" />
-        </UFormGroup>
+        </UFormField>
 
-        <UFormGroup name="category">
+        <UFormField name="category">
             <p class="text-sm">Category</p>
             <UInput v-model="state.category" />
-        </UFormGroup>
+        </UFormField>
 
-        <UFormGroup name="items">
+        <UFormField name="items">
             <p class="text-sm">Items</p>
             <UInput v-model="state.items" />
-        </UFormGroup>
+        </UFormField>
 
-        <UFormGroup name="notes">
+        <UFormField name="notes">
             <p class="text-sm">Notes</p>
             <UInput v-model="state.notes" />
-        </UFormGroup>
+        </UFormField>
 
         <UButton type="submit" class="h-8 m-6">
             Submit
