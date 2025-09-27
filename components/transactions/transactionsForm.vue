@@ -2,7 +2,6 @@
 import { z } from 'zod'
 import type { FormSubmitEvent } from '#ui/types'
 import { transactionFormZodObject } from '~/types/transactionZodObjects';
-import { format } from 'date-fns';
 import { useTransactionStore } from '~/server/stores/transactionStore';
 import { fetchAuthSession } from 'aws-amplify/auth';
 import { useAuthenticator } from '@aws-amplify/ui-vue';
@@ -69,7 +68,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 <template>
     <UForm :schema="schema" :state="state" class="grid grid-cols-3 lg:grid-cols-6 gap-x-4" :disabled="refreshing"
         @submit="onSubmit">
-        <UFormField name="transactionDate">
+        <!-- <UFormField name="transactionDate">
             <p class="text-sm">Date</p>
 
             <UPopover :popper="{ placementablet: 'bottom-start' }">
@@ -79,7 +78,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                     <ButtonsDatePicker v-model="state.transactionDate" is-required @close="close" />
                 </template>
             </UPopover>
-        </UFormField>
+        </UFormField> -->
 
         <UFormField name="vendor">
             <p class="text-sm">Vendor</p>
