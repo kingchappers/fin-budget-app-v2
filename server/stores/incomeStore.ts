@@ -55,12 +55,10 @@ export const useIncomeStore = defineStore('incomeStore', {
                 method: 'GET',
                 headers: {
                     'Authorization': token,
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'UserId': userId
                 },
                 credentials: 'include',
-                body: {
-                    userId
-                }
             })
             console.log(newIncomeList)
             // this.incomeList = newIncomeList || {}
