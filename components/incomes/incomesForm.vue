@@ -39,7 +39,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     let token = ''
     if (session.tokens && session.tokens.idToken) {
         token = session.tokens.idToken.toString()
-        console.log('Session token found:', token);
+        console.log('Session token found!');
     } else {
         console.log('Error: Session token not found. Redirecting to login')
     }
