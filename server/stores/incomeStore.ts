@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 import type { incomeFilter } from '~/types/incomeFilter';
 import type { incomeType } from "~/types/incomeTypes";
 import { useUserStore } from "./userStore";
+import { useAuthenticator } from '@aws-amplify/ui-vue';
 
 const incomeFilter: incomeFilter = {
     limit: 5,
@@ -43,6 +44,26 @@ export const useIncomeStore = defineStore('incomeStore', {
             })
             console.log(incomeList)
             this.incomeList = incomeList || {}
+
+
+
+
+            const auth = useAuthenticator();
+            const userId = auth.user.userId;
+            let token = ''
+            const newIncomeList = await $fetch('https://dg2rxkailb.execute-api.eu-west-2.amazonaws.com/prod/income', {
+                method: 'GET',
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+                body: {
+                    userId
+                }
+            })
+            console.log(newIncomeList)
+            // this.incomeList = newIncomeList || {}
         },
     },
 })
