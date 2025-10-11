@@ -47,10 +47,17 @@ export const useIncomeStore = defineStore('incomeStore', {
 
 
 
-
+            // UPDATED FOR API CALLING
             const auth = useAuthenticator();
             const userId = auth.user.userId;
             let token = ''
+
+            if (session.tokens && session.tokens.idToken) {
+                token = session.tokens.idToken.toString()
+                console.log('Session token found!');
+            } else {
+                console.log('Error: Session token not found. Redirecting to login')
+            }
             const newIncomeList = await $fetch('https://dg2rxkailb.execute-api.eu-west-2.amazonaws.com/prod/income', {
                 method: 'GET',
                 headers: {
