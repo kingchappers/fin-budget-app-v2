@@ -60,15 +60,15 @@ export const useIncomeStore = defineStore('incomeStore', {
                 console.log('Error: Session token not found. Redirecting to login')
             }
             const newIncomeList = await useFetch('https://dg2rxkailb.execute-api.eu-west-2.amazonaws.com/prod/income', {
-                query: {
-                    userId: userId,
-                },
-                method: 'GET',
+                method: 'POST',
                 headers: {
                     'Authorization': token,
                     'Content-Type': 'application/json',
                 },
                 credentials: 'include',
+                body: {
+                    userId: userId,
+                }
             })
             console.log(newIncomeList)
             // this.incomeList = newIncomeList || {}
