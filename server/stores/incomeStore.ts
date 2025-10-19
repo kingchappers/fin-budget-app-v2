@@ -23,32 +23,6 @@ export const useIncomeStore = defineStore('incomeStore', {
     actions: {
         async fetch() {
             const session = await fetchAuthSession();
-            // let authorisation = ''
-            // if (session.tokens && session.tokens.idToken) {
-            //     authorisation = session.tokens.idToken.toString()
-            // } else {
-            //     console.log('Error: Session token not found. Redirecting to login')
-            // }
-
-            // const userStore = useUserStore();
-            // incomeFilter.userId = userStore.userId;
-            // console.log(incomeFilter)
-            // const incomeList = await $fetch('/api/incomes/getIncomes', {
-            //     method: 'get',
-            //     headers: {
-            //         Authorisation: authorisation,
-            //         UserId: userStore.userId
-            //     },
-            //     params: {
-            //         incomeFilter
-            //     },
-            // })
-            // console.log(incomeList)
-            // this.incomeList = incomeList || {}
-
-
-
-            // UPDATED FOR API CALLING
             const auth = useAuthenticator();
             const userId = auth.user.userId;
             let token = ''
@@ -59,7 +33,7 @@ export const useIncomeStore = defineStore('incomeStore', {
             } else {
                 console.log('Error: Session token not found. Redirecting to login')
             }
-            const newIncomeList = await useFetch('https://dg2rxkailb.execute-api.eu-west-2.amazonaws.com/prod/income', {
+            const newIncomeList = await useFetch('https://530n5rqhl4.execute-api.eu-west-2.amazonaws.com/prod/getIncomes', {
                 method: 'POST',
                 headers: {
                     'Authorization': token,
