@@ -10,6 +10,7 @@ import { fetchAuthSession } from '@aws-amplify/auth';
 import { useUserStore } from '~/server/stores/userStore';
 
 const incomeArray = useIncomeStore();
+console.log("income array: " + incomeArray)
 const { incomeList } = storeToRefs(incomeArray)
 const isEditingRow = ref(false)
 const rowEditing = ref<incomeType>()
