@@ -24,7 +24,7 @@ const session = await fetchAuthSession();
 const df = new DateFormatter('en-GB', {
     dateStyle: 'medium'
 })
-const incomeDateFormValue = shallowRef(new CalendarDate(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()))
+const incomeDateFormValue = shallowRef(new CalendarDate(new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate()))
 const incomeCategories = ['Job', 'Other', 'Refund', 'Rent', 'Side Project', 'Tax Refund']
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
