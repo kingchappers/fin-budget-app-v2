@@ -11,7 +11,6 @@ const schema = incomeFormZodObject
 type Schema = z.output<typeof schema>
 const initialState = {
     incomeDate: ref(new Date()),
-    company: undefined,
     amount: undefined,
     incomeCategory: undefined,
     notes: undefined,
@@ -30,7 +29,6 @@ const incomeCategories = ['Job', 'Other', 'Refund', 'Rent', 'Side Project', 'Tax
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     const incomeDate = incomeDateFormValue.value.toDate('UTC');;
-    const company = event.data.company;
     const amount = event.data.amount;
     const incomeCategory = event.data.incomeCategory;
     const items = event.data.items;
@@ -54,7 +52,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         body: {
             incomeDate,
             amount,
-            company,
             incomeCategory,
             items,
             notes,
@@ -66,7 +63,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     await callOnce(incomeArray.fetch)
     //Clear the form fields after submission
     event.data.incomeDate;
-    event.data.company = ''
     event.data.amount = 0
     event.data.incomeCategory = ''
     event.data.items = ''
@@ -92,11 +88,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                     <UCalendar v-model="incomeDateFormValue" class="p-2" />
                 </template>
             </UPopover>
-        </UFormField>
-
-        <UFormField name="company">
-            <p class="text-sm">Company</p>
-            <UInput v-model="state.company" />
         </UFormField>
 
         <UFormField name="amount">
