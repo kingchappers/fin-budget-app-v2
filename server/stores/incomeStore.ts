@@ -15,7 +15,7 @@ const incomeFilter: incomeFilter = {
 export const useIncomeStore = defineStore('incomeStore', {
     state: () => {
         return {
-            incomeList: {},
+            incomeList: [] as incomeType[],
             status: '',
             userId: '',
         }
