@@ -12,6 +12,8 @@ import { useUserStore } from '~/server/stores/userStore';
 const incomeArray = useIncomeStore();
 console.log("income array: " + incomeArray.incomeList)
 const { incomeList } = storeToRefs(incomeArray)
+console.log("income list: " + incomeList.value)
+console.log("income list full: " + incomeList)
 const isEditingRow = ref(false)
 const rowEditing = ref<incomeType>()
 const columns = [{
