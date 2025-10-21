@@ -45,7 +45,7 @@ export const useIncomeStore = defineStore('incomeStore', {
                 }
             })
             console.log(incomeList)
-            // this.incomeList = newIncomeList || {}
+            this.incomeList = incomeList || {}
         },
     },
 })
