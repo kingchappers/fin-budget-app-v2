@@ -15,7 +15,7 @@ const incomeFilter: incomeFilter = {
 export const useIncomeStore = defineStore('incomeStore', {
     state: () => {
         return {
-            incomeList: [] as incomeType[],
+            incomeList: {},
             status: '',
             userId: '',
         }
@@ -33,7 +33,7 @@ export const useIncomeStore = defineStore('incomeStore', {
             } else {
                 console.log('Error: Session token not found. Redirecting to login')
             }
-            const incomeList = await useFetch('https://530n5rqhl4.execute-api.eu-west-2.amazonaws.com/prod/getIncomes', {
+            const incomeList = await $fetch('https://530n5rqhl4.execute-api.eu-west-2.amazonaws.com/prod/getIncomes', {
                 method: 'POST',
                 headers: {
                     'Authorization': token,
