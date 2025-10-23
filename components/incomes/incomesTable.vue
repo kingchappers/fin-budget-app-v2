@@ -8,22 +8,17 @@ import type { FormSubmitEvent } from '#ui/types'
 import type { z } from 'zod';
 import { fetchAuthSession } from '@aws-amplify/auth';
 import { useUserStore } from '~/server/stores/userStore';
-import { useAuthenticator } from '@aws-amplify/ui-vue';
 
 const incomeArray = useIncomeStore();
 console.log("income array: " + incomeArray.incomeList)
 const { incomeList } = storeToRefs(incomeArray)
 console.log("income list: " + incomeList.value)
-console.log("income list full: " + incomeList)
 const isEditingRow = ref(false)
 const rowEditing = ref<incomeType>()
 const columns = [{
     key: 'incomeDate',
     label: 'Income Date',
     sortable: true
-}, {
-    key: 'company',
-    label: 'Company'
 }, {
     key: 'amount',
     label: 'Amount'
@@ -40,37 +35,6 @@ const columns = [{
     key: 'actions'
 }]
 
-//////////////////////////////////////////////////////////////////////////////////////
-// Test Block
-//////////////////////////////////////////////////////////////////////////////////////
-const auth = useAuthenticator();
-const session = await fetchAuthSession();
-const userId = auth.user.userId;
-let token = ''
-
-if (session.tokens && session.tokens.idToken) {
-    token = session.tokens.idToken.toString()
-    console.log('Session token found!');
-} else {
-    console.log('Error: Session token not found. Redirecting to login')
-}
-const frontendIncomeList = await $fetch('https://530n5rqhl4.execute-api.eu-west-2.amazonaws.com/prod/getIncomes', {
-    method: 'POST',
-    headers: {
-        'Authorization': token,
-        'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-    body: {
-        userId: userId,
-    }
-})
-console.log("Frontend Income List: " + JSON.stringify(frontendIncomeList))
-
-//////////////////////////////////////////////////////////////////////////////////////
-// Test Block
-//////////////////////////////////////////////////////////////////////////////////////
-
 const items = (row: incomeType) => [
     [{
         label: 'Edit',
@@ -79,7 +43,6 @@ const items = (row: incomeType) => [
             isEditingRow.value = true
             rowEditing.value = row
             state.incomeDate = rowEditing.value.incomeDate
-            state.company = rowEditing.value.company
             state.amount = rowEditing.value.amount
             state.incomeCategory = rowEditing.value.incomeCategory
             state.items = rowEditing.value.items
@@ -99,7 +62,6 @@ type Schema = z.output<typeof schema>
 
 const state = reactive({
     incomeDate: ref(new Date()),
-    company: ref<string>(),
     amount: ref<number>(),
     incomeCategory: ref<string>(),
     items: ref<string>(),
@@ -118,7 +80,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         console.log('Error: Session token not found. Redirecting to login')
     }
     const incomeDate = event.data.incomeDate;
-    const company = event.data.company;
     const amount = event.data.amount;
     const incomeCategory = event.data.incomeCategory;
     const items = event.data.items;
@@ -166,10 +127,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                                     <ButtonsDatePicker v-model="state.incomeDate" is-required @close="close" />
                                 </template>
                             </UPopover>
-                        </UFormField>
-
-                        <UFormField label="Company" name="company" class="col-span-2">
-                            <UInput v-model="state.company" />
                         </UFormField>
 
                         <UFormField label="Amount" name="amount" class="col-span-2">
