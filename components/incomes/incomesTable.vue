@@ -90,6 +90,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 </script>
 
 <template>
+    <h1>Income list</h1>
+    <p>{{ incomeList }}</p>
+    <h1>Table</h1>
     <div v-if="incomeList">
         <div class="flex flex-row space-x-4">
             <UButton icon="i-heroicons-trash" class="bg-red-600 hover:bg-red-700"
