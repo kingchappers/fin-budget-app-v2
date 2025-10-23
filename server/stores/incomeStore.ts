@@ -4,7 +4,6 @@ import type { incomeFilter } from '~/types/incomeFilter';
 import type { incomeType } from "~/types/incomeTypes";
 import { useUserStore } from "./userStore";
 import { useAuthenticator } from '@aws-amplify/ui-vue';
-import { useFetch } from "nuxt/app";
 
 const incomeFilter: incomeFilter = {
     limit: 5,

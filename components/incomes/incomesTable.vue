@@ -20,9 +20,6 @@ const columns = [{
     label: 'Income Date',
     sortable: true
 }, {
-    key: 'company',
-    label: 'Company'
-}, {
     key: 'amount',
     label: 'Amount'
 }, {
@@ -46,7 +43,6 @@ const items = (row: incomeType) => [
             isEditingRow.value = true
             rowEditing.value = row
             state.incomeDate = rowEditing.value.incomeDate
-            state.company = rowEditing.value.company
             state.amount = rowEditing.value.amount
             state.incomeCategory = rowEditing.value.incomeCategory
             state.items = rowEditing.value.items
@@ -66,7 +62,6 @@ type Schema = z.output<typeof schema>
 
 const state = reactive({
     incomeDate: ref(new Date()),
-    company: ref<string>(),
     amount: ref<number>(),
     incomeCategory: ref<string>(),
     items: ref<string>(),
@@ -85,7 +80,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         console.log('Error: Session token not found. Redirecting to login')
     }
     const incomeDate = event.data.incomeDate;
-    const company = event.data.company;
     const amount = event.data.amount;
     const incomeCategory = event.data.incomeCategory;
     const items = event.data.items;
@@ -133,10 +127,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                                     <ButtonsDatePicker v-model="state.incomeDate" is-required @close="close" />
                                 </template>
                             </UPopover>
-                        </UFormField>
-
-                        <UFormField label="Company" name="company" class="col-span-2">
-                            <UInput v-model="state.company" />
                         </UFormField>
 
                         <UFormField label="Amount" name="amount" class="col-span-2">
