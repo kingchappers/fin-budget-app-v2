@@ -8,13 +8,11 @@ import type { FormSubmitEvent } from '#ui/types'
 import type { z } from 'zod';
 import { fetchAuthSession } from '@aws-amplify/auth';
 import { useUserStore } from '~/server/stores/userStore';
-import { useAuthenticator } from '@aws-amplify/ui-vue';
 
 const incomeArray = useIncomeStore();
 console.log("income array: " + incomeArray.incomeList)
 const { incomeList } = storeToRefs(incomeArray)
 console.log("income list: " + incomeList.value)
-console.log("income list full: " + incomeList)
 const isEditingRow = ref(false)
 const rowEditing = ref<incomeType>()
 const columns = [{
@@ -39,37 +37,6 @@ const columns = [{
 }, {
     key: 'actions'
 }]
-
-//////////////////////////////////////////////////////////////////////////////////////
-// Test Block
-//////////////////////////////////////////////////////////////////////////////////////
-const auth = useAuthenticator();
-const session = await fetchAuthSession();
-const userId = auth.user.userId;
-let token = ''
-
-if (session.tokens && session.tokens.idToken) {
-    token = session.tokens.idToken.toString()
-    console.log('Session token found!');
-} else {
-    console.log('Error: Session token not found. Redirecting to login')
-}
-const frontendIncomeList = await $fetch('https://530n5rqhl4.execute-api.eu-west-2.amazonaws.com/prod/getIncomes', {
-    method: 'POST',
-    headers: {
-        'Authorization': token,
-        'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-    body: {
-        userId: userId,
-    }
-})
-console.log("Frontend Income List: " + JSON.stringify(frontendIncomeList))
-
-//////////////////////////////////////////////////////////////////////////////////////
-// Test Block
-//////////////////////////////////////////////////////////////////////////////////////
 
 const items = (row: incomeType) => [
     [{
