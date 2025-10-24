@@ -9,6 +9,7 @@ import type { z } from 'zod';
 import { fetchAuthSession } from '@aws-amplify/auth';
 import { useUserStore } from '~/server/stores/userStore';
 import type { TableColumn } from '@nuxt/ui'
+import { upperFirst } from 'scule'
 
 const UCheckbox = resolveComponent('UCheckbox')
 const UDropdownMenu = resolveComponent('UDropdownMenu')
@@ -200,7 +201,7 @@ const table = useTemplateRef('table')
                 @update:model-value="table?.tableApi?.getColumn('email')?.setFilterValue($event)" />
 
             <UDropdownMenu :items="table?.tableApi?.getAllColumns().filter(column => column.getCanHide()).map(column => ({
-                label: upperFirst(column.incomeDate),
+                label: upperFirst(column.id),
                 type: 'checkbox' as const,
                 checked: column.getIsVisible(),
                 onUpdateChecked(checked: boolean) {
