@@ -14,7 +14,6 @@ const initialState = {
     amount: undefined,
     incomeCategory: undefined,
     notes: undefined,
-    items: undefined,
 }
 const state = reactive({ ...initialState })
 const refreshing = ref(false)
@@ -31,7 +30,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     const incomeDate = incomeDateFormValue.value.toDate('UTC');;
     const amount = event.data.amount;
     const incomeCategory = event.data.incomeCategory;
-    const items = event.data.items;
     const notes = event.data.notes;
     const userId = auth.user.userId;
     let token = ''
@@ -53,7 +51,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             incomeDate,
             amount,
             incomeCategory,
-            items,
             notes,
             userId
         }
@@ -65,7 +62,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     event.data.incomeDate;
     event.data.amount = 0
     event.data.incomeCategory = ''
-    event.data.items = ''
     event.data.notes = ''
 
     Object.assign(state, {
@@ -98,11 +94,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         <UFormField name="incomeCategory">
             <p class="text-sm">Category</p>
             <USelectMenu v-model="state.incomeCategory" :items="incomeCategories" placeholder="Select a category" class="w-full" />
-        </UFormField>
-
-        <UFormField name="items">
-            <p class="text-sm">Items</p>
-            <UInput v-model="state.items" />
         </UFormField>
 
         <UFormField name="notes">

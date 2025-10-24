@@ -8,10 +8,16 @@ import type { FormSubmitEvent } from '#ui/types'
 import type { z } from 'zod';
 import { fetchAuthSession } from '@aws-amplify/auth';
 import { useUserStore } from '~/server/stores/userStore';
+import type { TableColumn } from '@nuxt/ui'
+
+const UCheckbox = resolveComponent('UCheckbox')
+const UDropdownMenu = resolveComponent('UDropdownMenu')
+const UButton = resolveComponent('UButton')
+const toast = useToast()
 
 const incomeArray = useIncomeStore();
 console.log("income array: " + incomeArray.incomeList)
-const { incomeList } = storeToRefs(incomeArray)
+const { incomeList, status, userId } = storeToRefs(incomeArray)
 console.log("income list: " + incomeList.value)
 const isEditingRow = ref(false)
 const rowEditing = ref<incomeType>()
@@ -45,7 +51,6 @@ const items = (row: incomeType) => [
             state.incomeDate = rowEditing.value.incomeDate
             state.amount = rowEditing.value.amount
             state.incomeCategory = rowEditing.value.incomeCategory
-            state.items = rowEditing.value.items
             state.notes = rowEditing.value.notes
             state.userId = rowEditing.value.userId
             state.incomeId = rowEditing.value.incomeId
@@ -87,16 +92,151 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     const incomeId = event.data.incomeId
     isEditingRow.value = false;
 }
+
+// ########################################################################
+// Redesigning the income table for the Nuxt UI v4 components
+// New script section is below, leaving the section above to later remove
+// ########################################################################
+const newColumns: TableColumn<incomeType>[] = [{
+    id: "select",
+    header: ({ table }) => h(UCheckbox, {
+        'modelValue': table.getIsSomePageRowsSelected() ? 'indeterminate' : table.getIsAllPageRowsSelected(),
+        'onUpdate:modelValue': (value: boolean | 'indeterminate') => table.toggleAllPageRowsSelected(!!value),
+        'aria-label': 'Select all'
+    }),
+    cell: ({ row }) => h(UCheckbox, {
+        'modelValue': row.getIsSelected(),
+        'onUpdate:modelValue': (value: boolean | 'indeterminate') => row.toggleSelected(!!value),
+        'aria-label': 'Select row'
+    }),
+    enableSorting: false,
+    enableHiding: false
+}, {
+    accessorKey: 'date',
+    header: 'Date',
+    cell: ({ row }) => {
+        return new Date(row.getValue('incomeDate')).toLocaleString('en-GB', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+        })
+    }
+}, {
+    accessorKey: 'amount',
+    header: () => h('div', { class: 'text-right' }, 'Amount'),
+    cell: ({ row }) => {
+        const amount = Number.parseFloat(row.getValue('amount'))
+
+        const formatted = new Intl.NumberFormat('en-GB', {
+            style: 'currency',
+            currency: 'GBP'
+        }).format(amount)
+
+        return h('div', { class: 'text-right font-medium' }, formatted)
+    }
+}, {
+    accessorKey: 'incomeCategory',
+    header: 'Category',
+    cell: ({ row }) => row.getValue('incomeCategory')
+}, {
+    accessorKey: 'notes',
+    header: 'Notes',
+    cell: ({ row }) => row.getValue('notes') || '-'
+},
+{
+    id: 'actions',
+    enableHiding: false,
+    cell: ({ row }) => {
+        const items = [{
+            type: 'label',
+            label: 'Actions'
+        }, {
+            label: 'Delete Income',
+            onSelect() {
+                deleteIncome(row.original.incomeId)
+
+                toast.add({
+                    title: 'Transaction Deleted!',
+                    color: 'success',
+                    icon: 'i-lucide-circle-check'
+                })
+            }
+        }]
+
+        return h('div', { class: 'text-right' }, h(UDropdownMenu, {
+            'content': {
+                align: 'end'
+            },
+            items,
+            'aria-label': 'Actions dropdown'
+        }, () => h(UButton, {
+            'icon': 'i-lucide-ellipsis-vertical',
+            'color': 'neutral',
+            'variant': 'ghost',
+            'class': 'ml-auto',
+            'aria-label': 'Actions dropdown'
+        })))
+    }
+}]
+
+const table = useTemplateRef('table')
 </script>
 
 <template>
     <h1>Income list</h1>
     <p>{{ incomeList }}</p>
+
+    <!-- 
+    ########################################################################
+    Redesigning the income table for the Nuxt UI v4 components
+    ########################################################################
+    -->
+
+    <h1 class="text-2xl font-bold mb-4">Redesigned income table</h1>
+    <div class="flex-1 divide-y divide-accented w-full">
+        <div class="flex items-center gap-2 px-4 py-3.5 overflow-x-auto">
+            <UInput :model-value="(table?.tableApi?.getColumn('email')?.getFilterValue() as string)"
+                class="max-w-sm min-w-[12ch]" placeholder="Filter emails..."
+                @update:model-value="table?.tableApi?.getColumn('email')?.setFilterValue($event)" />
+
+            <UDropdownMenu :items="table?.tableApi?.getAllColumns().filter(column => column.getCanHide()).map(column => ({
+                label: upperFirst(column.incomeDate),
+                type: 'checkbox' as const,
+                checked: column.getIsVisible(),
+                onUpdateChecked(checked: boolean) {
+                    table?.tableApi?.getColumn(column.id)?.toggleVisibility(!!checked)
+                },
+                onSelect(e: Event) {
+                    e.preventDefault()
+                }
+            }))" :content="{ align: 'end' }">
+                <UButton label="Columns" color="neutral" variant="outline" trailing-icon="i-lucide-chevron-down"
+                    class="ml-auto" aria-label="Columns select dropdown" />
+            </UDropdownMenu>
+        </div>
+        <UTable ref="table" :rows="incomeList" :columns="newColumns" sticky class="h-96">
+            <template #expanded="{ row }">
+                <pre>{{ row.original }}</pre>
+            </template>
+        </UTable>
+
+        <div class="px-4 py-3.5 text-sm text-muted">
+            {{ table?.tableApi?.getFilteredSelectedRowModel().rows.length || 0 }} of
+            {{ table?.tableApi?.getFilteredRowModel().rows.length || 0 }} row(s) selected.
+        </div>
+    </div>
+    <!-- 
+    ########################################################################
+    Redesigning the income table for the Nuxt UI v4 components
+    ########################################################################
+    -->
+
     <h1>Table</h1>
     <div v-if="incomeList">
         <div class="flex flex-row space-x-4">
             <UButton icon="i-heroicons-trash" class="bg-red-600 hover:bg-red-700"
-                @onClick="deleteIncomes(selectedValues)">Delete Selected</UButton>
+                @onClick="deleteIncomes(selectedValues)">
+                Delete Selected</UButton>
         </div>
         <UTable :empty-state="{ icon: 'i-heroicons-circle-stack-20-solid', label: 'No items.' }"
             v-model="selectedValues" :columns="columns" :rows="incomeList">
