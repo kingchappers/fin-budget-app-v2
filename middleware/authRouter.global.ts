@@ -3,38 +3,37 @@ import { useAuthenticator } from '@aws-amplify/ui-vue';
 import { useUserStore } from '~/server/stores/userStore';
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
-    // skip middleware on initial client load
+    // skip middleware on server side
+    if (import.meta.server) return
+
+    // skip middleware on initial client load during hydration
     const nuxtApp = useNuxtApp()
-    if (import.meta.client && nuxtApp.isHydrating && nuxtApp.payload.serverRendered)
-        return
+    if (nuxtApp.isHydrating && nuxtApp.payload.serverRendered) return
 
-    // Check if user is authenticated using Amplify Auth
-    // New code I'm trying
-    try {
-        const currentSession = await fetchAuthSession();
-        if (currentSession) {
-            // User is authenticated
-            console.log("Session found!");
-        } else {
-            // User is not authenticated
-            console.log("No session found.");
-        }
-    } catch (error) {
-        console.error("Error fetching auth session:", error);
-    }
-
-    const auth = await useAuthenticator()
     const publicPages = ['/login', '/'];
     const authRequired = !publicPages.includes(to.path);
 
-    if (authRequired && auth.authStatus !== 'authenticated') {
-        return navigateTo('/login')
+    try {
+        // Check for valid session first
+        const session = await fetchAuthSession();
+        if (session?.tokens) {
+            // Valid session exists
+            const { userId } = await getCurrentUser()
+            const userStore = useUserStore();
+            userStore.initStore(userId)
+            console.log("Session found!");
+            return; // Allow navigation to proceed
+        } 
+        
+        if (authRequired) {
+            // No valid session and auth is required
+            console.log("No valid session. Redirecting to login.");
+            return navigateTo('/login');
+        }
+    } catch (error) {
+        console.error("Auth sessions error:", error);
+        if (authRequired) {
+            return navigateTo('/login');
+        }
     }
-
-    if (auth.authStatus == 'authenticated') {
-        const { userId } = await getCurrentUser()
-        const userStore = useUserStore();
-        userStore.initStore(userId)
-    }
-
 })
