@@ -7,6 +7,11 @@ import { useIncomeStore } from '~/server/stores/incomeStore';
 import { fetchAuthSession } from 'aws-amplify/auth';
 import { useAuthenticator } from '@aws-amplify/ui-vue';
 
+interface Props {
+  userId: string
+}
+const props = defineProps<Props>()
+
 const schema = incomeFormZodObject
 type Schema = z.output<typeof schema>
 const initialState = {
@@ -18,7 +23,7 @@ const initialState = {
 const state = reactive({ ...initialState })
 const refreshing = ref(false)
 const incomeArray = useIncomeStore();
-const auth = useAuthenticator();
+// const auth = useAuthenticator();
 const session = await fetchAuthSession();
 const df = new DateFormatter('en-GB', {
     dateStyle: 'medium'
@@ -31,7 +36,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     const amount = event.data.amount;
     const incomeCategory = event.data.incomeCategory;
     const notes = event.data.notes;
-    const userId = auth.user.userId;
+    const userId = props.userId;
     let token = ''
     if (session.tokens && session.tokens.idToken) {
         token = session.tokens.idToken.toString()
