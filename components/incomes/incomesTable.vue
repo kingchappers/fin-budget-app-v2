@@ -196,10 +196,6 @@ const table = useTemplateRef('table')
     <h1 class="text-2xl font-bold mb-4">Redesigned income table</h1>
     <div class="flex-1 divide-y divide-accented w-full">
         <div class="flex items-center gap-2 px-4 py-3.5 overflow-x-auto">
-            <UInput :model-value="(table?.tableApi?.getColumn('email')?.getFilterValue() as string)"
-                class="max-w-sm min-w-[12ch]" placeholder="Filter emails..."
-                @update:model-value="table?.tableApi?.getColumn('email')?.setFilterValue($event)" />
-
             <UDropdownMenu :items="table?.tableApi?.getAllColumns().filter(column => column.getCanHide()).map(column => ({
                 label: upperFirst(column.id),
                 type: 'checkbox' as const,
