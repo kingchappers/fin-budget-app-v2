@@ -12,26 +12,49 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
     const publicPages = ['/login', '/'];
     const authRequired = !publicPages.includes(to.path);
+    const auth = useAuthenticator();
 
     try {
-        // Check for valid session first
         const session = await fetchAuthSession();
-        if (session?.tokens) {
-            // Valid session exists
-            const { userId } = await getCurrentUser()
-            const userStore = useUserStore();
-            userStore.initStore(userId)
-            console.log("Session found!");
-            return; // Allow navigation to proceed
-        } 
         
+        if (session?.tokens) {
+            // Check if tokens are expired
+            const exp = session.tokens?.accessToken?.payload?.exp;
+            if (!exp) {
+                // If exp is missing treat session as invalid
+                console.warn("Token has no exp claim, signing out");
+                await auth.signOut();
+                return navigateTo('/login');
+            }
+
+            const expiresAt = exp * 1000; // Convert to milliseconds
+            const now = Date.now();
+
+            if (now >= expiresAt) {
+                console.log("Token expired, signing out");
+                await auth.signOut();
+                return navigateTo('/login');
+            }
+
+            // Valid session exists
+            try {
+                const { userId } = await getCurrentUser();
+                const userStore = useUserStore();
+                userStore.initStore(userId);
+                console.log("Session valid, proceeding");
+                return;
+            } catch (userError) {
+                console.error("Error getting current user:", userError);
+                return navigateTo('/login');
+            }
+        }
+
         if (authRequired) {
-            // No valid session and auth is required
             console.log("No valid session. Redirecting to login.");
             return navigateTo('/login');
         }
     } catch (error) {
-        console.error("Auth sessions error:", error);
+        console.error("Auth session error:", error);
         if (authRequired) {
             return navigateTo('/login');
         }
