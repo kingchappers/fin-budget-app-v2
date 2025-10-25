@@ -11,176 +11,176 @@ import { useUserStore } from '~/server/stores/userStore';
 import type { TableColumn } from '@nuxt/ui'
 import { upperFirst } from 'scule'
 
-// const UCheckbox = resolveComponent('UCheckbox')
-// const UDropdownMenu = resolveComponent('UDropdownMenu')
-// const UButton = resolveComponent('UButton')
-// const toast = useToast()
+const UCheckbox = resolveComponent('UCheckbox')
+const UDropdownMenu = resolveComponent('UDropdownMenu')
+const UButton = resolveComponent('UButton')
+const toast = useToast()
 
-// const incomeArray = useIncomeStore();
-// console.log("income array: " + incomeArray.incomeList)
-// const { incomeList, status, userId } = storeToRefs(incomeArray)
-// console.log("income list: " + incomeList.value)
-// const isEditingRow = ref(false)
-// const rowEditing = ref<incomeType>()
-// const columns = [{
-//     key: 'incomeDate',
-//     label: 'Income Date',
-//     sortable: true
-// }, {
-//     key: 'amount',
-//     label: 'Amount'
-// }, {
-//     key: 'Income Category',
-//     label: 'IncomeCategory'
-// }, {
-//     key: 'items',
-//     label: 'Items'
-// }, {
-//     key: 'notes',
-//     label: 'Notes'
-// }, {
-//     key: 'actions'
-// }]
+const incomeArray = useIncomeStore();
+console.log("income array: " + incomeArray.incomeList)
+const { incomeList, status, userId } = storeToRefs(incomeArray)
+console.log("income list: " + incomeList.value)
+const isEditingRow = ref(false)
+const rowEditing = ref<incomeType>()
+const columns = [{
+    key: 'incomeDate',
+    label: 'Income Date',
+    sortable: true
+}, {
+    key: 'amount',
+    label: 'Amount'
+}, {
+    key: 'Income Category',
+    label: 'IncomeCategory'
+}, {
+    key: 'items',
+    label: 'Items'
+}, {
+    key: 'notes',
+    label: 'Notes'
+}, {
+    key: 'actions'
+}]
 
-// const items = (row: incomeType) => [
-//     [{
-//         label: 'Edit',
-//         icon: 'i-heroicons-pencil-square-20-solid',
-//         onClick: () => {
-//             isEditingRow.value = true
-//             rowEditing.value = row
-//             state.incomeDate = rowEditing.value.incomeDate
-//             state.amount = rowEditing.value.amount
-//             state.incomeCategory = rowEditing.value.incomeCategory
-//             state.notes = rowEditing.value.notes
-//             state.userId = rowEditing.value.userId
-//             state.incomeId = rowEditing.value.incomeId
-//         }
-//     },], [{
-//         label: 'Delete',
-//         icon: 'i-heroicons-trash-20-solid',
-//         // click: () => deleteIncomes([row])
-//     }]
-// ]
-// const selectedValues = ref([])
-// const schema = updateIncomeZodObject
-// type Schema = z.output<typeof schema>
+const items = (row: incomeType) => [
+    [{
+        label: 'Edit',
+        icon: 'i-heroicons-pencil-square-20-solid',
+        onClick: () => {
+            isEditingRow.value = true
+            rowEditing.value = row
+            state.incomeDate = rowEditing.value.incomeDate
+            state.amount = rowEditing.value.amount
+            state.incomeCategory = rowEditing.value.incomeCategory
+            state.notes = rowEditing.value.notes
+            state.userId = rowEditing.value.userId
+            state.incomeId = rowEditing.value.incomeId
+        }
+    },], [{
+        label: 'Delete',
+        icon: 'i-heroicons-trash-20-solid',
+        // click: () => deleteIncomes([row])
+    }]
+]
+const selectedValues = ref([])
+const schema = updateIncomeZodObject
+type Schema = z.output<typeof schema>
 
-// const state = reactive({
-//     incomeDate: ref(new Date()),
-//     amount: ref<number>(),
-//     incomeCategory: ref<string>(),
-//     items: ref<string>(),
-//     notes: ref<string>(),
-//     userId: ref<string>(),
-//     incomeId: ref<string>()
-// })
+const state = reactive({
+    incomeDate: ref(new Date()),
+    amount: ref<number>(),
+    incomeCategory: ref<string>(),
+    items: ref<string>(),
+    notes: ref<string>(),
+    userId: ref<string>(),
+    incomeId: ref<string>()
+})
 
-// async function onSubmit(event: FormSubmitEvent<Schema>) {
-//     const userStore = useUserStore();
-//     const session = await fetchAuthSession();
-//     let authorisation = ''
-//     if (session.tokens && session.tokens.idToken) {
-//         authorisation = session.tokens.idToken.toString()
-//     } else {
-//         console.log('Error: Session token not found. Redirecting to login')
-//     }
-//     const incomeDate = event.data.incomeDate;
-//     const amount = event.data.amount;
-//     const incomeCategory = event.data.incomeCategory;
-//     const items = event.data.items;
-//     const notes = event.data.notes;
-//     const incomeId = event.data.incomeId
-//     isEditingRow.value = false;
-// }
+async function onSubmit(event: FormSubmitEvent<Schema>) {
+    const userStore = useUserStore();
+    const session = await fetchAuthSession();
+    let authorisation = ''
+    if (session.tokens && session.tokens.idToken) {
+        authorisation = session.tokens.idToken.toString()
+    } else {
+        console.log('Error: Session token not found. Redirecting to login')
+    }
+    const incomeDate = event.data.incomeDate;
+    const amount = event.data.amount;
+    const incomeCategory = event.data.incomeCategory;
+    const items = event.data.items;
+    const notes = event.data.notes;
+    const incomeId = event.data.incomeId
+    isEditingRow.value = false;
+}
 
 // ########################################################################
 // Redesigning the income table for the Nuxt UI v4 components
 // New script section is below, leaving the section above to later remove
 // ########################################################################
-// const newColumns: TableColumn<incomeType>[] = [{
-//     id: "select",
-//     header: ({ table }) => h(UCheckbox, {
-//         'modelValue': table.getIsSomePageRowsSelected() ? 'indeterminate' : table.getIsAllPageRowsSelected(),
-//         'onUpdate:modelValue': (value: boolean | 'indeterminate') => table.toggleAllPageRowsSelected(!!value),
-//         'aria-label': 'Select all'
-//     }),
-//     cell: ({ row }) => h(UCheckbox, {
-//         'modelValue': row.getIsSelected(),
-//         'onUpdate:modelValue': (value: boolean | 'indeterminate') => row.toggleSelected(!!value),
-//         'aria-label': 'Select row'
-//     }),
-//     enableSorting: false,
-//     enableHiding: false
-// }, {
-//     accessorKey: 'date',
-//     header: 'Date',
-//     cell: ({ row }) => {
-//         return new Date(row.getValue('incomeDate')).toLocaleString('en-GB', {
-//             day: 'numeric',
-//             month: 'short',
-//             year: 'numeric'
-//         })
-//     }
-// }, {
-//     accessorKey: 'amount',
-//     header: () => h('div', { class: 'text-right' }, 'Amount'),
-//     cell: ({ row }) => {
-//         const amount = Number.parseFloat(row.getValue('amount'))
+const newColumns: TableColumn<incomeType>[] = [{
+    id: "select",
+    header: ({ table }) => h(UCheckbox, {
+        'modelValue': table.getIsSomePageRowsSelected() ? 'indeterminate' : table.getIsAllPageRowsSelected(),
+        'onUpdate:modelValue': (value: boolean | 'indeterminate') => table.toggleAllPageRowsSelected(!!value),
+        'aria-label': 'Select all'
+    }),
+    cell: ({ row }) => h(UCheckbox, {
+        'modelValue': row.getIsSelected(),
+        'onUpdate:modelValue': (value: boolean | 'indeterminate') => row.toggleSelected(!!value),
+        'aria-label': 'Select row'
+    }),
+    enableSorting: false,
+    enableHiding: false
+}, {
+    accessorKey: 'date',
+    header: 'Date',
+    cell: ({ row }) => {
+        return new Date(row.getValue('incomeDate')).toLocaleString('en-GB', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+        })
+    }
+}, {
+    accessorKey: 'amount',
+    header: () => h('div', { class: 'text-right' }, 'Amount'),
+    cell: ({ row }) => {
+        const amount = Number.parseFloat(row.getValue('amount'))
 
-//         const formatted = new Intl.NumberFormat('en-GB', {
-//             style: 'currency',
-//             currency: 'GBP'
-//         }).format(amount)
+        const formatted = new Intl.NumberFormat('en-GB', {
+            style: 'currency',
+            currency: 'GBP'
+        }).format(amount)
 
-//         return h('div', { class: 'text-right font-medium' }, formatted)
-//     }
-// }, {
-//     accessorKey: 'incomeCategory',
-//     header: 'Category',
-//     cell: ({ row }) => row.getValue('incomeCategory')
-// }, {
-//     accessorKey: 'notes',
-//     header: 'Notes',
-//     cell: ({ row }) => row.getValue('notes') || '-'
-// },
-// {
-//     id: 'actions',
-//     enableHiding: false,
-//     cell: ({ row }) => {
-//         const items = [{
-//             type: 'label',
-//             label: 'Actions'
-//         }, {
-//             label: 'Delete Income',
-//             onSelect() {
-//                 deleteIncome(row.original.incomeId)
+        return h('div', { class: 'text-right font-medium' }, formatted)
+    }
+}, {
+    accessorKey: 'incomeCategory',
+    header: 'Category',
+    cell: ({ row }) => row.getValue('incomeCategory')
+}, {
+    accessorKey: 'notes',
+    header: 'Notes',
+    cell: ({ row }) => row.getValue('notes') || '-'
+},
+{
+    id: 'actions',
+    enableHiding: false,
+    cell: ({ row }) => {
+        const items = [{
+            type: 'label',
+            label: 'Actions'
+        }, {
+            label: 'Delete Income',
+            onSelect() {
+                deleteIncome(row.original.incomeId)
 
-//                 toast.add({
-//                     title: 'Transaction Deleted!',
-//                     color: 'success',
-//                     icon: 'i-lucide-circle-check'
-//                 })
-//             }
-//         }]
+                toast.add({
+                    title: 'Transaction Deleted!',
+                    color: 'success',
+                    icon: 'i-lucide-circle-check'
+                })
+            }
+        }]
 
-//         return h('div', { class: 'text-right' }, h(UDropdownMenu, {
-//             'content': {
-//                 align: 'end'
-//             },
-//             items,
-//             'aria-label': 'Actions dropdown'
-//         }, () => h(UButton, {
-//             'icon': 'i-lucide-ellipsis-vertical',
-//             'color': 'neutral',
-//             'variant': 'ghost',
-//             'class': 'ml-auto',
-//             'aria-label': 'Actions dropdown'
-//         })))
-//     }
-// }]
+        return h('div', { class: 'text-right' }, h(UDropdownMenu, {
+            'content': {
+                align: 'end'
+            },
+            items,
+            'aria-label': 'Actions dropdown'
+        }, () => h(UButton, {
+            'icon': 'i-lucide-ellipsis-vertical',
+            'color': 'neutral',
+            'variant': 'ghost',
+            'class': 'ml-auto',
+            'aria-label': 'Actions dropdown'
+        })))
+    }
+}]
 
-// const table = useTemplateRef('table')
+const table = useTemplateRef('table')
 </script>
 
 <template>
@@ -192,7 +192,7 @@ import { upperFirst } from 'scule'
     Redesigning the income table for the Nuxt UI v4 components
     ########################################################################
     -->
-    <!-- 
+
     <h1 class="text-2xl font-bold mb-4">Redesigned income table</h1>
     <div class="flex-1 divide-y divide-accented w-full">
         <div class="flex items-center gap-2 px-4 py-3.5 overflow-x-auto">
@@ -222,8 +222,6 @@ import { upperFirst } from 'scule'
             {{ table?.tableApi?.getFilteredRowModel().rows.length || 0 }} row(s) selected.
         </div>
     </div>
-    -->
-
     <!-- 
     ########################################################################
     Redesigning the income table for the Nuxt UI v4 components
@@ -254,6 +252,7 @@ import { upperFirst } from 'scule'
             </template>
         </UTable>
 
+        Row Editing Modal Form 
         <div v-if="rowEditing">
             <UModal v-model="isEditingRow">
                 <UCard>

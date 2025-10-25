@@ -5,7 +5,8 @@
 // export default defineNuxtRouteMiddleware(async (to, from) => {
 //     // skip middleware on initial client load
 //     const nuxtApp = useNuxtApp()
-//     if (import.meta.client && nuxtApp.isHydrating && nuxtApp.payload.serverRendered) return
+//     if (import.meta.client && nuxtApp.isHydrating && nuxtApp.payload.serverRendered)
+//         return
 
 //     // Check if user is authenticated using Amplify Auth
 //     // New code I'm trying
@@ -35,4 +36,5 @@
 //         const userStore = useUserStore();
 //         userStore.initStore(userId)
 //     }
+
 // })
