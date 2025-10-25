@@ -11,88 +11,88 @@ import { useUserStore } from '~/server/stores/userStore';
 import type { TableColumn } from '@nuxt/ui'
 import { upperFirst } from 'scule'
 
-const UCheckbox = resolveComponent('UCheckbox')
-const UDropdownMenu = resolveComponent('UDropdownMenu')
-const UButton = resolveComponent('UButton')
-const toast = useToast()
+// const UCheckbox = resolveComponent('UCheckbox')
+// const UDropdownMenu = resolveComponent('UDropdownMenu')
+// const UButton = resolveComponent('UButton')
+// const toast = useToast()
 
-const incomeArray = useIncomeStore();
-console.log("income array: " + incomeArray.incomeList)
-const { incomeList, status, userId } = storeToRefs(incomeArray)
-console.log("income list: " + incomeList.value)
-const isEditingRow = ref(false)
-const rowEditing = ref<incomeType>()
-const columns = [{
-    key: 'incomeDate',
-    label: 'Income Date',
-    sortable: true
-}, {
-    key: 'amount',
-    label: 'Amount'
-}, {
-    key: 'Income Category',
-    label: 'IncomeCategory'
-}, {
-    key: 'items',
-    label: 'Items'
-}, {
-    key: 'notes',
-    label: 'Notes'
-}, {
-    key: 'actions'
-}]
+// const incomeArray = useIncomeStore();
+// console.log("income array: " + incomeArray.incomeList)
+// const { incomeList, status, userId } = storeToRefs(incomeArray)
+// console.log("income list: " + incomeList.value)
+// const isEditingRow = ref(false)
+// const rowEditing = ref<incomeType>()
+// const columns = [{
+//     key: 'incomeDate',
+//     label: 'Income Date',
+//     sortable: true
+// }, {
+//     key: 'amount',
+//     label: 'Amount'
+// }, {
+//     key: 'Income Category',
+//     label: 'IncomeCategory'
+// }, {
+//     key: 'items',
+//     label: 'Items'
+// }, {
+//     key: 'notes',
+//     label: 'Notes'
+// }, {
+//     key: 'actions'
+// }]
 
-const items = (row: incomeType) => [
-    [{
-        label: 'Edit',
-        icon: 'i-heroicons-pencil-square-20-solid',
-        onClick: () => {
-            isEditingRow.value = true
-            rowEditing.value = row
-            state.incomeDate = rowEditing.value.incomeDate
-            state.amount = rowEditing.value.amount
-            state.incomeCategory = rowEditing.value.incomeCategory
-            state.notes = rowEditing.value.notes
-            state.userId = rowEditing.value.userId
-            state.incomeId = rowEditing.value.incomeId
-        }
-    },], [{
-        label: 'Delete',
-        icon: 'i-heroicons-trash-20-solid',
-        // click: () => deleteIncomes([row])
-    }]
-]
-const selectedValues = ref([])
-const schema = updateIncomeZodObject
-type Schema = z.output<typeof schema>
+// const items = (row: incomeType) => [
+//     [{
+//         label: 'Edit',
+//         icon: 'i-heroicons-pencil-square-20-solid',
+//         onClick: () => {
+//             isEditingRow.value = true
+//             rowEditing.value = row
+//             state.incomeDate = rowEditing.value.incomeDate
+//             state.amount = rowEditing.value.amount
+//             state.incomeCategory = rowEditing.value.incomeCategory
+//             state.notes = rowEditing.value.notes
+//             state.userId = rowEditing.value.userId
+//             state.incomeId = rowEditing.value.incomeId
+//         }
+//     },], [{
+//         label: 'Delete',
+//         icon: 'i-heroicons-trash-20-solid',
+//         // click: () => deleteIncomes([row])
+//     }]
+// ]
+// const selectedValues = ref([])
+// const schema = updateIncomeZodObject
+// type Schema = z.output<typeof schema>
 
-const state = reactive({
-    incomeDate: ref(new Date()),
-    amount: ref<number>(),
-    incomeCategory: ref<string>(),
-    items: ref<string>(),
-    notes: ref<string>(),
-    userId: ref<string>(),
-    incomeId: ref<string>()
-})
+// const state = reactive({
+//     incomeDate: ref(new Date()),
+//     amount: ref<number>(),
+//     incomeCategory: ref<string>(),
+//     items: ref<string>(),
+//     notes: ref<string>(),
+//     userId: ref<string>(),
+//     incomeId: ref<string>()
+// })
 
-async function onSubmit(event: FormSubmitEvent<Schema>) {
-    const userStore = useUserStore();
-    const session = await fetchAuthSession();
-    let authorisation = ''
-    if (session.tokens && session.tokens.idToken) {
-        authorisation = session.tokens.idToken.toString()
-    } else {
-        console.log('Error: Session token not found. Redirecting to login')
-    }
-    const incomeDate = event.data.incomeDate;
-    const amount = event.data.amount;
-    const incomeCategory = event.data.incomeCategory;
-    const items = event.data.items;
-    const notes = event.data.notes;
-    const incomeId = event.data.incomeId
-    isEditingRow.value = false;
-}
+// async function onSubmit(event: FormSubmitEvent<Schema>) {
+//     const userStore = useUserStore();
+//     const session = await fetchAuthSession();
+//     let authorisation = ''
+//     if (session.tokens && session.tokens.idToken) {
+//         authorisation = session.tokens.idToken.toString()
+//     } else {
+//         console.log('Error: Session token not found. Redirecting to login')
+//     }
+//     const incomeDate = event.data.incomeDate;
+//     const amount = event.data.amount;
+//     const incomeCategory = event.data.incomeCategory;
+//     const items = event.data.items;
+//     const notes = event.data.notes;
+//     const incomeId = event.data.incomeId
+//     isEditingRow.value = false;
+// }
 
 // ########################################################################
 // Redesigning the income table for the Nuxt UI v4 components
@@ -231,7 +231,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     -->
 
     <h1>Table</h1>
-    <div v-if="incomeList">
+    <!-- <div v-if="incomeList">
         <div class="flex flex-row space-x-4">
             <UButton icon="i-heroicons-trash" class="bg-red-600 hover:bg-red-700"
                 @onClick="deleteIncomes(selectedValues)">
@@ -254,7 +254,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             </template>
         </UTable>
 
-        <!-- Row Editing Modal Form -->
         <div v-if="rowEditing">
             <UModal v-model="isEditingRow">
                 <UCard>
@@ -298,5 +297,5 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                 </UCard>
             </UModal>
         </div>
-    </div>
+    </div> -->
 </template>
