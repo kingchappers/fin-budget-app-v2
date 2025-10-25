@@ -98,89 +98,89 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 // Redesigning the income table for the Nuxt UI v4 components
 // New script section is below, leaving the section above to later remove
 // ########################################################################
-const newColumns: TableColumn<incomeType>[] = [{
-    id: "select",
-    header: ({ table }) => h(UCheckbox, {
-        'modelValue': table.getIsSomePageRowsSelected() ? 'indeterminate' : table.getIsAllPageRowsSelected(),
-        'onUpdate:modelValue': (value: boolean | 'indeterminate') => table.toggleAllPageRowsSelected(!!value),
-        'aria-label': 'Select all'
-    }),
-    cell: ({ row }) => h(UCheckbox, {
-        'modelValue': row.getIsSelected(),
-        'onUpdate:modelValue': (value: boolean | 'indeterminate') => row.toggleSelected(!!value),
-        'aria-label': 'Select row'
-    }),
-    enableSorting: false,
-    enableHiding: false
-}, {
-    accessorKey: 'date',
-    header: 'Date',
-    cell: ({ row }) => {
-        return new Date(row.getValue('incomeDate')).toLocaleString('en-GB', {
-            day: 'numeric',
-            month: 'short',
-            year: 'numeric'
-        })
-    }
-}, {
-    accessorKey: 'amount',
-    header: () => h('div', { class: 'text-right' }, 'Amount'),
-    cell: ({ row }) => {
-        const amount = Number.parseFloat(row.getValue('amount'))
+// const newColumns: TableColumn<incomeType>[] = [{
+//     id: "select",
+//     header: ({ table }) => h(UCheckbox, {
+//         'modelValue': table.getIsSomePageRowsSelected() ? 'indeterminate' : table.getIsAllPageRowsSelected(),
+//         'onUpdate:modelValue': (value: boolean | 'indeterminate') => table.toggleAllPageRowsSelected(!!value),
+//         'aria-label': 'Select all'
+//     }),
+//     cell: ({ row }) => h(UCheckbox, {
+//         'modelValue': row.getIsSelected(),
+//         'onUpdate:modelValue': (value: boolean | 'indeterminate') => row.toggleSelected(!!value),
+//         'aria-label': 'Select row'
+//     }),
+//     enableSorting: false,
+//     enableHiding: false
+// }, {
+//     accessorKey: 'date',
+//     header: 'Date',
+//     cell: ({ row }) => {
+//         return new Date(row.getValue('incomeDate')).toLocaleString('en-GB', {
+//             day: 'numeric',
+//             month: 'short',
+//             year: 'numeric'
+//         })
+//     }
+// }, {
+//     accessorKey: 'amount',
+//     header: () => h('div', { class: 'text-right' }, 'Amount'),
+//     cell: ({ row }) => {
+//         const amount = Number.parseFloat(row.getValue('amount'))
 
-        const formatted = new Intl.NumberFormat('en-GB', {
-            style: 'currency',
-            currency: 'GBP'
-        }).format(amount)
+//         const formatted = new Intl.NumberFormat('en-GB', {
+//             style: 'currency',
+//             currency: 'GBP'
+//         }).format(amount)
 
-        return h('div', { class: 'text-right font-medium' }, formatted)
-    }
-}, {
-    accessorKey: 'incomeCategory',
-    header: 'Category',
-    cell: ({ row }) => row.getValue('incomeCategory')
-}, {
-    accessorKey: 'notes',
-    header: 'Notes',
-    cell: ({ row }) => row.getValue('notes') || '-'
-},
-{
-    id: 'actions',
-    enableHiding: false,
-    cell: ({ row }) => {
-        const items = [{
-            type: 'label',
-            label: 'Actions'
-        }, {
-            label: 'Delete Income',
-            onSelect() {
-                deleteIncome(row.original.incomeId)
+//         return h('div', { class: 'text-right font-medium' }, formatted)
+//     }
+// }, {
+//     accessorKey: 'incomeCategory',
+//     header: 'Category',
+//     cell: ({ row }) => row.getValue('incomeCategory')
+// }, {
+//     accessorKey: 'notes',
+//     header: 'Notes',
+//     cell: ({ row }) => row.getValue('notes') || '-'
+// },
+// {
+//     id: 'actions',
+//     enableHiding: false,
+//     cell: ({ row }) => {
+//         const items = [{
+//             type: 'label',
+//             label: 'Actions'
+//         }, {
+//             label: 'Delete Income',
+//             onSelect() {
+//                 deleteIncome(row.original.incomeId)
 
-                toast.add({
-                    title: 'Transaction Deleted!',
-                    color: 'success',
-                    icon: 'i-lucide-circle-check'
-                })
-            }
-        }]
+//                 toast.add({
+//                     title: 'Transaction Deleted!',
+//                     color: 'success',
+//                     icon: 'i-lucide-circle-check'
+//                 })
+//             }
+//         }]
 
-        return h('div', { class: 'text-right' }, h(UDropdownMenu, {
-            'content': {
-                align: 'end'
-            },
-            items,
-            'aria-label': 'Actions dropdown'
-        }, () => h(UButton, {
-            'icon': 'i-lucide-ellipsis-vertical',
-            'color': 'neutral',
-            'variant': 'ghost',
-            'class': 'ml-auto',
-            'aria-label': 'Actions dropdown'
-        })))
-    }
-}]
+//         return h('div', { class: 'text-right' }, h(UDropdownMenu, {
+//             'content': {
+//                 align: 'end'
+//             },
+//             items,
+//             'aria-label': 'Actions dropdown'
+//         }, () => h(UButton, {
+//             'icon': 'i-lucide-ellipsis-vertical',
+//             'color': 'neutral',
+//             'variant': 'ghost',
+//             'class': 'ml-auto',
+//             'aria-label': 'Actions dropdown'
+//         })))
+//     }
+// }]
 
-const table = useTemplateRef('table')
+// const table = useTemplateRef('table')
 </script>
 
 <template>
@@ -192,7 +192,7 @@ const table = useTemplateRef('table')
     Redesigning the income table for the Nuxt UI v4 components
     ########################################################################
     -->
-
+    <!-- 
     <h1 class="text-2xl font-bold mb-4">Redesigned income table</h1>
     <div class="flex-1 divide-y divide-accented w-full">
         <div class="flex items-center gap-2 px-4 py-3.5 overflow-x-auto">
@@ -222,6 +222,8 @@ const table = useTemplateRef('table')
             {{ table?.tableApi?.getFilteredRowModel().rows.length || 0 }} row(s) selected.
         </div>
     </div>
+    -->
+
     <!-- 
     ########################################################################
     Redesigning the income table for the Nuxt UI v4 components
