@@ -26,26 +26,25 @@ export const useIncomeStore = defineStore('incomeStore', {
             try {
                 this.isLoading = true;
                 this.error = null;
-                
-                // Wait for auth to be ready
-                const auth = useAuthenticator();
-                if (!auth.user) {
-                    console.log('Waiting for auth to initialize...');
-                    await new Promise(resolve => setTimeout(resolve, 500));
-                }
 
                 const session = await fetchAuthSession();
-                if (!session?.tokens?.idToken) {
-                    throw new Error('No valid session token found');
+                const auth = useAuthenticator();
+
+                if (!auth.user) {
+                    this.error = 'Please log in to view your incomes';
+                    return;
                 }
 
-                const token = session.tokens.idToken.toString();
-                const userId = auth.user?.userId;
+                const userId = auth.user.userId;
+                let token = ''
 
-                if (!userId) {
-                    throw new Error('No user ID found');
+                if (session.tokens?.idToken) {
+                    token = session.tokens.idToken.toString()
+                    console.log('Session token found!');
+                } else {
+                    this.error = 'Session expired. Please log in again.';
+                    return;
                 }
-
                 const incomeList = await $fetch('https://530n5rqhl4.execute-api.eu-west-2.amazonaws.com/prod/getIncomes', {
                     method: 'POST',
                     headers: {
@@ -56,23 +55,19 @@ export const useIncomeStore = defineStore('incomeStore', {
                     body: {
                         userId: userId,
                     }
-                }) as incomeList[];
+                }) as incomeList[]
 
-                this.incomeList = incomeList || [];
-            } catch (error: unknown) {
-                console.error('Error fetching income:', error);
-                if (error instanceof Error) {
-                    this.error = error.message;
-                } else {
-                    this.error = String(error);
-                }
-                this.incomeList = [];
+                this.incomeList = incomeList || {}
+
+            } catch (error) {
+                console.error('Error fetching incomes:', error);
+                this.error = 'Failed to load incomes. Please try again.';
             } finally {
                 this.isLoading = false;
             }
         },
     },
-});
+})
 
 interface incomeList {
     incomes: incomeType[]
