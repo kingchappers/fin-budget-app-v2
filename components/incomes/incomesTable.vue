@@ -229,7 +229,7 @@ const table = useTemplateRef('table')
     -->
 
     <h1>Table</h1>
-    <!-- <div v-if="incomeList">
+    <div v-if="incomeList">
         <div class="flex flex-row space-x-4">
             <UButton icon="i-heroicons-trash" class="bg-red-600 hover:bg-red-700"
                 @onClick="deleteIncomes(selectedValues)">
@@ -252,7 +252,7 @@ const table = useTemplateRef('table')
             </template>
         </UTable>
 
-        Row Editing Modal Form 
+        <!-- Row Editing Modal Form -->
         <div v-if="rowEditing">
             <UModal v-model="isEditingRow">
                 <UCard>
@@ -296,5 +296,5 @@ const table = useTemplateRef('table')
                 </UCard>
             </UModal>
         </div>
-    </div> -->
+    </div>
 </template>

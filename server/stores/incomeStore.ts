@@ -17,54 +17,33 @@ export const useIncomeStore = defineStore('incomeStore', {
             incomeList: [] as incomeList[],
             status: '',
             userId: '',
-            isLoading: false,
-            error: null as string | null
         }
     },
     actions: {
         async fetch() {
-            try {
-                this.isLoading = true;
-                this.error = null;
+            const session = await fetchAuthSession();
+            const auth = useAuthenticator();
+            const userId = auth.user.userId;
+            let token = ''
 
-                const session = await fetchAuthSession();
-                const auth = useAuthenticator();
-
-                if (!auth.user) {
-                    this.error = 'Please log in to view your incomes';
-                    return;
-                }
-
-                const userId = auth.user.userId;
-                let token = ''
-
-                if (session.tokens?.idToken) {
-                    token = session.tokens.idToken.toString()
-                    console.log('Session token found!');
-                } else {
-                    this.error = 'Session expired. Please log in again.';
-                    return;
-                }
-                const incomeList = await $fetch('https://530n5rqhl4.execute-api.eu-west-2.amazonaws.com/prod/getIncomes', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': token,
-                        'Content-Type': 'application/json',
-                    },
-                    credentials: 'include',
-                    body: {
-                        userId: userId,
-                    }
-                }) as incomeList[]
-
-                this.incomeList = incomeList || {}
-
-            } catch (error) {
-                console.error('Error fetching incomes:', error);
-                this.error = 'Failed to load incomes. Please try again.';
-            } finally {
-                this.isLoading = false;
+            if (session.tokens && session.tokens.idToken) {
+                token = session.tokens.idToken.toString()
+                console.log('Session token found!');
+            } else {
+                console.log('Error: Session token not found. Redirecting to login')
             }
+            const incomeList = await $fetch('https://530n5rqhl4.execute-api.eu-west-2.amazonaws.com/prod/getIncomes', {
+                method: 'POST',
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: {
+                    userId: userId,
+                }
+            }) as incomeList[]
+            this.incomeList = incomeList || {}
         },
     },
 })

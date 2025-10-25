@@ -55,6 +55,7 @@ Amplify.configure({
   },
 });
 const auth = useAuthenticator()
+const router = useRouter();
 </script>
 
 <template>
