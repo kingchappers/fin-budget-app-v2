@@ -211,11 +211,13 @@ const table = useTemplateRef('table')
                     class="ml-auto" aria-label="Columns select dropdown" />
             </UDropdownMenu>
         </div>
-        <UTable ref="table" :rows="incomeList" :columns="newColumns" sticky class="h-96">
-            <template #expanded="{ row }">
-                <pre>{{ row.original }}</pre>
-            </template>
-        </UTable>
+        <div v-if="incomeList">
+            <UTable ref="table" :rows="incomeList" :columns="newColumns" sticky class="h-96">
+                <template #expanded="{ row }">
+                    <pre>{{ row.original }}</pre>
+                </template>
+            </UTable>
+        </div>
 
         <div class="px-4 py-3.5 text-sm text-muted">
             {{ table?.tableApi?.getFilteredSelectedRowModel().rows.length || 0 }} of

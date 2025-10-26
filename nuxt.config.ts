@@ -35,12 +35,4 @@ export default defineNuxtConfig({
 
     compatibilityDate: "2024-07-27",
 
-    runtimeConfig: {
-    public: {
-      cognitoUserPoolId: import.meta.env.VITE_COGNITO_USER_POOL_ID,
-      cognitoUserPoolClientId: import.meta.env.VITE_COGNITO_USER_POOL_CLIENT_ID,
-      cognitoIdentityPoolId: import.meta.env.VITE_COGNITO_IDENTITY_POOL_ID
-    }
-  }
-
 })
