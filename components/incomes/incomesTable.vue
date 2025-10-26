@@ -17,7 +17,6 @@ const UButton = resolveComponent('UButton')
 const toast = useToast()
 
 const incomeArray = useIncomeStore();
-await incomeArray.fetch()
 console.log("income array: " + incomeArray.incomeList)
 const { incomeList, status, userId } = storeToRefs(incomeArray)
 console.log("income list: " + incomeList.value)
@@ -195,36 +194,41 @@ const table = useTemplateRef('table')
     -->
 
     <h1 class="text-2xl font-bold mb-4">Redesigned income table</h1>
-    <div class="flex-1 divide-y divide-accented w-full">
-        <div class="flex items-center gap-2 px-4 py-3.5 overflow-x-auto">
-            <UDropdownMenu :items="table?.tableApi?.getAllColumns().filter(column => column.getCanHide()).map(column => ({
-                label: upperFirst(column.id),
-                type: 'checkbox' as const,
-                checked: column.getIsVisible(),
-                onUpdateChecked(checked: boolean) {
-                    table?.tableApi?.getColumn(column.id)?.toggleVisibility(!!checked)
-                },
-                onSelect(e: Event) {
-                    e.preventDefault()
-                }
-            }))" :content="{ align: 'end' }">
-                <UButton label="Columns" color="neutral" variant="outline" trailing-icon="i-lucide-chevron-down"
-                    class="ml-auto" aria-label="Columns select dropdown" />
-            </UDropdownMenu>
-        </div>
-        <!-- <div v-if="incomeList"> -->
-        <UTable ref="table" :rows="incomeList" :columns="newColumns" sticky class="h-96">
-            <template #expanded="{ row }">
-                <pre>{{ row.original }}</pre>
-            </template>
-        </UTable>
-        <!-- </div> -->
+    <Suspense>
+        <template #fallback>
+            <p>Loading table...</p>
+        </template>
+        <div class="flex-1 divide-y divide-accented w-full">
+            <div class="flex items-center gap-2 px-4 py-3.5 overflow-x-auto">
+                <UDropdownMenu :items="table?.tableApi?.getAllColumns().filter(column => column.getCanHide()).map(column => ({
+                    label: upperFirst(column.id),
+                    type: 'checkbox' as const,
+                    checked: column.getIsVisible(),
+                    onUpdateChecked(checked: boolean) {
+                        table?.tableApi?.getColumn(column.id)?.toggleVisibility(!!checked)
+                    },
+                    onSelect(e: Event) {
+                        e.preventDefault()
+                    }
+                }))" :content="{ align: 'end' }">
+                    <UButton label="Columns" color="neutral" variant="outline" trailing-icon="i-lucide-chevron-down"
+                        class="ml-auto" aria-label="Columns select dropdown" />
+                </UDropdownMenu>
+            </div>
+            <!-- <div v-if="incomeList"> -->
+            <UTable ref="table" :rows="incomeList" :columns="newColumns" sticky class="h-96">
+                <template #expanded="{ row }">
+                    <pre>{{ row.original }}</pre>
+                </template>
+            </UTable>
+            <!-- </div> -->
 
-        <div class="px-4 py-3.5 text-sm text-muted">
-            {{ table?.tableApi?.getFilteredSelectedRowModel().rows.length || 0 }} of
-            {{ table?.tableApi?.getFilteredRowModel().rows.length || 0 }} row(s) selected.
+            <div class="px-4 py-3.5 text-sm text-muted">
+                {{ table?.tableApi?.getFilteredSelectedRowModel().rows.length || 0 }} of
+                {{ table?.tableApi?.getFilteredRowModel().rows.length || 0 }} row(s) selected.
+            </div>
         </div>
-    </div>
+    </Suspense>
     <!-- 
     ########################################################################
     Redesigning the income table for the Nuxt UI v4 components
