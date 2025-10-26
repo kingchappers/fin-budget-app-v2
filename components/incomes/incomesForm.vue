@@ -3,7 +3,6 @@ import { z } from 'zod'
 import type { FormSubmitEvent } from '#ui/types'
 import { incomeFormZodObject } from '~/types/incomeZodObjects';
 import { CalendarDate, DateFormatter, getLocalTimeZone } from '@internationalized/date'
-import { useIncomeStore } from '~/server/stores/incomeStore';
 import { fetchAuthSession } from 'aws-amplify/auth';
 import { useAuthenticator } from '@aws-amplify/ui-vue';
 
@@ -17,7 +16,6 @@ const initialState = {
 }
 const state = reactive({ ...initialState })
 const refreshing = ref(false)
-const incomeArray = useIncomeStore();
 const auth = useAuthenticator();
 const session = await fetchAuthSession();
 const df = new DateFormatter('en-GB', {
@@ -56,8 +54,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         }
     })
 
-    //Grab updated store after submission
-    await callOnce(incomeArray.fetch)
     //Clear the form fields after submission
     event.data.incomeDate;
     event.data.amount = 0
