@@ -6,6 +6,8 @@ import type { z } from 'zod';
 import { fetchAuthSession } from '@aws-amplify/auth';
 import type { TableColumn } from '@nuxt/ui'
 import { upperFirst } from 'scule'
+import { updateIncomeZodObject } from '~/types/incomeZodObjects';
+import { useAuthenticator } from '@aws-amplify/ui-vue';
 
 const UCheckbox = resolveComponent('UCheckbox')
 const UDropdownMenu = resolveComponent('UDropdownMenu')
@@ -86,7 +88,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
 
 
-
 const session = await fetchAuthSession();
             const auth = useAuthenticator();
             const userId = auth.user.userId;
@@ -108,8 +109,7 @@ const session = await fetchAuthSession();
                 body: {
                     userId: userId,
                 }
-            }) as incomeList[]
-
+            }) as incomeType[];
 // ########################################################################
 // Redesigning the income table for the Nuxt UI v4 components
 // New script section is below, leaving the section above to later remove
