@@ -1,8 +1,9 @@
+import { fetchAuthSession } from "@aws-amplify/auth";
 import { defineStore } from "pinia";
 import type { incomeFilter } from '~/types/incomeFilter';
 import type { incomeType } from "~/types/incomeTypes";
-import { useAuth } from '~/composables/useAuth'
-import { useAuthFetch } from '~/composables/useAuthFetch'
+import { useUserStore } from "./userStore";
+import { useAuthenticator } from '@aws-amplify/ui-vue';
 
 const incomeFilter: incomeFilter = {
     limit: 5,
@@ -20,39 +21,29 @@ export const useIncomeStore = defineStore('incomeStore', {
     },
     actions: {
         async fetch() {
-            const { authState, checkAuth } = useAuth()
-            const authFetch = useAuthFetch()
+            const session = await fetchAuthSession();
+            const auth = useAuthenticator();
+            const userId = auth.user.userId;
+            let token = ''
 
-            // Ensure auth tokens are available before making API call
-            await checkAuth()
-            if (!authState.value.tokens) {
-                this.status = 'no-auth'
-                console.warn('incomeStore.fetch: no auth tokens, aborting fetch')
-                this.incomeList = []
-                return
+            if (session.tokens && session.tokens.idToken) {
+                token = session.tokens.idToken.toString()
+                console.log('Session token found!');
+            } else {
+                console.log('Error: Session token not found. Redirecting to login')
             }
-
-            const userId = authState.value.user?.username || authState.value.user?.userId || authState.value.user?.attributes?.sub || ''
-
-            try {
-                const incomeList = await authFetch('https://530n5rqhl4.execute-api.eu-west-2.amazonaws.com/prod/getIncomes', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    credentials: 'include',
-                    body: {
-                        userId: userId,
-                    }
-                }) as incomeList[]
-
-                this.incomeList = incomeList || []
-                this.status = 'ok'
-            } catch (err) {
-                console.error('incomeStore.fetch error', err)
-                this.status = 'error'
-                this.incomeList = []
-            }
+            const incomeList = await $fetch('https://530n5rqhl4.execute-api.eu-west-2.amazonaws.com/prod/getIncomes', {
+                method: 'POST',
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: {
+                    userId: userId,
+                }
+            }) as incomeList[]
+            this.incomeList = incomeList || {}
         },
     },
 })
