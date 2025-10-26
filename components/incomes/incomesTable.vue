@@ -1,25 +1,19 @@
 <script setup lang="ts">
 import { format } from 'date-fns';
-import { useIncomeStore } from '~/server/stores/incomeStore';
-import { storeToRefs } from 'pinia';
 import type { incomeType } from '~/types/incomeTypes';
-import { updateIncomeZodObject } from '~/types/incomeZodObjects';
 import type { FormSubmitEvent } from '#ui/types'
 import type { z } from 'zod';
 import { fetchAuthSession } from '@aws-amplify/auth';
-import { useUserStore } from '~/server/stores/userStore';
 import type { TableColumn } from '@nuxt/ui'
 import { upperFirst } from 'scule'
+import { updateIncomeZodObject } from '~/types/incomeZodObjects';
+import { useAuthenticator } from '@aws-amplify/ui-vue';
 
 const UCheckbox = resolveComponent('UCheckbox')
 const UDropdownMenu = resolveComponent('UDropdownMenu')
 const UButton = resolveComponent('UButton')
 const toast = useToast()
 
-// const incomeArray = useIncomeStore();
-// console.log("income array: " + incomeArray.incomeList)
-// const { incomeList, status, userId } = storeToRefs(incomeArray)
-// console.log("income list: " + incomeList.value)
 const isEditingRow = ref(false)
 const rowEditing = ref<incomeType>()
 const columns = [{
@@ -32,9 +26,6 @@ const columns = [{
 }, {
     key: 'Income Category',
     label: 'IncomeCategory'
-}, {
-    key: 'items',
-    label: 'Items'
 }, {
     key: 'notes',
     label: 'Notes'
@@ -59,7 +50,6 @@ const items = (row: incomeType) => [
     },], [{
         label: 'Delete',
         icon: 'i-heroicons-trash-20-solid',
-        // click: () => deleteIncomes([row])
     }]
 ]
 const selectedValues = ref([])
@@ -77,7 +67,6 @@ const state = reactive({
 })
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-    const userStore = useUserStore();
     const session = await fetchAuthSession();
     let authorisation = ''
     if (session.tokens && session.tokens.idToken) {
@@ -93,7 +82,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     const incomeId = event.data.incomeId
     isEditingRow.value = false;
 }
-
 
 
 
@@ -121,8 +109,7 @@ const session = await fetchAuthSession();
                 body: {
                     userId: userId,
                 }
-            }) as incomeList[]
-
+            }) as incomeType[];
 // ########################################################################
 // Redesigning the income table for the Nuxt UI v4 components
 // New script section is below, leaving the section above to later remove
@@ -252,7 +239,8 @@ const table = useTemplateRef('table')
                 {{ table?.tableApi?.getFilteredSelectedRowModel().rows.length || 0 }} of
                 {{ table?.tableApi?.getFilteredRowModel().rows.length || 0 }} row(s) selected.
             </div>
-        </div>    <!-- 
+        </div>    
+    <!-- 
     ########################################################################
     Redesigning the income table for the Nuxt UI v4 components
     ########################################################################
