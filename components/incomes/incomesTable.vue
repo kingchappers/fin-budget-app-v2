@@ -16,10 +16,10 @@ const UDropdownMenu = resolveComponent('UDropdownMenu')
 const UButton = resolveComponent('UButton')
 const toast = useToast()
 
-const incomeArray = useIncomeStore();
-console.log("income array: " + incomeArray.incomeList)
-const { incomeList, status, userId } = storeToRefs(incomeArray)
-console.log("income list: " + incomeList.value)
+// const incomeArray = useIncomeStore();
+// console.log("income array: " + incomeArray.incomeList)
+// const { incomeList, status, userId } = storeToRefs(incomeArray)
+// console.log("income list: " + incomeList.value)
 const isEditingRow = ref(false)
 const rowEditing = ref<incomeType>()
 const columns = [{
@@ -93,6 +93,35 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     const incomeId = event.data.incomeId
     isEditingRow.value = false;
 }
+
+
+
+
+
+
+
+const session = await fetchAuthSession();
+            const auth = useAuthenticator();
+            const userId = auth.user.userId;
+            let token = ''
+
+            if (session.tokens && session.tokens.idToken) {
+                token = session.tokens.idToken.toString()
+                console.log('Session token found!');
+            } else {
+                console.log('Error: Session token not found. Redirecting to login')
+            }
+            const incomeList = await $fetch('https://530n5rqhl4.execute-api.eu-west-2.amazonaws.com/prod/getIncomes', {
+                method: 'POST',
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: {
+                    userId: userId,
+                }
+            }) as incomeList[]
 
 // ########################################################################
 // Redesigning the income table for the Nuxt UI v4 components
@@ -194,10 +223,6 @@ const table = useTemplateRef('table')
     -->
 
     <h1 class="text-2xl font-bold mb-4">Redesigned income table</h1>
-    <Suspense>
-        <template #fallback>
-            <p>Loading table...</p>
-        </template>
         <div class="flex-1 divide-y divide-accented w-full">
             <div class="flex items-center gap-2 px-4 py-3.5 overflow-x-auto">
                 <UDropdownMenu :items="table?.tableApi?.getAllColumns().filter(column => column.getCanHide()).map(column => ({
@@ -227,9 +252,7 @@ const table = useTemplateRef('table')
                 {{ table?.tableApi?.getFilteredSelectedRowModel().rows.length || 0 }} of
                 {{ table?.tableApi?.getFilteredRowModel().rows.length || 0 }} row(s) selected.
             </div>
-        </div>
-    </Suspense>
-    <!-- 
+        </div>    <!-- 
     ########################################################################
     Redesigning the income table for the Nuxt UI v4 components
     ########################################################################
