@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import { fetchAuthSession } from "@aws-amplify/core";
 import { Authenticator, useAuthenticator } from "@aws-amplify/ui-vue";
 import "@aws-amplify/ui-vue/styles.css";
@@ -23,17 +23,17 @@ try {
   } else {
     // User is not authenticated
     console.log("No session found.");
-  }  
+  }
 } catch (error) {
   console.error("Error fetching auth session:", error);
 }
 
 Amplify.configure({
-    Auth: {
+  Auth: {
     Cognito: {
       userPoolId: import.meta.env.VITE_COGNITO_USER_POOL_ID,
       userPoolClientId: import.meta.env.VITE_COGNITO_USER_POOL_CLIENT_ID,
-      identityPoolId: import.meta.env.VITE_COGNITO_IDENTITY_POOL_ID, 
+      identityPoolId: import.meta.env.VITE_COGNITO_IDENTITY_POOL_ID,
       loginWith: {
         email: true,
       },
@@ -59,16 +59,64 @@ const router = useRouter();
 </script>
 
 <template>
-    <main>
-        <authenticator>
-            <template v-slot="{ user, signOut }">
-                <h1 class="text-4xl font-extrabold">Welcome {{ user.signInDetails.loginId }}!</h1>
-                <p class="my-5">This is your account screen. There's not much to put here right now, but I'm sure I'll
-                    think of something to add eventually.</p>
-                <!-- <button @click="signOut">Sign Out</button> -->
-                <UButton icon="i-heroicons-arrow-left-start-on-rectangle" class="my-5 bg-red-600 hover:bg-red-700"
-                    @onClick="signOut">Sign Out</UButton>
-            </template>
-        </authenticator>
-    </main>
+  <main>
+    <authenticator>
+      <template v-slot="{ user, signOut }">
+        <h1 class="text-4xl font-extrabold">Welcome {{ user.signInDetails.loginId }}!</h1>
+        <p class="my-5">This is your account screen. There's not much to put here right now, but I'm sure I'll
+          think of something to add eventually.</p>
+        <button @click="signOut">Sign Out</button> 
+        <UButton icon="i-heroicons-arrow-left-start-on-rectangle" class="my-5 bg-red-600 hover:bg-red-700"
+          @onClick="signOut">Sign Out</UButton>
+      </template>
+    </authenticator>
+  </main>
+</template> -->
+
+<script setup lang="ts">
+import { useAuthenticator } from "@aws-amplify/ui-vue"
+import "@aws-amplify/ui-vue/styles.css"
+import { useAuth } from "~/composables/useAuth"
+
+const route = useRoute()
+const router = useRouter()
+const { checkAuth } = useAuth()
+const auth = useAuthenticator()
+
+// Watch for authentication state changes
+watch(() => auth.authStatus, async (newStatus) => {
+    if (newStatus === 'authenticated') {
+        await checkAuth() // Update global auth state
+        const returnUrl = route.query.returnUrl?.toString() || '/'
+        router.push(returnUrl)
+    }
+})
+
+// Check if already authenticated on mount
+onMounted(async () => {
+    const tokens = await checkAuth()
+    if (tokens) {
+        const returnUrl = route.query.returnUrl?.toString() || '/'
+        router.push(returnUrl)
+    }
+})
+</script>
+
+<template>
+  <main>
+    <authenticator>
+      <template v-slot="slotProps">
+        <h1 class="text-4xl font-extrabold">
+          Welcome {{ slotProps?.user?.signInDetails?.loginId }}!
+        </h1>
+        <UButton 
+          icon="i-heroicons-arrow-left-start-on-rectangle" 
+          class="my-5 bg-red-600 hover:bg-red-700"
+          @click="auth.signOut()"
+        >
+          Sign Out
+        </UButton>
+      </template>
+    </authenticator>
+  </main>
 </template>
