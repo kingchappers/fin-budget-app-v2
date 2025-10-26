@@ -3,57 +3,39 @@ import { useAuthenticator } from '@aws-amplify/ui-vue';
 import { useAuth } from '~/composables/useAuth';
 import { useUserStore } from '~/server/stores/userStore';
 
-// export default defineNuxtRouteMiddleware(async (to, from) => {
-//     // skip middleware on initial client load
-//     const nuxtApp = useNuxtApp()
-//     if (import.meta.client && nuxtApp.isHydrating && nuxtApp.payload.serverRendered)
-//         return
+export default defineNuxtRouteMiddleware(async (to, from) => {
+    // skip middleware on initial client load
+    const nuxtApp = useNuxtApp()
+    if (import.meta.client && nuxtApp.isHydrating && nuxtApp.payload.serverRendered)
+        return
 
-//     // Check if user is authenticated using Amplify Auth
-//     // New code I'm trying
-//     try {
-//         const currentSession = await fetchAuthSession();
-//         if (currentSession) {
-//             // User is authenticated
-//             console.log("Session found!");
-//         } else {
-//             // User is not authenticated
-//             console.log("No session found.");
-//         }
-//     } catch (error) {
-//         console.error("Error fetching auth session:", error);
-//     }
-
-//     const auth = await useAuthenticator()
-//     const publicPages = ['/login', '/'];
-//     const authRequired = !publicPages.includes(to.path);
-
-//     if (authRequired && auth.authStatus !== 'authenticated') {
-//         return navigateTo('/login')
-//     }
-
-//     if (auth.authStatus == 'authenticated') {
-//         const { userId } = await getCurrentUser()
-//         const userStore = useUserStore();
-//         userStore.initStore(userId)
-//     }
-
-// })
-
-export default defineNuxtRouteMiddleware(async (to) => {
-  if (import.meta.server) return
-
-  const { authState, checkAuth } = useAuth()
-  const publicPages = ['/', '/login']
-  const requiresAuth = !publicPages.includes(to.path)
-
-  if (requiresAuth) {
-    const tokens = await checkAuth()
-    if (!tokens) {
-      return navigateTo({
-        path: '/login',
-        query: { returnUrl: to.fullPath }
-      })
+    // Check if user is authenticated using Amplify Auth
+    // New code I'm trying
+    try {
+        const currentSession = await fetchAuthSession();
+        if (currentSession) {
+            // User is authenticated
+            console.log("Session found!");
+        } else {
+            // User is not authenticated
+            console.log("No session found.");
+        }
+    } catch (error) {
+        console.error("Error fetching auth session:", error);
     }
-  }
+
+    const auth = await useAuthenticator()
+    const publicPages = ['/login', '/'];
+    const authRequired = !publicPages.includes(to.path);
+
+    if (authRequired && auth.authStatus !== 'authenticated') {
+        return navigateTo('/login')
+    }
+
+    if (auth.authStatus == 'authenticated') {
+        const { userId } = await getCurrentUser()
+        const userStore = useUserStore();
+        userStore.initStore(userId)
+    }
+
 })
